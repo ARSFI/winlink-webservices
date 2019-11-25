@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ServiceStack.Client" Version="5.7.0" />
+    <PackageReference Include="ServiceStack.Text" Version="5.7.0" />
   </ItemGroup>
 
 </Project>
