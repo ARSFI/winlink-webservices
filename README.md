@@ -1,6 +1,8 @@
-# winlink-webservices
+# Winlink Web Services
 
-Provides access to a set of web services built to interact with teh Winlink Global Radio Mail System (www.winlink.org)
+Provides an interface to a set of web services built to interact with the Winlink Global Radio Mail System (www.winlink.org)
+
+The raw web service API can be found at https://api.winlink.org
 
 Targets .Net Standard 
 
@@ -12,4 +14,14 @@ Requires:
 
 
 
+
+ChannelAdd
+ChannelAddMultiple
+ChannelGet
+SessionAdd
+SysopAdd
+VersionAdd
+
+
+To refresh DTO file: https://api.winlink.org/types/csharp
 
