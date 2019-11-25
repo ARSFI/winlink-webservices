@@ -12,16 +12,9 @@ Requires:
   An access key issued by a Winlink administrator
   
 
-
-
-
-
-ChannelAddMultiple
 ChannelGet
 SessionAdd
 SysopAdd
 VersionAdd
 
-
-To refresh DTO file: https://api.winlink.org/types/csharp
 

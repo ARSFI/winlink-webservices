@@ -1,4 +1,5 @@
-﻿using ServiceStack;
+﻿using System.Collections.Generic;
+using ServiceStack;
 using winlink.cms.webservices;
 
 
@@ -6,8 +7,16 @@ namespace WinlinkWebServices
 {
     public static class WinlinkWebServices
     {
-        public static string WebServiceAccessKey = "[enter web service key here]";
+        /// <summary>
+        /// The web service endpoint URI
+        /// </summary>
         private static string WebServicesEndpoint = "https://api.winlink.org/";
+
+        /// <summary>
+        /// The web service access key grants access to one or more API's. A winlink CMS administrator
+        /// will create the access key and determine which API are appropriate to assign to the project.
+        /// </summary>
+        public static string WebServiceAccessKey = "[enter web service key here]";
 
         /// <summary>
         /// Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
@@ -86,7 +95,7 @@ namespace WinlinkWebServices
         /// <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
         /// <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
         /// <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-        public static void AddRadioChannel(string callsign, string baseCallsign, string gridSquare, int frequency, ProtocolMode mode,
+        public static void AddGatewayChannel(string callsign, string baseCallsign, string gridSquare, int frequency, ProtocolMode mode,
             int baud, int power, int height, int gain, int direction, string operatingHours, string serviceCode)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
@@ -107,6 +116,36 @@ namespace WinlinkWebServices
                 ServiceCode = serviceCode
             };
             var response = client.Send<ChannelAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds/Updates multiple gateway channel records. Channel records should be re-added 
+        /// every two hours or so to avoid having them removed from listings and maps.
+        /// This is the mechanism that the CMS uses to determine if a gateway is on-line.
+        /// </summary>
+        /// <param name="callsign">Callsign with optional SSID</param>
+        /// <param name="baseCallsign">Account callsign</param>
+        /// <param name="gridSquare">Six character maidenhead grid locator</param>
+        /// <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        /// <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+        /// <param name="partialChannelRecords"></param>
+        public static void AddMultipleGatewayChannels(string callsign, string baseCallsign, string gridSquare, string serviceCode,
+            string operatingHours, List<PartialChannelRecord> partialChannelRecords)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelAddMultiple
+            {
+                Key = WebServiceAccessKey,
+                Callsign = callsign,
+                BaseCallsign = baseCallsign,
+                GridSquare = gridSquare,
+                ServiceCode = serviceCode,
+                OperatingHours = operatingHours,
+                PartialChannelRecords = partialChannelRecords
+            };
+            var response = client.Send<ChannelAddMultipleResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
