@@ -14,7 +14,3 @@ Requires:
 
 
 
-SysopAdd
-VersionAdd
-
-

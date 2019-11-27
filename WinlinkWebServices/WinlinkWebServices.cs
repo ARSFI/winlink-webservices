@@ -15,7 +15,7 @@ namespace WinlinkWebServices
         /// The web service access key grants access to one or more API's. A winlink CMS administrator
         /// will create the access key and determine which API are appropriate to assign to the project.
         /// </summary>
-        public static string WebServiceAccessKey = "[enter web service key here]";
+        public static string WebServiceAccessKey = "[web service access key]";
 
         /// <summary>
         /// Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
@@ -163,26 +163,25 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
-
         /// <summary>
         /// Adds a radio session record to the CMS database
         /// </summary>
-        /// <param name="application"></param>
-        /// <param name="version"></param>
-        /// <param name="server"></param>
-        /// <param name="serverGrid"></param>
-        /// <param name="client"></param>
-        /// <param name="clientGrid"></param>
-        /// <param name="sid"></param>
-        /// <param name="mode"></param>
-        /// <param name="frequency"></param>
-        /// <param name="lastCommand"></param>
-        /// <param name="messagesSent"></param>
-        /// <param name="messagesReceived"></param>
-        /// <param name="bytesSent"></param>
-        /// <param name="bytesReceived"></param>
-        /// <param name="holdingSeconds"></param>
-        /// <param name="idTag"></param>
+        /// <param name="application">Program name</param>
+        /// <param name="version">Program version</param>
+        /// <param name="server">Server callsign</param>
+        /// <param name="serverGrid">Server maidenhead grid locator</param>
+        /// <param name="client">Client callsign</param>
+        /// <param name="clientGrid">Client maidenhead grid locator</param>
+        /// <param name="sid">Session identifier</param>
+        /// <param name="mode">The mode of the connection</param>
+        /// <param name="frequency">Frequency in Hertz</param>
+        /// <param name="lastCommand">Last protocol command</param>
+        /// <param name="messagesSent">Number of messages sent during this session</param>
+        /// <param name="messagesReceived">Number of messages received during this session</param>
+        /// <param name="bytesSent">Number of bytes sent during this session</param>
+        /// <param name="bytesReceived">Number of bytes received during this session</param>
+        /// <param name="holdingSeconds">Duration of the session</param>
+        /// <param name="idTag">User defined value - 12 characters max</param>
         public static void AddSessionRecord(string application, string version, string server, string serverGrid, string client, string clientGrid, string sid,
            string mode, int frequency, string lastCommand, int messagesSent, int messagesReceived, int bytesSent, int bytesReceived, int holdingSeconds, string idTag)
         {
@@ -213,7 +212,71 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="gridSquare"></param>
+        /// <param name="sysopName"></param>
+        /// <param name="streetAddress1"></param>
+        /// <param name="streetAddress2"></param>
+        /// <param name="city"></param>
+        /// <param name="state"></param>
+        /// <param name="country"></param>
+        /// <param name="postalCode"></param>
+        /// <param name="email"></param>
+        /// <param name="phones"></param>
+        /// <param name="website"></param>
+        /// <param name="comments"></param>
+        public static void AddSysop(string callsign, string password, string gridSquare, string sysopName, string streetAddress1, string streetAddress2,
+            string city, string state, string country, string postalCode, string email, string phones, string website, string comments)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new SysopAdd
+            {
+                Key = WebServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                GridSquare = gridSquare,
+                SysopName = sysopName,
+                StreetAddress1 = streetAddress1,
+                StreetAddress2 = streetAddress2,
+                City = city,
+                State = state,
+                PostalCode = postalCode,
+                Email = email,
+                Phones = phones,
+                Website = website,
+                Comments = comments
+            };
+            var response = client.Send<SysopAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="program"></param>
+        /// <param name="version"></param>
+        /// <param name="comments"></param>
+        public static void AddProgramVersion(string callsign, string program, string version, string comments)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new VersionAdd
+            {
+                Key = WebServiceAccessKey,
+                Callsign = callsign,
+                Program = program,
+                Version = version,
+                Comments = comments
+            };
+            var response = client.Send<VersionAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
 
     }
 }

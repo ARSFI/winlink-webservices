@@ -1,5 +1,5 @@
 /* Options:
-Date: 2019-11-25 17:25:04
+Date: 2019-11-27 17:34:08
 Version: 5.40
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
