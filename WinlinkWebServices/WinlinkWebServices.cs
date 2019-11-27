@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using ServiceStack;
+﻿using ServiceStack;
+using System.Collections.Generic;
 using winlink.cms.webservices;
-
 
 namespace WinlinkWebServices
 {
@@ -146,6 +145,70 @@ namespace WinlinkWebServices
                 PartialChannelRecords = partialChannelRecords
             };
             var response = client.Send<ChannelAddMultipleResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Get a list of channel records for the specified callsign
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <returns></returns>
+        public static List<ChannelRecord> GetChannelRecords(string callsign)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelGet { Key = WebServiceAccessKey, Callsign = callsign };
+            var response = client.Send<ChannelGetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+
+        /// <summary>
+        /// Adds a radio session record to the CMS database
+        /// </summary>
+        /// <param name="application"></param>
+        /// <param name="version"></param>
+        /// <param name="server"></param>
+        /// <param name="serverGrid"></param>
+        /// <param name="client"></param>
+        /// <param name="clientGrid"></param>
+        /// <param name="sid"></param>
+        /// <param name="mode"></param>
+        /// <param name="frequency"></param>
+        /// <param name="lastCommand"></param>
+        /// <param name="messagesSent"></param>
+        /// <param name="messagesReceived"></param>
+        /// <param name="bytesSent"></param>
+        /// <param name="bytesReceived"></param>
+        /// <param name="holdingSeconds"></param>
+        /// <param name="idTag"></param>
+        public static void AddSessionRecord(string application, string version, string server, string serverGrid, string client, string clientGrid, string sid,
+           string mode, int frequency, string lastCommand, int messagesSent, int messagesReceived, int bytesSent, int bytesReceived, int holdingSeconds, string idTag)
+        {
+            var wsClient = new JsonServiceClient(WebServicesEndpoint);
+            var request = new SessionAdd
+            {
+                Key = WebServiceAccessKey,
+                Application = application,
+                Version = version,
+                Server = server,
+                ServerGrid = serverGrid,
+                Client = client,
+                ClientGrid = clientGrid,
+                Sid = sid,
+                Mode = mode,
+                Frequency = frequency,
+                LastCommand = lastCommand,
+                MessagesSent = messagesSent,
+                MessagesReceived = messagesReceived,
+                BytesSent = bytesSent,
+                BytesReceived = bytesReceived,
+                HoldingSeconds = holdingSeconds,
+                IdTag = idTag
+            };
+
+            var response = wsClient.Send<SessionAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }

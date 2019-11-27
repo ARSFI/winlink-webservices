@@ -12,8 +12,8 @@ Requires:
   An access key issued by a Winlink administrator
   
 
-ChannelGet
-SessionAdd
+
+
 SysopAdd
 VersionAdd
 
