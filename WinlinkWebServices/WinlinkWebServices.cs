@@ -94,7 +94,7 @@ namespace WinlinkWebServices
         /// <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
         /// <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
         /// <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-        public static void AddGatewayChannel(string callsign, string baseCallsign, string gridSquare, int frequency, ProtocolMode mode,
+        public static void AddGatewayChannel(string callsign, string baseCallsign, string gridSquare, int frequency, ModeMappings mode,
             int baud, int power, int height, int gain, int direction, string operatingHours, string serviceCode)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
@@ -270,8 +270,7 @@ namespace WinlinkWebServices
                 Key = WebServiceAccessKey,
                 Callsign = callsign,
                 Program = program,
-                Version = version,
-                Comments = comments
+                Version = version
             };
             var response = client.Send<VersionAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
