@@ -1,6 +1,7 @@
 ﻿using ServiceStack;
 using System.Collections.Generic;
 using winlink.cms.webservices;
+using winlink.util;
 
 namespace WinlinkWebServices
 {
@@ -9,7 +10,11 @@ namespace WinlinkWebServices
         /// <summary>
         /// The web service endpoint URI
         /// </summary>
-        private static string WebServicesEndpoint = "https://api.winlink.org/";
+#if DEBUG
+        private const string WebServicesEndpoint = "http://cms-z.winlink.org/";
+#else
+        private const string WebServicesEndpoint = "https://api.winlink.org/";
+#endif
 
         /// <summary>
         /// The web service access key grants access to one or more API's. A winlink CMS administrator
@@ -213,7 +218,7 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
-        /// 
+        /// Adds or updates a sysop record
         /// </summary>
         /// <param name="callsign"></param>
         /// <param name="password"></param>
@@ -245,6 +250,7 @@ namespace WinlinkWebServices
                 City = city,
                 State = state,
                 PostalCode = postalCode,
+                Country = country,
                 Email = email,
                 Phones = phones,
                 Website = website,
@@ -256,24 +262,21 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
-        /// 
+        /// Returns information regarding the the amateur radio license. It's
+        /// primary use is to determine is the license is valid and to populate
+        /// the local database with this information.
         /// </summary>
         /// <param name="callsign"></param>
-        /// <param name="program"></param>
-        /// <param name="version"></param>
-        /// <param name="comments"></param>
-        public static void AddProgramVersion(string callsign, string program, string version, string comments)
+        public static LicenseRecord LookupLicense(string callsign)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new VersionAdd
+            var request = new LicenseLookup
             {
                 Key = WebServiceAccessKey,
-                Callsign = callsign,
-                Program = program,
-                Version = version
+                Callsign = callsign
             };
-            var response = client.Send<VersionAddResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            var response = client.Send<LicenseLookupResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.ValidationRecord;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 

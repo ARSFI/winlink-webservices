@@ -1,5 +1,5 @@
 /* Options:
-Date: 2020-02-18 17:20:22
+Date: 2020-04-23 14:06:12
 Version: 5.40
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
@@ -31,6 +31,7 @@ using System.Runtime.Serialization;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using winlink.cms.webservices;
+using winlink.util;
 using winlink.cms;
 
 
@@ -1006,6 +1007,27 @@ namespace winlink.cms.webservices
         }
 
         public virtual List<HybridRecord> HybridList { get; set; }
+    }
+
+    ///<summary>
+    ///Returns information regarding the the amateur radio license.
+    ///</summary>
+    [Route("/license/lookup", "POST,GET")]
+    [Api(Description="Returns information regarding the the amateur radio license.")]
+    public partial class LicenseLookup
+        : WebServiceRequest, IReturn<LicenseLookupResponse>
+    {
+        ///<summary>
+        ///Callsign to look up
+        ///</summary>
+        [ApiMember(Description="Callsign to look up", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class LicenseLookupResponse
+        : WebServiceResponse
+    {
+        public virtual LicenseRecord ValidationRecord { get; set; }
     }
 
     ///<summary>
@@ -2722,102 +2744,6 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Returns a single weather product file.
-    ///</summary>
-    [Route("/weatherq/get", "POST,GET")]
-    [Api(Description="Returns a single weather product file.")]
-    public partial class WeatherProductGet
-        : WebServiceRequest, IReturn<WeatherProductGetResponse>
-    {
-        ///<summary>
-        ///File name or product code
-        ///</summary>
-        [ApiMember(Description="File name or product code", IsRequired=true)]
-        public virtual string Name { get; set; }
-    }
-
-    public partial class WeatherProductGetResponse
-        : WebServiceResponse
-    {
-        public virtual WeatherProductRecord Record { get; set; }
-    }
-
-    ///<summary>
-    ///Returns a list of weather records.
-    ///</summary>
-    [Route("/weatherq/list", "POST,GET")]
-    [Api(Description="Returns a list of weather records.")]
-    public partial class WeatherProductList
-        : WebServiceRequest, IReturn<WeatherProductListResponse>
-    {
-        ///<summary>
-        ///Filter by weather forecast office. Example: KPUB (overrides file mask)
-        ///</summary>
-        [ApiMember(Description="Filter by weather forecast office. Example: KPUB (overrides file mask)")]
-        public virtual string WeatherForecastOffice { get; set; }
-
-        ///<summary>
-        ///Return images-only listing if true
-        ///</summary>
-        [ApiMember(Description="Return images-only listing if true")]
-        public virtual bool ImagesOnly { get; set; }
-
-        ///<summary>
-        ///True to create result as a web page
-        ///</summary>
-        [ApiMember(Description="True to create result as a web page")]
-        public virtual bool ForWebPage { get; set; }
-
-        ///<summary>
-        ///Returns a listing containing files matching the file mask (DOS style mask)
-        ///</summary>
-        [ApiMember(Description="Returns a listing containing files matching the file mask (DOS style mask)")]
-        public virtual string FileMask { get; set; }
-    }
-
-    public partial class WeatherProductListResponse
-        : WebServiceResponse
-    {
-        public virtual string Listing { get; set; }
-    }
-
-    [DataContract]
-    public partial class WeatherProductRecord
-    {
-        public WeatherProductRecord()
-        {
-            FileData = new byte[]{};
-        }
-
-        [DataMember]
-        public virtual DateTime Timestamp { get; set; }
-
-        [DataMember]
-        public virtual string Filename { get; set; }
-
-        [DataMember]
-        public virtual string Extension { get; set; }
-
-        [DataMember]
-        public virtual string Header { get; set; }
-
-        [DataMember]
-        public virtual int Size { get; set; }
-
-        [DataMember]
-        public virtual string ProductCode { get; set; }
-
-        [DataMember]
-        public virtual byte[] FileData { get; set; }
-
-        [DataMember]
-        public virtual string FileHash { get; set; }
-
-        [DataMember]
-        public virtual string Description { get; set; }
-    }
-
-    ///<summary>
     ///Submit a new weather report.
     ///</summary>
     [Route("/weather/report/add", "POST,GET")]
@@ -2903,6 +2829,51 @@ namespace winlink.cms.webservices
     public partial class WebServiceResponse
     {
         public virtual ResponseStatus ResponseStatus { get; set; }
+    }
+}
+
+namespace winlink.util
+{
+
+    [DataContract]
+    public partial class LicenseRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string StatusDescription { get; set; }
+
+        [DataMember]
+        public virtual string LicenseName { get; set; }
+
+        [DataMember]
+        public virtual DateTime RecheckDate { get; set; }
+
+        [DataMember]
+        public virtual string Country { get; set; }
+
+        [DataMember]
+        public virtual LicenseStatus Status { get; set; }
+
+        [DataMember]
+        public virtual string ServiceUsed { get; set; }
+
+        [DataMember]
+        public virtual string Comments { get; set; }
+    }
+
+    [DataContract]
+    public enum LicenseStatus
+    {
+        Unknown,
+        Valid,
+        Invalid,
+        Exempt,
+        Expired,
     }
 }
 
