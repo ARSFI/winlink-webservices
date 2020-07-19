@@ -1,5 +1,5 @@
 /* Options:
-Date: 2020-04-23 14:06:12
+Date: 2020-07-19 13:32:56
 Version: 5.40
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
@@ -216,10 +216,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Causes the password to be emailed to the recovery address (or the Winlink address if no recovery address).
+    ///Causes the password to be emailed to the recovery address.
     ///</summary>
     [Route("/account/password/send", "POST,GET")]
-    [Api(Description="Causes the password to be emailed to the recovery address (or the Winlink address if no recovery address).")]
+    [Api(Description="Causes the password to be emailed to the recovery address.")]
     public partial class AccountPasswordSend
         : WebServiceRequest, IReturn<AccountPasswordSendResponse>
     {
@@ -706,6 +706,65 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns a list of channel records based on the supplied parameters.
+    ///</summary>
+    [Route("/gateway/channel/report", "POST,GET")]
+    [Api(Description="Returns a list of channel records based on the supplied parameters.")]
+    public partial class GatewayChannelReport
+        : WebServiceRequest, IReturn<GatewayChannelReportResponse>
+    {
+        public GatewayChannelReport()
+        {
+            Modes = new List<int>{};
+        }
+
+        ///<summary>
+        ///The minimum frequency (default: 0)
+        ///</summary>
+        [ApiMember(Description="The minimum frequency (default: 0)")]
+        public virtual int FrequencyMinimum { get; set; }
+
+        ///<summary>
+        ///The maximum frequency (default: max int)
+        ///</summary>
+        [ApiMember(Description="The maximum frequency (default: max int)")]
+        public virtual int FrequencyMaximum { get; set; }
+
+        ///<summary>
+        ///One or more service codes --  to filter the response to just those service codes (default: PUBLIC)
+        ///</summary>
+        [ApiMember(Description="One or more service codes --  to filter the response to just those service codes (default: PUBLIC)")]
+        public virtual string ServiceCodes { get; set; }
+
+        ///<summary>
+        ///Zero or more modes -- to filter the response for just those modes. (default: empty (all modes))
+        ///</summary>
+        [ApiMember(Description="Zero or more modes -- to filter the response for just those modes. (default: empty (all modes))")]
+        public virtual List<int> Modes { get; set; }
+    }
+
+    public partial class GatewayChannelReportRecord
+    {
+        public virtual string Callsign { get; set; }
+        public virtual string Gridsquare { get; set; }
+        public virtual int Frequency { get; set; }
+        public virtual int Mode { get; set; }
+        public virtual string Hours { get; set; }
+        public virtual string ServiceCode { get; set; }
+    }
+
+    public partial class GatewayChannelReportResponse
+        : WebServiceResponse
+    {
+        public GatewayChannelReportResponse()
+        {
+            Channels = new List<GatewayChannelReportRecord>{};
+        }
+
+        public virtual List<GatewayChannelReportRecord> Channels { get; set; }
+    }
+
+    ///<summary>
     ///Returns a formatted gateway listing (to be saved as a text file)
     ///</summary>
     [Route("/gatewayListing", "POST,GET")]
@@ -854,9 +913,9 @@ namespace winlink.cms.webservices
         : WebServiceRequest, IReturn<GatewayStatusResponse>
     {
         ///<summary>
-        ///Number of hours of history to include (default: 6, maximum: 48)
+        ///Number of hours of history to include (default: 6)
         ///</summary>
-        [ApiMember(Description="Number of hours of history to include (default: 6, maximum: 48)")]
+        [ApiMember(Description="Number of hours of history to include (default: 6)")]
         public virtual int HistoryHours { get; set; }
 
         ///<summary>
@@ -1524,8 +1583,9 @@ namespace winlink.cms.webservices
         ARDOP2000 = 43,
         ARDOP2000FM = 44,
         VARA = 50,
-        VARAFM1200 = 51,
-        VARAFM9600 = 52,
+        VARAFM = 51,
+        VARAFMWide = 52,
+        VARA500 = 53,
     }
 
     [DataContract]
@@ -1624,9 +1684,9 @@ namespace winlink.cms.webservices
         public virtual DateTime Timestamp { get; set; }
 
         ///<summary>
-        ///Callsign of person submitting report
+        ///Callsign of the person the report is for (no SSID)
         ///</summary>
-        [ApiMember(Description="Callsign of person submitting report", IsRequired=true)]
+        [ApiMember(Description="Callsign of the person the report is for (no SSID)", IsRequired=true)]
         public virtual string Callsign { get; set; }
 
         [ApiMember]
@@ -1654,10 +1714,8 @@ namespace winlink.cms.webservices
         public virtual bool Yotreps { get; set; }
 
         [ApiMember]
-        public virtual string LatitudeNMEA { get; set; }
-
-        [ApiMember]
-        public virtual string LongitudeNMEA { get; set; }
+        [ApiMember(Description="True to have the position sent to APRS servers")]
+        public virtual bool EchoToAprs { get; set; }
     }
 
     public partial class PositionReportsAddResponse
@@ -2465,48 +2523,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
-    ///</summary>
-    [Route("/version/add", "POST,GET")]
-    [Api(Description="Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.")]
-    public partial class VersionAdd
-        : WebServiceRequest, IReturn<VersionAddResponse>
-    {
-        ///<summary>
-        ///Sysop callsign (no SSID)
-        ///</summary>
-        [ApiMember(Description="Sysop callsign (no SSID)", IsRequired=true, Name="Callsign")]
-        public virtual string Callsign { get; set; }
-
-        ///<summary>
-        ///Name of program (e.g., Winlink Express)
-        ///</summary>
-        [ApiMember(Description="Name of program (e.g., Winlink Express)", IsRequired=true, Name="Program")]
-        public virtual string Program { get; set; }
-
-        ///<summary>
-        ///Dotted version of the program (e.g., 1.2.3)
-        ///</summary>
-        [ApiMember(Description="Dotted version of the program (e.g., 1.2.3)", IsRequired=true, Name="Version")]
-        public virtual string Version { get; set; }
-
-        ///<summary>
-        ///
-        ///</summary>
-        [ApiMember(Description="", Name="Comments")]
-        public virtual string Comments { get; set; }
-    }
-
-    public partial class VersionAddResponse
-        : WebServiceResponse
-    {
-    }
-
-    ///<summary>
-    ///Returns a list of programs used by clients and their versions. If Program is speciifed the results will be for that particular program only. Maximum request frequency - 10 minutes.
+    ///Returns a list of programs used by clients and their versions. If Program is specified the results will be for that particular program only. Maximum request frequency - 10 minutes.
     ///</summary>
     [Route("/version/list", "POST,GET")]
-    [Api(Description="Returns a list of programs used by clients and their versions. If Program is speciifed the results will be for that particular program only. Maximum request frequency - 10 minutes.")]
+    [Api(Description="Returns a list of programs used by clients and their versions. If Program is specified the results will be for that particular program only. Maximum request frequency - 10 minutes.")]
     public partial class VersionList
         : WebServiceRequest, IReturn<VersionListResponse>
     {
