@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Winlink Projects\OpenSource\winlink-webservices\WinlinkWebServices\WinlinkWebServices.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ServiceStack.Client" Version="5.7.0" />
     <PackageReference Include="ServiceStack.Interfaces" Version="5.7.0" />

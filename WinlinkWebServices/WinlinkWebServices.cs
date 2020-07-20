@@ -6,6 +6,9 @@ using winlink.util;
 
 namespace WinlinkWebServices
 {
+    /// <summary>
+    /// Common public Winlink API's
+    /// </summary>
     public static class WinlinkWebServices
     {
         /// <summary>
@@ -18,10 +21,10 @@ namespace WinlinkWebServices
 #endif
 
         /// <summary>
-        /// The web service access key grants access to one or more API's. A winlink CMS administrator
-        /// will create the access key and determine which API are appropriate to assign to the project.
+        /// The web service access key grants access to one or more API's. A winlink administrator will
+        /// create the access key and determine which API are appropriate to assign to your project.
         /// </summary>
-        public static string WebServiceAccessKey = "[web service access key]";
+        public static string WebServiceAccessKey = "[web service access key]"; //TODO: Be sure to assign a valid access key
 
         /// <summary>
         /// Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
@@ -37,67 +40,17 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <returns>True if callsign account exists</returns>
         public static async Task<bool> AccountExistsAsync(string callsign)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
             var request = new AccountExists { Key = WebServiceAccessKey, Callsign = callsign };
             var response = await client.SendAsync<AccountExistsResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.CallsignExists;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        /// <summary>
-        /// Requests that the account password be sent to the recovery email address on record
-        /// </summary>
-        /// <param name="callsign"></param>
-        public static void SendAccountPassword(string callsign)
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new AccountPasswordSend { Key = WebServiceAccessKey, Callsign = callsign };
-            var response = client.Send<AccountPasswordSendResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        public static async Task SendAccountPasswordAsync(string callsign)
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new AccountPasswordSend { Key = WebServiceAccessKey, Callsign = callsign };
-            var response = await client.SendAsync<AccountPasswordSendResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        /// <summary>
-        /// Creates and adds the specified tactical address using the supplied password (optional)
-        /// </summary>
-        /// <param name="tacticalAddress">Name of the tactical address</param>
-        /// <param name="password">Optional password</param>
-        public static void AddTacticalAddress(string tacticalAddress, string password = "")
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new AccountTacticalAdd
-            {
-                Key = WebServiceAccessKey,
-                TacticalAccount = tacticalAddress,
-                Password = password
-            };
-            var response = client.Send<AccountTacticalAddResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        public static async Task AddTacticalAddressAsync(string tacticalAddress, string password = "")
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new AccountTacticalAdd
-            {
-                Key = WebServiceAccessKey,
-                TacticalAccount = tacticalAddress,
-                Password = password
-            };
-            var response = await client.SendAsync<AccountTacticalAddResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
@@ -115,6 +68,11 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Checks to see if the tactical address exists/>
+        /// </summary>
+        /// <param name="tacticalAddress"></param>
+        /// <returns>True if account exists</returns>
         public static async Task<bool> AccountTacticalExistsAsync(string tacticalAddress)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
@@ -166,8 +124,25 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Adds/Updates a single gateway channel record. Channel records should be re-added 
+        /// every two hours or so to avoid having them removed from listings and maps.
+        /// This is the mechanism that the CMS uses to determine if a gateway is on-line.
+        /// </summary>
+        /// <param name="callsign">Callsign with optional SSID</param>
+        /// <param name="baseCallsign">Account callsign</param>
+        /// <param name="gridSquare">Six character maidenhead grid locator</param>
+        /// <param name="frequency">Center frequency in hertz</param>
+        /// <param name="mode">Mode of operation</param>
+        /// <param name="baud">Baud rate - primarily for packet (optional)</param>
+        /// <param name="power">Transmit power in watts (optional)</param>
+        /// <param name="height">Height of antenna above average terrain (optional)</param>
+        /// <param name="gain">Antenna gain in db (optional)</param>
+        /// <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
+        /// <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+        /// <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
         public static async Task AddGatewayChannelAsync(string callsign, string baseCallsign, string gridSquare, int frequency, ModeMappings mode,
-            int baud, int power, int height, int gain, int direction, string operatingHours, string serviceCode)
+                    int baud, int power, int height, int gain, int direction, string operatingHours, string serviceCode)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
             var request = new ChannelAdd
@@ -221,8 +196,19 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Adds/Updates multiple gateway channel records. Channel records should be re-added 
+        /// every two hours or so to avoid having them removed from listings and maps.
+        /// This is the mechanism that the CMS uses to determine if a gateway is on-line.
+        /// </summary>
+        /// <param name="callsign">Callsign with optional SSID</param>
+        /// <param name="baseCallsign">Account callsign</param>
+        /// <param name="gridSquare">Six character maidenhead grid locator</param>
+        /// <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        /// <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+        /// <param name="partialChannelRecords"></param>
         public static async Task AddMultipleGatewayChannelsAsync(string callsign, string baseCallsign, string gridSquare, string serviceCode,
-            string operatingHours, List<PartialChannelRecord> partialChannelRecords)
+                    string operatingHours, List<PartialChannelRecord> partialChannelRecords)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
             var request = new ChannelAddMultiple
@@ -241,51 +227,90 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
-        /// Get a list of channel records for the specified callsign
+        /// Adds or updates a sysop record
         /// </summary>
         /// <param name="callsign"></param>
-        /// <returns>Returns a list of channel records for this callsign</returns>
-        public static List<ChannelRecord> GetChannelRecords(string callsign)
+        /// <param name="password"></param>
+        /// <param name="gridSquare"></param>
+        /// <param name="sysopName"></param>
+        /// <param name="streetAddress1"></param>
+        /// <param name="streetAddress2"></param>
+        /// <param name="city"></param>
+        /// <param name="state"></param>
+        /// <param name="country"></param>
+        /// <param name="postalCode"></param>
+        /// <param name="email"></param>
+        /// <param name="phones"></param>
+        /// <param name="website"></param>
+        /// <param name="comments"></param>
+        public static void AddSysop(string callsign, string password, string gridSquare, string sysopName, string streetAddress1, string streetAddress2,
+            string city, string state, string country, string postalCode, string email, string phones, string website, string comments)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new ChannelGet { Key = WebServiceAccessKey, Callsign = callsign };
-            var response = client.Send<ChannelGetResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        public static async Task<List<ChannelRecord>> GetChannelRecordsAsync(string callsign)
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new ChannelGet { Key = WebServiceAccessKey, Callsign = callsign };
-            var response = await client.SendAsync<ChannelGetResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            var request = new SysopAdd
+            {
+                Key = WebServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                GridSquare = gridSquare,
+                SysopName = sysopName,
+                StreetAddress1 = streetAddress1,
+                StreetAddress2 = streetAddress2,
+                City = city,
+                State = state,
+                PostalCode = postalCode,
+                Country = country,
+                Email = email,
+                Phones = phones,
+                Website = website,
+                Comments = comments
+            };
+            var response = client.Send<SysopAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
         /// <summary>
-        /// Return a list of all channel records for one or more modes
+        /// Adds or updates a sysop record
         /// </summary>
-        /// <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
-        /// <param name="historyHours">Number of hours since the station last updated their channels</param>
-        /// <param name="serviceCodes">One or more service codes</param>
-        /// <returns>Returns a list of channel records for the modes specified</returns>
-        public static List<ChannelRecord> GetChannelListing(List<int> modes, int historyHours = 6, string serviceCodes = "PUBLIC")
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="gridSquare"></param>
+        /// <param name="sysopName"></param>
+        /// <param name="streetAddress1"></param>
+        /// <param name="streetAddress2"></param>
+        /// <param name="city"></param>
+        /// <param name="state"></param>
+        /// <param name="country"></param>
+        /// <param name="postalCode"></param>
+        /// <param name="email"></param>
+        /// <param name="phones"></param>
+        /// <param name="website"></param>
+        /// <param name="comments"></param>
+        public static async Task AddSysopAsync(string callsign, string password, string gridSquare, string sysopName, string streetAddress1, string streetAddress2,
+                    string city, string state, string country, string postalCode, string email, string phones, string website, string comments)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new ChannelList { Key = WebServiceAccessKey, Modes = modes, HistoryHours = historyHours, ServiceCodes = serviceCodes };
-            var response = client.Send<ChannelListResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
-            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
-        }
-
-        public static async Task<List<ChannelRecord>> GetChannelListingAsync(List<int> modes, int historyHours = 6,
-            string serviceCodes = "PUBLIC")
-        {
-            var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new ChannelList { Key = WebServiceAccessKey, Modes = modes, HistoryHours = historyHours, ServiceCodes = serviceCodes };
-            var response = await client.SendAsync<ChannelListResponse>(request);
-            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            var request = new SysopAdd
+            {
+                Key = WebServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                GridSquare = gridSquare,
+                SysopName = sysopName,
+                StreetAddress1 = streetAddress1,
+                StreetAddress2 = streetAddress2,
+                City = city,
+                State = state,
+                PostalCode = postalCode,
+                Country = country,
+                Email = email,
+                Phones = phones,
+                Website = website,
+                Comments = comments
+            };
+            var response = await client.SendAsync<SysopAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
@@ -338,8 +363,27 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Adds a radio session record to the CMS database
+        /// </summary>
+        /// <param name="application">Program name</param>
+        /// <param name="version">Program version</param>
+        /// <param name="server">Server callsign</param>
+        /// <param name="serverGrid">Server maidenhead grid locator</param>
+        /// <param name="client">Client callsign</param>
+        /// <param name="clientGrid">Client maidenhead grid locator</param>
+        /// <param name="sid">Session identifier</param>
+        /// <param name="mode">The mode of the connection</param>
+        /// <param name="frequency">Frequency in Hertz</param>
+        /// <param name="lastCommand">Last protocol command</param>
+        /// <param name="messagesSent">Number of messages sent during this session</param>
+        /// <param name="messagesReceived">Number of messages received during this session</param>
+        /// <param name="bytesSent">Number of bytes sent during this session</param>
+        /// <param name="bytesReceived">Number of bytes received during this session</param>
+        /// <param name="holdingSeconds">Duration of the session</param>
+        /// <param name="idTag">User defined value - 12 characters max</param>
         public static async Task AddSessionRecordAsync(string application, string version, string server, string serverGrid, string client, string clientGrid, string sid,
-            string mode, int frequency, string lastCommand, int messagesSent, int messagesReceived, int bytesSent, int bytesReceived, int holdingSeconds, string idTag)
+                    string mode, int frequency, string lastCommand, int messagesSent, int messagesReceived, int bytesSent, int bytesReceived, int holdingSeconds, string idTag)
         {
             var wsClient = new JsonServiceClient(WebServicesEndpoint);
             var request = new SessionAdd
@@ -369,73 +413,101 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
-        /// Adds or updates a sysop record
+        /// Creates and adds the specified tactical address using the supplied password (optional)
         /// </summary>
-        /// <param name="callsign"></param>
-        /// <param name="password"></param>
-        /// <param name="gridSquare"></param>
-        /// <param name="sysopName"></param>
-        /// <param name="streetAddress1"></param>
-        /// <param name="streetAddress2"></param>
-        /// <param name="city"></param>
-        /// <param name="state"></param>
-        /// <param name="country"></param>
-        /// <param name="postalCode"></param>
-        /// <param name="email"></param>
-        /// <param name="phones"></param>
-        /// <param name="website"></param>
-        /// <param name="comments"></param>
-        public static void AddSysop(string callsign, string password, string gridSquare, string sysopName, string streetAddress1, string streetAddress2,
-            string city, string state, string country, string postalCode, string email, string phones, string website, string comments)
+        /// <param name="tacticalAddress">Name of the tactical address</param>
+        /// <param name="password">Optional password</param>
+        public static void AddTacticalAddress(string tacticalAddress, string password = "")
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new SysopAdd
+            var request = new AccountTacticalAdd
             {
                 Key = WebServiceAccessKey,
-                Callsign = callsign,
-                Password = password,
-                GridSquare = gridSquare,
-                SysopName = sysopName,
-                StreetAddress1 = streetAddress1,
-                StreetAddress2 = streetAddress2,
-                City = city,
-                State = state,
-                PostalCode = postalCode,
-                Country = country,
-                Email = email,
-                Phones = phones,
-                Website = website,
-                Comments = comments
+                TacticalAccount = tacticalAddress,
+                Password = password
             };
-            var response = client.Send<SysopAddResponse>(request);
+            var response = client.Send<AccountTacticalAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
-        public static async Task AddSysopAsync(string callsign, string password, string gridSquare, string sysopName, string streetAddress1, string streetAddress2,
-            string city, string state, string country, string postalCode, string email, string phones, string website, string comments)
+        /// <summary>
+        /// Creates and adds the specified tactical address using the supplied password (optional)
+        /// </summary>
+        /// <param name="tacticalAddress">Name of the tactical address</param>
+        /// <param name="password">Optional password</param>
+        public static async Task AddTacticalAddressAsync(string tacticalAddress, string password = "")
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
-            var request = new SysopAdd
+            var request = new AccountTacticalAdd
             {
                 Key = WebServiceAccessKey,
-                Callsign = callsign,
-                Password = password,
-                GridSquare = gridSquare,
-                SysopName = sysopName,
-                StreetAddress1 = streetAddress1,
-                StreetAddress2 = streetAddress2,
-                City = city,
-                State = state,
-                PostalCode = postalCode,
-                Country = country,
-                Email = email,
-                Phones = phones,
-                Website = website,
-                Comments = comments
+                TacticalAccount = tacticalAddress,
+                Password = password
             };
-            var response = await client.SendAsync<SysopAddResponse>(request);
+            var response = await client.SendAsync<AccountTacticalAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Return a list of all channel records for one or more modes
+        /// </summary>
+        /// <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+        /// <param name="historyHours">Number of hours since the station last updated their channels</param>
+        /// <param name="serviceCodes">One or more service codes</param>
+        /// <returns>Returns a list of channel records for the modes specified</returns>
+        public static List<ChannelRecord> GetChannelListing(List<int> modes, int historyHours = 6, string serviceCodes = "PUBLIC")
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelList { Key = WebServiceAccessKey, Modes = modes, HistoryHours = historyHours, ServiceCodes = serviceCodes };
+            var response = client.Send<ChannelListResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Return a list of all channel records for one or more modes
+        /// </summary>
+        /// <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+        /// <param name="historyHours">Number of hours since the station last updated their channels</param>
+        /// <param name="serviceCodes">One or more service codes</param>
+        /// <returns>Returns a list of channel records for the modes specified</returns>
+        public static async Task<List<ChannelRecord>> GetChannelListingAsync(List<int> modes, int historyHours = 6,
+                            string serviceCodes = "PUBLIC")
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelList { Key = WebServiceAccessKey, Modes = modes, HistoryHours = historyHours, ServiceCodes = serviceCodes };
+            var response = await client.SendAsync<ChannelListResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Get a list of channel records for the specified callsign
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <returns>Returns a list of channel records for this callsign</returns>
+        public static List<ChannelRecord> GetChannelRecords(string callsign)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelGet { Key = WebServiceAccessKey, Callsign = callsign };
+            var response = client.Send<ChannelGetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Get a list of channel records for the specified callsign
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <returns>Returns a list of channel records for this callsign</returns>
+        public static async Task<List<ChannelRecord>> GetChannelRecordsAsync(string callsign)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new ChannelGet { Key = WebServiceAccessKey, Callsign = callsign };
+            var response = await client.SendAsync<ChannelGetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Channels;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
@@ -458,6 +530,12 @@ namespace WinlinkWebServices
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
+        /// <summary>
+        /// Returns information regarding the the amateur radio license. It's
+        /// primary use is to determine is the license is valid and to populate
+        /// the local database with this information.
+        /// </summary>
+        /// <param name="callsign"></param>
         public static async Task<LicenseRecord> LookupLicenseAsync(string callsign)
         {
             var client = new JsonServiceClient(WebServicesEndpoint);
@@ -468,6 +546,32 @@ namespace WinlinkWebServices
             };
             var response = await client.SendAsync<LicenseLookupResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.ValidationRecord;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Requests that the account password be sent to the recovery email address on record
+        /// </summary>
+        /// <param name="callsign"></param>
+        public static void SendAccountPassword(string callsign)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new AccountPasswordSend { Key = WebServiceAccessKey, Callsign = callsign };
+            var response = client.Send<AccountPasswordSendResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Requests that the account password be sent to the recovery email address on record
+        /// </summary>
+        /// <param name="callsign"></param>
+        public static async Task SendAccountPasswordAsync(string callsign)
+        {
+            var client = new JsonServiceClient(WebServicesEndpoint);
+            var request = new AccountPasswordSend { Key = WebServiceAccessKey, Callsign = callsign };
+            var response = await client.SendAsync<AccountPasswordSendResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 

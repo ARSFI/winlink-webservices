@@ -1,0 +1,1441 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WinlinkWebServices</name>
+    </assembly>
+    <members>
+        <member name="T:winlink.cms.webservices.AccountAlternateEmailGet">
+            <summary>
+            Gets the alternate email associated with this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountAlternateEmailGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountAlternateEmailSet">
+            <summary>
+            Sets the alternate email address for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountAlternateEmailSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountAlternateEmailSet.AlternateEmail">
+            <summary>
+            Alternate email address to use for forwarding messages
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountCallsignSearch">
+            <summary>
+            Searches for matching callsigns. All callsigns containing the search text are returned.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignSearch.SearchText">
+            <summary>
+            Search text
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignSearch.RecordLimit">
+            <summary>
+            Limits number of returned records (default: 100)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountExists">
+            <summary>
+            Determines if the specified callsign or tactical account exists in the Winlink system.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountExists.Callsign">
+            <summary>
+            Account callsign or tactical
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountPasswordChange">
+            <summary>
+            Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordChange.Callsign">
+            <summary>
+            Account callsign or tactical address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordChange.OldPassword">
+            <summary>
+            Current account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordChange.NewPassword">
+            <summary>
+            New account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountPasswordSend">
+            <summary>
+            Causes the password to be emailed to the recovery address.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordSend.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountPasswordValidate">
+            <summary>
+            Verifies Password is correct for Callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordValidate.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordValidate.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountTacticalAdd">
+            <summary>
+            Adds a new tactical account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountTacticalAdd.TacticalAccount">
+            <summary>
+            Account name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountTacticalAdd.Password">
+            <summary>
+            Optional account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountTacticalExists">
+            <summary>
+            Returns true if this account exists and is a tactical account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountTacticalExists.TacticalAccount">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountTacticalRemove">
+            <summary>
+            Removes an existing tactical account and all references to it.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountTacticalRemove.TacticalAccount">
+            <summary>
+            Tactical account name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelAdd">
+            <summary>
+            Adds a (or updates an existing) channel record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Callsign">
+            <summary>
+            Channel/Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.BaseCallsign">
+            <summary>
+            Sysop base callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.GridSquare">
+            <summary>
+            6 digit grid locator
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Frequency">
+            <summary>
+            channel frequency in hertz
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Mode">
+            <summary>
+            Number indicating mode(s) the channel supports
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Baud">
+            <summary>
+            Typically 1200 or 9600 for packet, 200 for P1, 600 for P2 and 3200 for P3
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Power">
+            <summary>
+            Radiated power in watts
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Height">
+            <summary>
+            Antenna height above average terrain
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Gain">
+            <summary>
+            Antenna gain in db
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Direction">
+            <summary>
+            360 for North, 0 for omnidirectional
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.Hours">
+            <summary>
+            Hours of operation (e.g., 00-23 for 24/7 operation)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAdd.ServiceCode">
+            <summary>
+            Service code indicating the intended audience for this channel (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelAddMultiple">
+            <summary>
+            Adds multiple channel records replacing any previously defined
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.Callsign">
+            <summary>
+            Channel/Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.BaseCallsign">
+            <summary>
+            Sysop base callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.GridSquare">
+            <summary>
+            6 digit grid locator
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.ServiceCode">
+            <summary>
+            Service code indicating the intended audience for this channel (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.OperatingHours">
+            <summary>
+            Hours of operation (e.g., 00-23 for 24/7 operation)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelAddMultiple.PartialChannelRecords">
+            <summary>
+            One or more channel records
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelDelete">
+            <summary>
+            Deletes an existing channel record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelDelete.Callsign">
+            <summary>
+            Channel/Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelDelete.Frequency">
+            <summary>
+            channel frequency in hertz
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelDelete.Mode">
+            <summary>
+            Number indicating mode the channel supports
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelDeleteAll">
+            <summary>
+            Deletes all channel records for the specified callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelDeleteAll.Callsign">
+            <summary>
+            Channel/Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelGet">
+            <summary>
+            Returns a list of all channel records for the specified callsign (most recent first).
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelGet.Callsign">
+            <summary>
+            Channel/Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ChannelList">
+            <summary>
+            Returns a list of channel records matching the request criteria.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelList.Modes">
+            <summary>
+            One or more operating modes (default: all)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelList.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ChannelList.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GatewayChannelCount">
+            <summary>
+            Returns the number of active gateway channels for the specified period.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayChannelCount.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GatewayChannelReport">
+            <summary>
+            Returns a list of channel records based on the supplied parameters.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayChannelReport.FrequencyMinimum">
+            <summary>
+            The minimum frequency (default: 0)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayChannelReport.FrequencyMaximum">
+            <summary>
+            The maximum frequency (default: max int)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayChannelReport.ServiceCodes">
+            <summary>
+            One or more service codes --  to filter the response to just those service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayChannelReport.Modes">
+            <summary>
+            Zero or more modes -- to filter the response for just those modes. (default: empty (all modes))
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GatewayListing">
+            <summary>
+            Returns a formatted gateway listing (to be saved as a text file)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayListing.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayListing.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayListing.ListingType">
+            <summary>
+            The type of listing (default: Pactor)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GatewayProximity">
+            <summary>
+            Returns a list of gateways corresponding to the request parameters. The list is sorted by distance from the supplied grid square.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayProximity.GridSquare">
+            <summary>
+            Grid location
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayProximity.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayProximity.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayProximity.MaxDistance">
+            <summary>
+            Distance in miles to search (default: 0 - all)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayProximity.OperatingMode">
+            <summary>
+            One of Packet, Pactor, Winmor, RobustPacket, or AnyAll (default: AnyAll)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GatewayStatus">
+            <summary>
+            Returns an array of data structures showing the status of Winlink gateways.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStatus.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStatus.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStatus.Mode">
+            <summary>
+            One of Packet, Pactor, Winmor, RobustPacket, ARDOP, VARA, VARAFM, AllHf, or AnyAll (default: AnyAll)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupAddressList">
+            <summary>
+            Returns a list groups and addresses that are managed by the supplied account
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAddressList.Callsign">
+            <summary>
+            Callsign of group manager
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAddressList.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAddressList.IncludeDynamic">
+            <summary>
+            Include members added because of a dynamic group query (default: false)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.HybridStationList">
+            <summary>
+            Returns a list of radio network hybrid stations.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseLookup">
+            <summary>
+            Returns information regarding the the amateur radio license.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.LicenseLookup.Callsign">
+            <summary>
+            Callsign to look up
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageExists">
+            <summary>
+            Returns a list of all messages pending for this account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageExists.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageGet">
+            <summary>
+            Gets a specific email message identified by MessageId. Returns the mime encoded message.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGet.AccountName">
+            <summary>
+            Account callsign or callsign of requester
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGet.Password">
+            <summary>
+            Password for account
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGet.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGet.MarkAsForwarded">
+            <summary>
+            Message is marked as forwarded (delivered)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageGetDecoded">
+            <summary>
+            Gets a specific email message identified by MessageId. Returns the decoded message.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetDecoded.AccountName">
+            <summary>
+            Account callsign or callsign of requester
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetDecoded.Password">
+            <summary>
+            Password for account
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetDecoded.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetDecoded.MarkAsForwarded">
+            <summary>
+            Message is marked as forwarded (delivered)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageList">
+            <summary>
+            Returns a list of all messages pending for this account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageList.AccountName">
+            <summary>
+            The Winlink account name. Usually a callsign or tactical address.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageList.Password">
+            <summary>
+            Password for account (tactical address may not have a password)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessagePickupStationAdd">
+            <summary>
+            Adds an entry to the MPS table. If the combination of callsign and mpsCallsign already exist only the timestamp is updated.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationAdd.Requester">
+            <summary>
+            Callsign of requestor
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationAdd.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationAdd.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationAdd.MpsCallsign">
+            <summary>
+            MPS callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessagePickupStationDelete">
+            <summary>
+            Deletes all MPS records for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationDelete.Requester">
+            <summary>
+            Callsign of requestor
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationDelete.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationDelete.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessagePickupStationGet">
+            <summary>
+            Returns all MPS records for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationGet.Requester">
+            <summary>
+            Callsign of requestor
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationGet.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessagePickupStationList">
+            <summary>
+            Returns all MPS records. Maximum request frequency - 30 minutes.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessagePickupStationList.Requester">
+            <summary>
+            Callsign of requestor
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageSend">
+            <summary>
+            Sends a message. If successfully posted the message ID is returned with the response.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSend.MessageId">
+            <summary>
+            The ID of the message. One will be created if not provided
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSend.Mime">
+            <summary>
+            The full email message in mime format (headers and body)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSend.Hidden">
+            <summary>
+            True to hide message in traffic logs
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageSendSimple">
+            <summary>
+            Sends a plain text message to a single recipient. If successfully posted the message ID is returned in the response.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.MessageId">
+            <summary>
+            The ID of the message. One will be created if not provided
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.From">
+            <summary>
+            Sender's callsign or email address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.Subject">
+            <summary>
+            Subject of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.To">
+            <summary>
+            Email address (or callsign) of recipient
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.Body">
+            <summary>
+            Body of message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendSimple.Hidden">
+            <summary>
+            True to hide message in traffic logs
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageSendText">
+            <summary>
+            Sends a simple text message (attachments possible). If successfully posted the message ID is returned in the response.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.MessageId">
+            <summary>
+            The ID of the message. One will be created if not provided
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.Sender">
+            <summary>
+            Email address of sender
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.Subject">
+            <summary>
+            Message subject
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.ToAddresses">
+            <summary>
+            One or more recipient email addresses
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.CcAddresses">
+            <summary>
+            Zero or more recipient cc email addresses
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.Body">
+            <summary>
+            Body of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.Attachments">
+            <summary>
+            Zero of more attachment records
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSendText.Hidden">
+            <summary>
+            True to hide message in traffic logs
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsAdd">
+            <summary>
+            Submit a new position report.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsAdd.Timestamp">
+            <summary>
+            Date and time of the position report
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsAdd.Callsign">
+            <summary>
+            Callsign of the person the report is for (no SSID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsGet">
+            <summary>
+            Returns a list of all position reports for a specific callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsGet.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsNearby">
+            <summary>
+            Returns a list of position reports near the last reported position of the specificed callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsNearby.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsNearby.DistanceLimitNm">
+            <summary>
+            Distance from source in nautical miles (default: 100)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsNearby.ReportAgeLimitDays">
+            <summary>
+            Maximum age (in days) of position reports to include (default: 14)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsRecent">
+            <summary>
+            Returns a list the most recent position reports. Maximum request frequency - 30 minutes.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsRecent.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 2 weeks)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsRecent.OnePerCallsign">
+            <summary>
+            True to include only the latest report from each callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsSearch">
+            <summary>
+            Returns a list of all position reports for or reported by a specific callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsSearch.Callsign">
+            <summary>
+            Callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsUpdate">
+            <summary>
+            Update an existing position report.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsUpdate.Timestamp">
+            <summary>
+            Date and time of the position report
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsUpdate.Callsign">
+            <summary>
+            Callsign of person submitting report
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PropagationList">
+            <summary>
+            Returns a list of propagation records within the specified sliding time window specified by the parameters
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PropagationList.WindowStart">
+            <summary>
+            Number of hours back in time to start history (default: 6 hours ago).
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PropagationList.WindowLength">
+            <summary>
+            How many hours of history to return (default: 6, max: 24)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.RadioNetworkParamsAdd">
+            <summary>
+            Adds or replaces a parameter and value for the specified callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsAdd.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsAdd.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsAdd.Param">
+            <summary>
+            Parameter name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsAdd.Value">
+            <summary>
+            Parameter value
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.RadioNetworkParamsGet">
+            <summary>
+            Returns the requested parameter record or all records for the specified callsign if no parameter name specified.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsGet.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.RadioNetworkParamsGet.Param">
+            <summary>
+            Parameter name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.RadioNetworkParamsList">
+            <summary>
+            Returns a list of all parameter records for all callsigns. Maximum request frequency - 30 minutes.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SessionAdd">
+            <summary>
+            Adds a gateway session record to the database.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionAdd.Application">
+            <summary>
+            Name of the application
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionAdd.Server">
+            <summary>
+            Callsign of server (gateway)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionAdd.ServerGrid">
+            <summary>
+            Server grid locator
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionAdd.Client">
+            <summary>
+            Callsign of client
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionAdd.ClientGrid">
+            <summary>
+            Client grid locator
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.Sysop2Get">
+            <summary>
+            Returns a sysop record. Requires account password.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.Sysop2Get.Callsign">
+            <summary>
+            Sysop callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.Sysop2Get.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SysopAdd">
+            <summary>
+            Add/update a sysop record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Callsign">
+            <summary>
+            Sysop callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.GridSquare">
+            <summary>
+            6 digit grid locator
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.SysopName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.StreetAddress1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.StreetAddress2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.City">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.State">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Country">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.PostalCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Email">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Phones">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Website">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopAdd.Comments">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SysopChannelsList">
+            <summary>
+            Returns an array of data structures containing combined channel and sysop information.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopChannelsList.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 6)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopChannelsList.OperatingMode">
+            <summary>
+            One of Packet, Pactor, Winmor, RobustPacket, or AnyAll (default: AnyAll)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopChannelsList.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopChannelsList.IncludeUnauthorized">
+            <summary>
+            Include information for unauthorized gateways
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SysopFilter">
+            <summary>
+            Returns zero or more records that partially match the specified filter.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopFilter.Filter">
+            <summary>
+            Filter text applied to multiple fields
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopFilter.RecordLimit">
+            <summary>
+            Limit number of returned records (default: 100)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SysopList">
+            <summary>
+            Returns a list of all sysop records.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.TrafficAdd">
+            <summary>
+            Add P2P traffic information to the CMS for audit purposes
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Timestamp">
+            <summary>
+            The date/time value when the message was sent or received
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Callsign">
+            <summary>
+            Station base callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Frequency">
+            <summary>
+            Frequency of the connection in Hz
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Client">
+            <summary>
+            Name of client program
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Event">
+            <summary>
+            Message event - forwarded, received, rejected, etc.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.TrafficType">
+            <summary>
+            Type of message traffic - via gateway, telnet, p2p, radio only, etc.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficAdd.Mime">
+            <summary>
+            Valid mime message
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.VersionList">
+            <summary>
+            Returns a list of programs used by clients and their versions. If Program is specified the results will be for that particular program only. Maximum request frequency - 10 minutes.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionList.Program">
+            <summary>
+            Name of program (e.g., RMS Packet)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionList.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 24)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WatchDelete">
+            <summary>
+            Deletes the specified watch
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchDelete.Callsign">
+            <summary>
+            Callsign associated with the watch
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchDelete.Password">
+            <summary>
+            Callsign account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchDelete.Program">
+            <summary>
+            Program name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WatchGet">
+            <summary>
+            Returns a watch record for the specified callsign and program
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchGet.Callsign">
+            <summary>
+            Callsign associated with the watch
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchGet.Password">
+            <summary>
+            Callsign account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchGet.Program">
+            <summary>
+            Program name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WatchList">
+            <summary>
+            Returns a list of watch records for the specified callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchList.Callsign">
+            <summary>
+            Callsign associated with the watch
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchList.Password">
+            <summary>
+            Callsign account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WatchPing">
+            <summary>
+            Updates status of the watched program. Ping frequency no more than once every hour. The watch will be disabled automatically for programs that ping too frequently.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchPing.Callsign">
+            <summary>
+            Callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchPing.Program">
+            <summary>
+            Program name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WatchSet">
+            <summary>
+            Establishes a watch for a program
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchSet.Callsign">
+            <summary>
+            Callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchSet.Password">
+            <summary>
+            Callsign account password
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchSet.Program">
+            <summary>
+            Program name (additional text could be included to differentiate between multiple programs with the same name)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchSet.AllowedTardyHours">
+            <summary>
+            Number of hours before the program is considered off-line (0 to disable). Two hours or greater since pings are sent at a maximum rate of once an hour.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchSet.NotificationEmails">
+            <summary>
+            Email addresses to send notifications to (comma-separated). If blank, notifications are sent to the callsign account.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WeatherReportAdd">
+            <summary>
+            Submit a new weather report.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WeatherReportAdd.Timestamp">
+            <summary>
+            Date and time of the weather report
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WeatherReportAdd.Callsign">
+            <summary>
+            Callsign of person submitting report
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WebServiceRequest.Key">
+            <summary>
+            Web service access key -- allows use of Winlink web services
+            </summary>
+        </member>
+        <member name="T:WinlinkWebServices.WinlinkWebServices">
+            <summary>
+            Common public Winlink API's
+            </summary>
+        </member>
+        <member name="F:WinlinkWebServices.WinlinkWebServices.WebServicesEndpoint">
+            <summary>
+            The web service endpoint URI
+            </summary>
+        </member>
+        <member name="F:WinlinkWebServices.WinlinkWebServices.WebServiceAccessKey">
+            <summary>
+            The web service access key grants access to one or more API's. A winlink administrator will
+            create the access key and determine which API are appropriate to assign to your project.
+            </summary>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AccountExists(System.String)">
+            <summary>
+            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
+            </summary>
+            <param name="callsign"></param>
+            <returns>True if callsign account exists</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AccountExistsAsync(System.String)">
+            <summary>
+            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
+            </summary>
+            <param name="callsign"></param>
+            <returns>True if callsign account exists</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AccountTacticalExists(System.String)">
+            <summary>
+            Checks to see if the tactical address exists/>
+            </summary>
+            <param name="tacticalAddress"></param>
+            <returns>True if account exists</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AccountTacticalExistsAsync(System.String)">
+            <summary>
+            Checks to see if the tactical address exists/>
+            </summary>
+            <param name="tacticalAddress"></param>
+            <returns>True if account exists</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddGatewayChannel(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds/Updates a single gateway channel record. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="frequency">Center frequency in hertz</param>
+            <param name="mode">Mode of operation</param>
+            <param name="baud">Baud rate - primarily for packet (optional)</param>
+            <param name="power">Transmit power in watts (optional)</param>
+            <param name="height">Height of antenna above average terrain (optional)</param>
+            <param name="gain">Antenna gain in db (optional)</param>
+            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddGatewayChannelAsync(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds/Updates a single gateway channel record. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="frequency">Center frequency in hertz</param>
+            <param name="mode">Mode of operation</param>
+            <param name="baud">Baud rate - primarily for packet (optional)</param>
+            <param name="power">Transmit power in watts (optional)</param>
+            <param name="height">Height of antenna above average terrain (optional)</param>
+            <param name="gain">Antenna gain in db (optional)</param>
+            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddMultipleGatewayChannels(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
+            <summary>
+            Adds/Updates multiple gateway channel records. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="partialChannelRecords"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddMultipleGatewayChannelsAsync(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
+            <summary>
+            Adds/Updates multiple gateway channel records. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="partialChannelRecords"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddSysop(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Adds or updates a sysop record
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="gridSquare"></param>
+            <param name="sysopName"></param>
+            <param name="streetAddress1"></param>
+            <param name="streetAddress2"></param>
+            <param name="city"></param>
+            <param name="state"></param>
+            <param name="country"></param>
+            <param name="postalCode"></param>
+            <param name="email"></param>
+            <param name="phones"></param>
+            <param name="website"></param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddSysopAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Adds or updates a sysop record
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="gridSquare"></param>
+            <param name="sysopName"></param>
+            <param name="streetAddress1"></param>
+            <param name="streetAddress2"></param>
+            <param name="city"></param>
+            <param name="state"></param>
+            <param name="country"></param>
+            <param name="postalCode"></param>
+            <param name="email"></param>
+            <param name="phones"></param>
+            <param name="website"></param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddSessionRecord(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds a radio session record to the CMS database
+            </summary>
+            <param name="application">Program name</param>
+            <param name="version">Program version</param>
+            <param name="server">Server callsign</param>
+            <param name="serverGrid">Server maidenhead grid locator</param>
+            <param name="client">Client callsign</param>
+            <param name="clientGrid">Client maidenhead grid locator</param>
+            <param name="sid">Session identifier</param>
+            <param name="mode">The mode of the connection</param>
+            <param name="frequency">Frequency in Hertz</param>
+            <param name="lastCommand">Last protocol command</param>
+            <param name="messagesSent">Number of messages sent during this session</param>
+            <param name="messagesReceived">Number of messages received during this session</param>
+            <param name="bytesSent">Number of bytes sent during this session</param>
+            <param name="bytesReceived">Number of bytes received during this session</param>
+            <param name="holdingSeconds">Duration of the session</param>
+            <param name="idTag">User defined value - 12 characters max</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddSessionRecordAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds a radio session record to the CMS database
+            </summary>
+            <param name="application">Program name</param>
+            <param name="version">Program version</param>
+            <param name="server">Server callsign</param>
+            <param name="serverGrid">Server maidenhead grid locator</param>
+            <param name="client">Client callsign</param>
+            <param name="clientGrid">Client maidenhead grid locator</param>
+            <param name="sid">Session identifier</param>
+            <param name="mode">The mode of the connection</param>
+            <param name="frequency">Frequency in Hertz</param>
+            <param name="lastCommand">Last protocol command</param>
+            <param name="messagesSent">Number of messages sent during this session</param>
+            <param name="messagesReceived">Number of messages received during this session</param>
+            <param name="bytesSent">Number of bytes sent during this session</param>
+            <param name="bytesReceived">Number of bytes received during this session</param>
+            <param name="holdingSeconds">Duration of the session</param>
+            <param name="idTag">User defined value - 12 characters max</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddTacticalAddress(System.String,System.String)">
+            <summary>
+            Creates and adds the specified tactical address using the supplied password (optional)
+            </summary>
+            <param name="tacticalAddress">Name of the tactical address</param>
+            <param name="password">Optional password</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddTacticalAddressAsync(System.String,System.String)">
+            <summary>
+            Creates and adds the specified tactical address using the supplied password (optional)
+            </summary>
+            <param name="tacticalAddress">Name of the tactical address</param>
+            <param name="password">Optional password</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.GetChannelListing(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
+            <summary>
+            Return a list of all channel records for one or more modes
+            </summary>
+            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns>Returns a list of channel records for the modes specified</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.GetChannelListingAsync(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
+            <summary>
+            Return a list of all channel records for one or more modes
+            </summary>
+            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns>Returns a list of channel records for the modes specified</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.GetChannelRecords(System.String)">
+            <summary>
+            Get a list of channel records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <returns>Returns a list of channel records for this callsign</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.GetChannelRecordsAsync(System.String)">
+            <summary>
+            Get a list of channel records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <returns>Returns a list of channel records for this callsign</returns>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.LookupLicense(System.String)">
+            <summary>
+            Returns information regarding the the amateur radio license. It's
+            primary use is to determine is the license is valid and to populate
+            the local database with this information.
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.LookupLicenseAsync(System.String)">
+            <summary>
+            Returns information regarding the the amateur radio license. It's
+            primary use is to determine is the license is valid and to populate
+            the local database with this information.
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.SendAccountPassword(System.String)">
+            <summary>
+            Requests that the account password be sent to the recovery email address on record
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.SendAccountPasswordAsync(System.String)">
+            <summary>
+            Requests that the account password be sent to the recovery email address on record
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.ProtocolModeMappings">
+            <summary>
+            Handy reference to mapping of integer mode to protocol name
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
