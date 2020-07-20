@@ -11,14 +11,14 @@ namespace WinlinkWebServices.Test
         [TestInitialize]
         public void TextFixtureSetUp()
         {
-            WinlinkWebServices.WebServiceAccessKey = "xxxx"; //TODO: Enter your access key here
+            var config = new WinlinkWebServiceConfiguration { WebServiceAccessKey = "xxx", WebServicesHost = "http://cms-z.winlink.org" };
+            WinlinkWebServices.SetConfiguration(config);
         }
 
         [TestMethod]
         public void ChannelListingTest()
         {
-            var response =  WinlinkWebServices.GetChannelListing(new List<int> { 0 });
-            Assert.IsTrue(response.Count > 0);
+            var response = WinlinkWebServices.GetChannelListing(new List<int> { 0 });
             Console.WriteLine($"Record Count: {response.Count}");
         }
 
@@ -27,7 +27,6 @@ namespace WinlinkWebServices.Test
         public async Task ChannelListingAsyncTest()
         {
             var response = await WinlinkWebServices.GetChannelListingAsync(new List<int> { 50, 51 });
-            Assert.IsTrue(response.Count > 0);
             Console.WriteLine($"Record Count: {response.Count}");
         }
 

@@ -1169,20 +1169,30 @@
             Web service access key -- allows use of Winlink web services
             </summary>
         </member>
+        <member name="T:WinlinkWebServices.WinlinkWebServiceConfiguration">
+            <summary>
+            Configuration settings 
+            </summary>
+        </member>
+        <member name="P:WinlinkWebServices.WinlinkWebServiceConfiguration.WebServicesHost">
+            <summary>
+            The winlink web service host (URI)
+            </summary>
+        </member>
+        <member name="P:WinlinkWebServices.WinlinkWebServiceConfiguration.WebServiceAccessKey">
+            <summary>
+            The web service access key grants access to one or more API's. A winlink administrator will
+            create the access key and determine which API are appropriate to assign to your project.
+            </summary>
+        </member>
         <member name="T:WinlinkWebServices.WinlinkWebServices">
             <summary>
             Common public Winlink API's
             </summary>
         </member>
-        <member name="F:WinlinkWebServices.WinlinkWebServices.WebServicesEndpoint">
+        <member name="M:WinlinkWebServices.WinlinkWebServices.SetConfiguration(WinlinkWebServices.WinlinkWebServiceConfiguration)">
             <summary>
-            The web service endpoint URI
-            </summary>
-        </member>
-        <member name="F:WinlinkWebServices.WinlinkWebServices.WebServiceAccessKey">
-            <summary>
-            The web service access key grants access to one or more API's. A winlink administrator will
-            create the access key and determine which API are appropriate to assign to your project.
+            
             </summary>
         </member>
         <member name="M:WinlinkWebServices.WinlinkWebServices.AccountExists(System.String)">
