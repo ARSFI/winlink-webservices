@@ -12,7 +12,7 @@ namespace WinlinkWebServices.Test
         public void TextFixtureSetUp()
         {
             //TODO: Enter a valid access key enabled for the below service requests before running the tests
-            var config = new WinlinkWebServiceConfiguration { WebServiceAccessKey = "4242", WebServicesHost = "http://cms-z.winlink.org" };
+            var config = new WinlinkWebServiceConfiguration { WebServiceAccessKey = "xxxx", WebServicesHost = "http://cms-z.winlink.org" };
             WinlinkWebServices.SetConfiguration(config);
         }
 
