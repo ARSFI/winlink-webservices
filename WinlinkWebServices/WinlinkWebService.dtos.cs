@@ -1,5 +1,5 @@
 /* Options:
-Date: 2020-07-19 22:36:39
+Date: 2020-07-21 20:35:08
 Version: 5.40
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
@@ -2518,6 +2518,44 @@ namespace winlink.cms.webservices
     }
 
     public partial class TrafficAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+    ///</summary>
+    [Route("/version/add", "POST,GET")]
+    [Api(Description="Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.")]
+    public partial class VersionAdd
+        : WebServiceRequest, IReturn<VersionAddResponse>
+    {
+        ///<summary>
+        ///Sysop callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Sysop callsign (no SSID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of program (e.g., Winlink Express)
+        ///</summary>
+        [ApiMember(Description="Name of program (e.g., Winlink Express)", IsRequired=true, Name="Program")]
+        public virtual string Program { get; set; }
+
+        ///<summary>
+        ///Dotted version of the program (e.g., 1.2.3)
+        ///</summary>
+        [ApiMember(Description="Dotted version of the program (e.g., 1.2.3)", IsRequired=true, Name="Version")]
+        public virtual string Version { get; set; }
+
+        ///<summary>
+        ///
+        ///</summary>
+        [ApiMember(Description="", Name="Comments")]
+        public virtual string Comments { get; set; }
+    }
+
+    public partial class VersionAddResponse
         : WebServiceResponse
     {
     }
