@@ -1034,6 +1034,31 @@
             Valid mime message
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.VersionAdd">
+            <summary>
+            Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionAdd.Callsign">
+            <summary>
+            Sysop callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionAdd.Program">
+            <summary>
+            Name of program (e.g., Winlink Express)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionAdd.Version">
+            <summary>
+            Dotted version of the program (e.g., 1.2.3)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionAdd.Comments">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.VersionList">
             <summary>
             Returns a list of programs used by clients and their versions. If Program is specified the results will be for that particular program only. Maximum request frequency - 10 minutes.
@@ -1286,6 +1311,24 @@
             <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
             <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
             <param name="partialChannelRecords"></param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddProgramVersion(System.String,System.String,System.String)">
+            <summary>
+            Add/update a program version record. Version records should be sent at application startup and
+            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+            </summary>
+            <param name="callsign">Account callsign (no SSID)</param>
+            <param name="program">Program Name - must be a valid 'monitored' program name</param>
+            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
+        </member>
+        <member name="M:WinlinkWebServices.WinlinkWebServices.AddProgramVersionAsync(System.String,System.String,System.String)">
+            <summary>
+            Add/update a program version record. Version records should be sent at application startup and
+            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+            </summary>
+            <param name="callsign">Account callsign (no SSID)</param>
+            <param name="program">Program Name - must be a valid 'monitored' program name</param>
+            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
         </member>
         <member name="M:WinlinkWebServices.WinlinkWebServices.AddSysop(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>

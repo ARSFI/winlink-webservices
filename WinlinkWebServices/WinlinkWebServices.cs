@@ -1,6 +1,6 @@
-﻿using ServiceStack;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ServiceStack;
 using winlink.cms.webservices;
 using winlink.util;
 
@@ -13,7 +13,7 @@ namespace WinlinkWebServices
     {
         private static string _webServiceAccessKey;
         private static string _webServicesHost;
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -219,6 +219,50 @@ namespace WinlinkWebServices
                 PartialChannelRecords = partialChannelRecords
             };
             var response = await client.SendAsync<ChannelAddMultipleResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Add/update a program version record. Version records should be sent at application startup and
+        /// then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+        /// </summary>
+        /// <param name="callsign">Account callsign (no SSID)</param>
+        /// <param name="program">Program Name - must be a valid 'monitored' program name</param>
+        /// <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
+        public static void AddProgramVersion(string callsign, string program, string version)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new VersionAdd
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Program = program,
+                Version = version
+            };
+            var response = client.Send<VersionAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Add/update a program version record. Version records should be sent at application startup and
+        /// then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+        /// </summary>
+        /// <param name="callsign">Account callsign (no SSID)</param>
+        /// <param name="program">Program Name - must be a valid 'monitored' program name</param>
+        /// <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
+        public static async Task AddProgramVersionAsync(string callsign, string program, string version)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new VersionAdd
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Program = program,
+                Version = version
+            };
+            var response = await client.SendAsync<VersionAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
