@@ -7,9 +7,8 @@ The raw web service API can be found at https://api.winlink.org
 Targets .Net Standard 
 
 Requires:
-  ServiceStack Client library
-  
-  An access key issued by a Winlink administrator
+  * ServiceStack Client library
+  * An access key issued by a Winlink administrator
   
 
 
