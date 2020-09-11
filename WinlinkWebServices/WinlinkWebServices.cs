@@ -4,7 +4,7 @@ using ServiceStack;
 using winlink.cms.webservices;
 using winlink.util;
 
-namespace WinlinkWebServices
+namespace winlink
 {
     /// <summary>
     /// Common public Winlink API's
@@ -15,7 +15,8 @@ namespace WinlinkWebServices
         private static string _webServicesHost;
 
         /// <summary>
-        /// 
+        /// Configures necessary endpoint and access key. This method must be called
+        /// with valid config settings prior to using any other of the below methods.
         /// </summary>
         public static void SetConfiguration(WinlinkWebServiceConfiguration config)
         {
@@ -230,7 +231,8 @@ namespace WinlinkWebServices
         /// <param name="callsign">Account callsign (no SSID)</param>
         /// <param name="program">Program Name - must be a valid 'monitored' program name</param>
         /// <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
-        public static void AddProgramVersion(string callsign, string program, string version)
+        /// <param name="comments"></param>
+        public static void AddProgramVersion(string callsign, string program, string version, string comments)
         {
             var client = new JsonServiceClient(_webServicesHost);
             var request = new VersionAdd
@@ -238,7 +240,8 @@ namespace WinlinkWebServices
                 Key = _webServiceAccessKey,
                 Callsign = callsign,
                 Program = program,
-                Version = version
+                Version = version,
+                Comments = comments
             };
             var response = client.Send<VersionAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
@@ -252,7 +255,8 @@ namespace WinlinkWebServices
         /// <param name="callsign">Account callsign (no SSID)</param>
         /// <param name="program">Program Name - must be a valid 'monitored' program name</param>
         /// <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
-        public static async Task AddProgramVersionAsync(string callsign, string program, string version)
+        /// <param name="comments"></param>
+        public static async Task AddProgramVersionAsync(string callsign, string program, string version, string comments)
         {
             var client = new JsonServiceClient(_webServicesHost);
             var request = new VersionAdd
@@ -260,7 +264,8 @@ namespace WinlinkWebServices
                 Key = _webServiceAccessKey,
                 Callsign = callsign,
                 Program = program,
-                Version = version
+                Version = version,
+                Comments = comments
             };
             var response = await client.SendAsync<VersionAddResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
@@ -492,6 +497,116 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
+        /// Change account (or tactical address) password
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static void ChangePassword(string callsign, string oldPassword, string newPassword)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordChange()
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                OldPassword = oldPassword,
+                NewPassword = newPassword
+            };
+            var response = client.Send<AccountPasswordChangeResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Change account (or tactical address) password
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task ChangePasswordAsync(string callsign, string oldPassword, string newPassword)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordChange()
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                OldPassword = oldPassword,
+                NewPassword = newPassword
+            };
+            var response = await client.SendAsync<AccountPasswordChangeResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Deletes the watch for the specified callsign and program
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static void DeleteWatch(string callsign, string password, string program)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchDelete() { Key = _webServiceAccessKey, Callsign = callsign, Password = password, Program = program };
+            var response = client.Send<WatchDeleteResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Deletes the watch for the specified callsign and program
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task DeleteWatchAsync(string callsign, string password, string program)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchDelete() { Key = _webServiceAccessKey, Callsign = callsign, Password = password, Program = program };
+            var response = await client.SendAsync<WatchDeleteResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Returns a list of gateways status records for the specified operating mode
+        /// </summary>
+        /// <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
+        /// <param name="historyHours">Number of hours since the station last updated their channels</param>
+        /// <param name="serviceCodes">One or more service codes</param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static List<GatewayStatusRecord> GetGatewayStatusRecords(GatewayOperatingMode mode, int historyHours, string serviceCodes)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new GatewayStatus { Key = _webServiceAccessKey, Mode = mode, HistoryHours = historyHours, ServiceCodes = serviceCodes };
+            var response = client.Send<GatewayStatusResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Gateways;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Returns a list of gateways status records for the specified operating mode
+        /// </summary>
+        /// <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
+        /// <param name="historyHours">Number of hours since the station last updated their channels</param>
+        /// <param name="serviceCodes">One or more service codes</param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task<List<GatewayStatusRecord>> GetGatewayStatusRecordsAsync(GatewayOperatingMode mode, int historyHours, string serviceCodes)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new GatewayStatus { Key = _webServiceAccessKey, Mode = mode, HistoryHours = historyHours, ServiceCodes = serviceCodes };
+            var response = await client.SendAsync<GatewayStatusResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Gateways;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
         /// Return a list of all channel records for one or more modes
         /// </summary>
         /// <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
@@ -553,6 +668,86 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
+        /// Retrieves the watch record for the specified callsign and program
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static WatchRecord GetWatch(string callsign, string password, string program)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchGet { Key = _webServiceAccessKey, Callsign = callsign, Password = password, Program = program };
+            var response = client.Send<WatchGetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return new WatchRecord
+            {
+                AllowedTardyHours = response.AllowedTardyHours,
+                Callsign = response.Callsign,
+                Program = response.Program,
+                NotificationEmails = response.NotificationEmails,
+                Timestamp = response.Timestamp
+            };
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Retrieves the watch record for the specified callsign and program
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task<WatchRecord> GetWatchAsync(string callsign, string password, string program)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchGet { Key = _webServiceAccessKey, Callsign = callsign, Password = password, Program = program };
+            var response = await client.SendAsync<WatchGetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return new WatchRecord
+            {
+                AllowedTardyHours = response.AllowedTardyHours,
+                Callsign = response.Callsign,
+                Program = response.Program,
+                NotificationEmails = response.NotificationEmails,
+                Timestamp = response.Timestamp
+            };
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Returns a list of watch records for the specified callsign
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static List<WatchRecord> GetWatchList(string callsign, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchList { Key = _webServiceAccessKey, Callsign = callsign, Password = password };
+            var response = client.Send<WatchListResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.List;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Returns a list of watch records for the specified callsign
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task<List<WatchRecord>> GetWatchListAsync(string callsign, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchList { Key = _webServiceAccessKey, Callsign = callsign, Password = password };
+            var response = await client.SendAsync<WatchListResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.List;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
         /// Returns information regarding the the amateur radio license. It's
         /// primary use is to determine is the license is valid and to populate
         /// the local database with this information.
@@ -591,27 +786,31 @@ namespace WinlinkWebServices
         }
 
         /// <summary>
-        /// Requests that the account password be sent to the recovery email address on record
+        /// Updates status of the watched program
         /// </summary>
         /// <param name="callsign"></param>
-        public static void SendAccountPassword(string callsign)
+        /// <param name="program"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static void PingWatch(string callsign, string program)
         {
             var client = new JsonServiceClient(_webServicesHost);
-            var request = new AccountPasswordSend { Key = _webServiceAccessKey, Callsign = callsign };
-            var response = client.Send<AccountPasswordSendResponse>(request);
+            var request = new WatchPing { Key = _webServiceAccessKey, Callsign = callsign, Program = program };
+            var response = client.Send<WatchPingResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
         /// <summary>
-        /// Requests that the account password be sent to the recovery email address on record
+        /// Updates status of the watched program
         /// </summary>
         /// <param name="callsign"></param>
-        public static async Task SendAccountPasswordAsync(string callsign)
+        /// <param name="program"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task PingWatchAsync(string callsign, string program)
         {
             var client = new JsonServiceClient(_webServicesHost);
-            var request = new AccountPasswordSend { Key = _webServiceAccessKey, Callsign = callsign };
-            var response = await client.SendAsync<AccountPasswordSendResponse>(request);
+            var request = new WatchPing { Key = _webServiceAccessKey, Callsign = callsign, Program = program };
+            var response = await client.SendAsync<WatchPingResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
@@ -655,5 +854,174 @@ namespace WinlinkWebServices
             };
             return mappings;
         }
+
+        /// <summary>
+        /// Requests that the account password be sent to the recovery email address on record
+        /// </summary>
+        /// <param name="callsign"></param>
+        public static void SendPassword(string callsign)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordSend { Key = _webServiceAccessKey, Callsign = callsign };
+            var response = client.Send<AccountPasswordSendResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Requests that the account password be sent to the recovery email address on record
+        /// </summary>
+        /// <param name="callsign"></param>
+        public static async Task SendPasswordAsync(string callsign)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordSend { Key = _webServiceAccessKey, Callsign = callsign };
+            var response = await client.SendAsync<AccountPasswordSendResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds a recovery email address to the account. Used to send forgotten passwords.
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="recoveryEmail"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static void SetPasswordRecoveryEmail(string callsign, string password, string recoveryEmail)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordRecoveryEmailSet
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                RecoveryEmail = recoveryEmail
+            };
+            var response = client.Send<AccountPasswordRecoveryEmailSetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds a recovery email address to the account. Used to send forgotten passwords.
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="recoveryEmail"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task SetPasswordRecoveryEmailAsync(string callsign, string password, string recoveryEmail)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordRecoveryEmailSet
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                RecoveryEmail = recoveryEmail
+            };
+            var response = await client.SendAsync<AccountPasswordRecoveryEmailSetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Establish a watch for a program.
+        /// 
+        /// The CMS checks the status of each active watch once an hour. If the time of the last 
+        /// watch/ping from the application is older than AllowedTardyHours a notification message 
+        /// is sent to the email address(es) configured for the watch.If there are no email address
+        /// specified the notification is sent to the callsign account associated with the watch.
+        /// Notification messages are sent once a day for three days. The watch is disabled
+        /// (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <param name="tardyHours"></param>
+        /// <param name="emailAddresses"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static void SetWatch(string callsign, string password, string program, int tardyHours, string emailAddresses)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchSet
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                Program = program,
+                AllowedTardyHours = tardyHours,
+                NotificationEmails = emailAddresses
+            };
+            var response = client.Send<WatchSetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Establish a watch for a program.
+        /// 
+        /// The CMS checks the status of each active watch once an hour. If the time of the last 
+        /// watch/ping from the application is older than AllowedTardyHours a notification message 
+        /// is sent to the email address(es) configured for the watch.If there are no email address
+        /// specified the notification is sent to the callsign account associated with the watch.
+        /// Notification messages are sent once a day for three days. The watch is disabled
+        /// (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <param name="program"></param>
+        /// <param name="tardyHours"></param>
+        /// <param name="emailAddresses"></param>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task SetWatchAsync(string callsign, string password, string program, int tardyHours, string emailAddresses)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new WatchSet
+            {
+                Key = _webServiceAccessKey,
+                Callsign = callsign,
+                Password = password,
+                Program = program,
+                AllowedTardyHours = tardyHours,
+                NotificationEmails = emailAddresses
+            };
+            var response = await client.SendAsync<WatchSetResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Validate callsign (or tactical address) password
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static bool ValidatePassword(string account, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordValidate { Key = _webServiceAccessKey, Callsign = account, Password = password };
+            var response = client.Send<AccountPasswordValidateResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.IsValid;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Validate callsign (or tactical address) password
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        /// <exception cref="WebServiceException"></exception>
+        public static async Task<bool> ValidatePasswordAsync(string account, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountPasswordValidate { Key = _webServiceAccessKey, Callsign = account, Password = password };
+            var response = await client.SendAsync<AccountPasswordValidateResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.IsValid;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
     }
 }

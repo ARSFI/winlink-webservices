@@ -1,5 +1,5 @@
 /* Options:
-Date: 2020-07-21 20:35:08
+Date: 2020-09-10 14:41:36
 Version: 5.40
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
@@ -211,6 +211,38 @@ namespace winlink.cms.webservices
     }
 
     public partial class AccountPasswordChangeResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Sets the recovery email address.
+    ///</summary>
+    [Route("/account/password/recovery/email/set", "POST,GET")]
+    [Api(Description="Sets the recovery email address.")]
+    public partial class AccountPasswordRecoveryEmailSet
+        : WebServiceRequest, IReturn<AccountPasswordRecoveryEmailSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+
+        ///<summary>
+        ///Email address to use for password recovery
+        ///</summary>
+        [ApiMember(Description="Email address to use for password recovery", IsRequired=true, Name="RecoveryEmail")]
+        public virtual string RecoveryEmail { get; set; }
+    }
+
+    public partial class AccountPasswordRecoveryEmailSetResponse
         : WebServiceResponse
     {
     }
@@ -2531,9 +2563,9 @@ namespace winlink.cms.webservices
         : WebServiceRequest, IReturn<VersionAddResponse>
     {
         ///<summary>
-        ///Sysop callsign (no SSID)
+        ///Station callsign
         ///</summary>
-        [ApiMember(Description="Sysop callsign (no SSID)", IsRequired=true, Name="Callsign")]
+        [ApiMember(Description="Station callsign", IsRequired=true, Name="Callsign")]
         public virtual string Callsign { get; set; }
 
         ///<summary>

@@ -1,12 +1,13 @@
-﻿namespace WinlinkWebServices
+﻿namespace winlink
 {
     /// <summary>
-    /// Configuration settings 
+    /// Configuration settings - populate an instance of this class and pass it to the
+    /// WinlinkWebServices.SetConfiguration() method prior to making any API requests.
     /// </summary>
     public class WinlinkWebServiceConfiguration
     {
         /// <summary>
-        /// The winlink web service host (URI)
+        /// The winlink web service host
         /// </summary>
         public string WebServicesHost { get; set; } = "https://api.winlink.org";
 

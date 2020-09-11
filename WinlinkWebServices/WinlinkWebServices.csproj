@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>winlink</RootNamespace>
+    <UserSecretsId>1fc05159-91ea-437a-8277-65a8269d8f06</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -9,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ServiceStack.Client" Version="5.7.0" />
-    <PackageReference Include="ServiceStack.Interfaces" Version="5.7.0" />
-    <PackageReference Include="ServiceStack.Text" Version="5.7.0" />
+    <PackageReference Include="ServiceStack.Client" Version="5.9.2" />
+    <PackageReference Include="ServiceStack.Interfaces" Version="5.9.2" />
+    <PackageReference Include="ServiceStack.Text" Version="5.9.2" />
   </ItemGroup>
 
 </Project>

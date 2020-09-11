@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Soultion Items", "Soultion 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinlinkWebServices.Test", "WinlinkWebServices.Test\WinlinkWebServices.Test.csproj", "{480F1A35-87E0-4B3E-8553-A49973576978}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinlinkWebServices.Test", "WinlinkWebServices.Test\WinlinkWebServices.Test.csproj", "{A6B7701C-A8BD-490A-90C8-5B4751FC3DDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{B851296A-6041-496C-A65B-D9E19E968D04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B851296A-6041-496C-A65B-D9E19E968D04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B851296A-6041-496C-A65B-D9E19E968D04}.Release|Any CPU.Build.0 = Release|Any CPU
-		{480F1A35-87E0-4B3E-8553-A49973576978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{480F1A35-87E0-4B3E-8553-A49973576978}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{480F1A35-87E0-4B3E-8553-A49973576978}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{480F1A35-87E0-4B3E-8553-A49973576978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B7701C-A8BD-490A-90C8-5B4751FC3DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B7701C-A8BD-490A-90C8-5B4751FC3DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B7701C-A8BD-490A-90C8-5B4751FC3DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B7701C-A8BD-490A-90C8-5B4751FC3DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
