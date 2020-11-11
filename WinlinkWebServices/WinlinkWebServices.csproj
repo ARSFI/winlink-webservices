@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Winlink Projects\OpenSource\winlink-webservices\WinlinkWebServices\WinlinkWebServices.xml</DocumentationFile>
+    <DocumentationFile>WinlinkWebServices.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
