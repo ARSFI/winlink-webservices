@@ -115,13 +115,13 @@ namespace WinlinkWebServices.Test
         [TestMethod]
         public void AddSessionRecordTest()
         {
-            winlink.WinlinkWebServices.AddSessionRecord("BPQ32", "6.0.20.1", "K2WVC", "DN30XQ", "K2WVC-1", "", "[BPQ-6.0.20.1-B2FIHJM$]", "PKT12", 0, "", 1, 0, 499, 0, 2, "00006A97187");
+            winlink.WinlinkWebServices.AddSessionRecord("BPQ32", "6.0.20.1", "K2WVC", "DN30XQ", "K2WVC-1", "DN30XQ", "[BPQ-6.0.20.1-B2FIHJM$]", "PKT12", 0, "", 1, 0, 499, 0, 2, "00006A97187");
         }
 
         [TestMethod]
         public async Task AddSessionRecordAsyncTest()
         {
-            await winlink.WinlinkWebServices.AddSessionRecordAsync("BPQ32", "6.0.20.1", "K2WVC", "DN30XQ", "K2WVC-1", "", "[BPQ-6.0.20.1-B2FIHJM$]", "PKT12", 0, "", 1, 0, 499, 0, 2, "00006A97187");
+            await winlink.WinlinkWebServices.AddSessionRecordAsync("BPQ32", "6.0.20.1", "K2WVC", "DN30XQ", "K2WVC-1", "DN30XQ", "[BPQ-6.0.20.1-B2FIHJM$]", "PKT12", 0, "", 1, 0, 499, 0, 2, "00006A97187");
         }
 
         [TestMethod]

@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ServiceStack.Client" Version="5.9.2" />
-    <PackageReference Include="ServiceStack.Interfaces" Version="5.9.2" />
-    <PackageReference Include="ServiceStack.Text" Version="5.9.2" />
+    <PackageReference Include="ServiceStack.Client" Version="6.0.2" />
+    <PackageReference Include="ServiceStack.Interfaces" Version="6.0.2" />
+    <PackageReference Include="ServiceStack.Text" Version="6.0.2" />
   </ItemGroup>
 
 </Project>
