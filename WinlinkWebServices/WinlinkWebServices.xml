@@ -30,7 +30,7 @@
             <summary>
             Configures necessary endpoint and access key. This method must be called
             with valid config settings prior to using any other of the below methods.
-            The access key will determine which of the below services are enabled.
+            Your access key will determine which of the below services are enabled.
             </summary>
         </member>
         <member name="M:winlink.WinlinkWebServices.AccountExists(System.String)">
