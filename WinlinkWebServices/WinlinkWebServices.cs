@@ -7,7 +7,7 @@ using winlink.util;
 namespace winlink
 {
     /// <summary>
-    /// Common public Winlink API's
+    /// Common public Winlink APIs
     /// </summary>
     public static class WinlinkWebServices
     {
@@ -17,6 +17,7 @@ namespace winlink
         /// <summary>
         /// Configures necessary endpoint and access key. This method must be called
         /// with valid config settings prior to using any other of the below methods.
+        /// The access key will determine which of the below services are enabled.
         /// </summary>
         public static void SetConfiguration(WinlinkWebServiceConfiguration config)
         {
