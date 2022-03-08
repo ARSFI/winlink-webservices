@@ -57,6 +57,20 @@ namespace WinlinkWebServices.Test
         }
 
         [TestMethod]
+        public void CreateAccountTest()
+        {
+            var response = winlink.WinlinkWebServices.CreateAccount(_testCallsign, _testPassword);
+            Console.WriteLine(response.Dump());
+        }
+
+        [TestMethod]
+        public async Task CreateAccountAsyncTest()
+        {
+            var response = await winlink.WinlinkWebServices.CreateAccountAsync(_testCallsign, _testPassword);
+            Console.WriteLine(response.Dump());
+        }
+        
+        [TestMethod]
         public void AccountTacticalExistsTest()
         {
             var response = winlink.WinlinkWebServices.AccountTacticalExists(_testTactical);
@@ -67,6 +81,20 @@ namespace WinlinkWebServices.Test
         public async Task AccountTacticalExistsAsyncTest()
         {
             var response = await winlink.WinlinkWebServices.AccountTacticalExistsAsync(_testTactical);
+            Console.WriteLine(response.Dump());
+        }
+
+        [TestMethod]
+        public void CreateTacticalAccountTest()
+        {
+            var response = winlink.WinlinkWebServices.CreateTacticalAccount(_testTactical, _testPassword);
+            Console.WriteLine(response.Dump());
+        }
+
+        [TestMethod]
+        public async Task CreateTacticalAccountAsyncTest()
+        {
+            var response = await winlink.WinlinkWebServices.CreateTacticalAccountAsync(_testTactical, _testPassword);
             Console.WriteLine(response.Dump());
         }
 

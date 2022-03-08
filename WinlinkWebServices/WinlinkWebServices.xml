@@ -4,6 +4,536 @@
         <name>WinlinkWebServices</name>
     </assembly>
     <members>
+        <member name="T:winlink.WinlinkWebServiceConfiguration">
+            <summary>
+            Configuration settings - populate an instance of this class and pass it to the
+            WinlinkWebServices.SetConfiguration() method prior to making any API requests.
+            </summary>
+        </member>
+        <member name="P:winlink.WinlinkWebServiceConfiguration.WebServicesHost">
+            <summary>
+            The winlink web service host
+            </summary>
+        </member>
+        <member name="P:winlink.WinlinkWebServiceConfiguration.WebServiceAccessKey">
+            <summary>
+            The web service access key grants access to one or more API's. A winlink administrator will
+            create the access key and determine which API are appropriate to assign to your project.
+            </summary>
+        </member>
+        <member name="T:winlink.WinlinkWebServices">
+            <summary>
+            Common public Winlink APIs
+            </summary>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SetConfiguration(winlink.WinlinkWebServiceConfiguration)">
+            <summary>
+            Configures necessary endpoint and access key. This method must be called
+            with valid config settings prior to using any other of the below methods.
+            The access key will determine which of the below services are enabled.
+            </summary>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AccountExists(System.String)">
+            <summary>
+            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
+            </summary>
+            <param name="callsign"></param>
+            <returns>True if callsign account exists</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AccountExistsAsync(System.String)">
+            <summary>
+            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
+            </summary>
+            <param name="callsign"></param>
+            <returns>True if callsign account exists</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.CreateAccount(System.String,System.String)">
+            <summary>
+            Adds a new winlink account 
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.CreateAccountAsync(System.String,System.String)">
+            <summary>
+            Adds a new winlink account 
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AccountTacticalExists(System.String)">
+            <summary>
+            Checks to see if the tactical address exists/>
+            </summary>
+            <param name="tacticalAddress"></param>
+            <returns>True if account exists</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AccountTacticalExistsAsync(System.String)">
+            <summary>
+            Checks to see if the tactical address exists/>
+            </summary>
+            <param name="tacticalAddress"></param>
+            <returns>True if account exists</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.CreateTacticalAccount(System.String,System.String)">
+            <summary>
+            Adds a new tactical account
+            </summary>
+            <param name="tacticalAddress"></param>
+            <param name="password">Password can be blank</param>
+            <returns>True if account was added</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.CreateTacticalAccountAsync(System.String,System.String)">
+            <summary>
+            Adds a new tactical account
+            </summary>
+            <param name="tacticalAddress"></param>
+            <param name="password">Password can be blank</param>
+            <returns>True if account was added</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddGatewayChannel(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds/Updates a single gateway channel record. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="frequency">Center frequency in hertz</param>
+            <param name="mode">Mode of operation</param>
+            <param name="baud">Baud rate - primarily for packet (optional)</param>
+            <param name="power">Transmit power in watts (optional)</param>
+            <param name="height">Height of antenna above average terrain (optional)</param>
+            <param name="gain">Antenna gain in db (optional)</param>
+            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddGatewayChannelAsync(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds/Updates a single gateway channel record. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="frequency">Center frequency in hertz</param>
+            <param name="mode">Mode of operation</param>
+            <param name="baud">Baud rate - primarily for packet (optional)</param>
+            <param name="power">Transmit power in watts (optional)</param>
+            <param name="height">Height of antenna above average terrain (optional)</param>
+            <param name="gain">Antenna gain in db (optional)</param>
+            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddMultipleGatewayChannels(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
+            <summary>
+            Adds/Updates multiple gateway channel records. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="partialChannelRecords"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddMultipleGatewayChannelsAsync(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
+            <summary>
+            Adds/Updates multiple gateway channel records. Channel records should be re-added 
+            every two hours or so to avoid having them removed from listings and maps.
+            This is the mechanism that the CMS uses to determine if a gateway is on-line.
+            </summary>
+            <param name="callsign">Callsign with optional SSID</param>
+            <param name="baseCallsign">Account callsign</param>
+            <param name="gridSquare">Six character maidenhead grid locator</param>
+            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
+            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
+            <param name="partialChannelRecords"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddProgramVersion(System.String,System.String,System.String,System.String)">
+            <summary>
+            Add/update a program version record. Version records should be sent at application startup and
+            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+            </summary>
+            <param name="callsign">Account callsign (no SSID)</param>
+            <param name="program">Program Name - must be a valid 'monitored' program name</param>
+            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddProgramVersionAsync(System.String,System.String,System.String,System.String)">
+            <summary>
+            Add/update a program version record. Version records should be sent at application startup and
+            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
+            </summary>
+            <param name="callsign">Account callsign (no SSID)</param>
+            <param name="program">Program Name - must be a valid 'monitored' program name</param>
+            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddSysop(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Adds or updates a sysop record
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="gridSquare"></param>
+            <param name="sysopName"></param>
+            <param name="streetAddress1"></param>
+            <param name="streetAddress2"></param>
+            <param name="city"></param>
+            <param name="state"></param>
+            <param name="country"></param>
+            <param name="postalCode"></param>
+            <param name="email"></param>
+            <param name="phones"></param>
+            <param name="website"></param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddSysopAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Adds or updates a sysop record
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="gridSquare"></param>
+            <param name="sysopName"></param>
+            <param name="streetAddress1"></param>
+            <param name="streetAddress2"></param>
+            <param name="city"></param>
+            <param name="state"></param>
+            <param name="country"></param>
+            <param name="postalCode"></param>
+            <param name="email"></param>
+            <param name="phones"></param>
+            <param name="website"></param>
+            <param name="comments"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddSessionRecord(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds a radio session record to the CMS database
+            </summary>
+            <param name="application">Program name</param>
+            <param name="version">Program version</param>
+            <param name="server">Server callsign</param>
+            <param name="serverGrid">Server maidenhead grid locator</param>
+            <param name="client">Client callsign</param>
+            <param name="clientGrid">Client maidenhead grid locator</param>
+            <param name="sid">Session identifier</param>
+            <param name="mode">The mode of the connection</param>
+            <param name="frequency">Frequency in Hertz</param>
+            <param name="lastCommand">Last protocol command</param>
+            <param name="messagesSent">Number of messages sent during this session</param>
+            <param name="messagesReceived">Number of messages received during this session</param>
+            <param name="bytesSent">Number of bytes sent during this session</param>
+            <param name="bytesReceived">Number of bytes received during this session</param>
+            <param name="holdingSeconds">Duration of the session</param>
+            <param name="idTag">User defined value - 12 characters max</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddSessionRecordAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>
+            Adds a radio session record to the CMS database
+            </summary>
+            <param name="application">Program name</param>
+            <param name="version">Program version</param>
+            <param name="server">Server callsign</param>
+            <param name="serverGrid">Server maidenhead grid locator</param>
+            <param name="client">Client callsign</param>
+            <param name="clientGrid">Client maidenhead grid locator</param>
+            <param name="sid">Session identifier</param>
+            <param name="mode">The mode of the connection</param>
+            <param name="frequency">Frequency in Hertz</param>
+            <param name="lastCommand">Last protocol command</param>
+            <param name="messagesSent">Number of messages sent during this session</param>
+            <param name="messagesReceived">Number of messages received during this session</param>
+            <param name="bytesSent">Number of bytes sent during this session</param>
+            <param name="bytesReceived">Number of bytes received during this session</param>
+            <param name="holdingSeconds">Duration of the session</param>
+            <param name="idTag">User defined value - 12 characters max</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddTacticalAddress(System.String,System.String)">
+            <summary>
+            Creates and adds the specified tactical address using the supplied password (optional)
+            </summary>
+            <param name="tacticalAddress">Name of the tactical address</param>
+            <param name="password">Optional password</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.AddTacticalAddressAsync(System.String,System.String)">
+            <summary>
+            Creates and adds the specified tactical address using the supplied password (optional)
+            </summary>
+            <param name="tacticalAddress">Name of the tactical address</param>
+            <param name="password">Optional password</param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.ChangePassword(System.String,System.String,System.String)">
+            <summary>
+            Change account (or tactical address) password
+            </summary>
+            <param name="callsign"></param>
+            <param name="oldPassword"></param>
+            <param name="newPassword"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.ChangePasswordAsync(System.String,System.String,System.String)">
+            <summary>
+            Change account (or tactical address) password
+            </summary>
+            <param name="callsign"></param>
+            <param name="oldPassword"></param>
+            <param name="newPassword"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.DeleteWatch(System.String,System.String,System.String)">
+            <summary>
+            Deletes the watch for the specified callsign and program
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.DeleteWatchAsync(System.String,System.String,System.String)">
+            <summary>
+            Deletes the watch for the specified callsign and program
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetGatewayStatusRecords(winlink.cms.webservices.GatewayOperatingMode,System.Int32,System.String)">
+            <summary>
+            Returns a list of gateways status records for the specified operating mode
+            </summary>
+            <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetGatewayStatusRecordsAsync(winlink.cms.webservices.GatewayOperatingMode,System.Int32,System.String)">
+            <summary>
+            Returns a list of gateways status records for the specified operating mode
+            </summary>
+            <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetChannelListing(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
+            <summary>
+            Return a list of all channel records for one or more modes
+            </summary>
+            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns>Returns a list of channel records for the modes specified</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetChannelListingAsync(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
+            <summary>
+            Return a list of all channel records for one or more modes
+            </summary>
+            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
+            <param name="historyHours">Number of hours since the station last updated their channels</param>
+            <param name="serviceCodes">One or more service codes</param>
+            <returns>Returns a list of channel records for the modes specified</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetChannelRecords(System.String)">
+            <summary>
+            Get a list of channel records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <returns>Returns a list of channel records for this callsign</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetChannelRecordsAsync(System.String)">
+            <summary>
+            Get a list of channel records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <returns>Returns a list of channel records for this callsign</returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetWatch(System.String,System.String,System.String)">
+            <summary>
+            Retrieves the watch record for the specified callsign and program
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetWatchAsync(System.String,System.String,System.String)">
+            <summary>
+            Retrieves the watch record for the specified callsign and program
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetWatchList(System.String,System.String)">
+            <summary>
+            Returns a list of watch records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.GetWatchListAsync(System.String,System.String)">
+            <summary>
+            Returns a list of watch records for the specified callsign
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.LookupLicense(System.String)">
+            <summary>
+            Returns information regarding the the amateur radio license. It's
+            primary use is to determine is the license is valid and to populate
+            the local database with this information.
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.LookupLicenseAsync(System.String)">
+            <summary>
+            Returns information regarding the the amateur radio license. It's
+            primary use is to determine is the license is valid and to populate
+            the local database with this information.
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.PingWatch(System.String,System.String)">
+            <summary>
+            Updates status of the watched program
+            </summary>
+            <param name="callsign"></param>
+            <param name="program"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.PingWatchAsync(System.String,System.String)">
+            <summary>
+            Updates status of the watched program
+            </summary>
+            <param name="callsign"></param>
+            <param name="program"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.ProtocolModeMappings">
+            <summary>
+            Handy reference to mapping of integer mode to protocol name
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SendPassword(System.String)">
+            <summary>
+            Requests that the account password be sent to the recovery email address on record
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SendPasswordAsync(System.String)">
+            <summary>
+            Requests that the account password be sent to the recovery email address on record
+            </summary>
+            <param name="callsign"></param>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SetPasswordRecoveryEmail(System.String,System.String,System.String)">
+            <summary>
+            Adds a recovery email address to the account. Used to send forgotten passwords.
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="recoveryEmail"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SetPasswordRecoveryEmailAsync(System.String,System.String,System.String)">
+            <summary>
+            Adds a recovery email address to the account. Used to send forgotten passwords.
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="recoveryEmail"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SetWatch(System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Establish a watch for a program.
+            
+            The CMS checks the status of each active watch once an hour. If the time of the last 
+            watch/ping from the application is older than AllowedTardyHours a notification message 
+            is sent to the email address(es) configured for the watch.If there are no email address
+            specified the notification is sent to the callsign account associated with the watch.
+            Notification messages are sent once a day for three days. The watch is disabled
+            (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <param name="tardyHours"></param>
+            <param name="emailAddresses"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.SetWatchAsync(System.String,System.String,System.String,System.Int32,System.String)">
+            <summary>
+            Establish a watch for a program.
+            
+            The CMS checks the status of each active watch once an hour. If the time of the last 
+            watch/ping from the application is older than AllowedTardyHours a notification message 
+            is sent to the email address(es) configured for the watch.If there are no email address
+            specified the notification is sent to the callsign account associated with the watch.
+            Notification messages are sent once a day for three days. The watch is disabled
+            (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
+            </summary>
+            <param name="callsign"></param>
+            <param name="password"></param>
+            <param name="program"></param>
+            <param name="tardyHours"></param>
+            <param name="emailAddresses"></param>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.ValidatePassword(System.String,System.String)">
+            <summary>
+            Validate callsign (or tactical address) password
+            </summary>
+            <param name="account"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="M:winlink.WinlinkWebServices.ValidatePasswordAsync(System.String,System.String)">
+            <summary>
+            Validate callsign (or tactical address) password
+            </summary>
+            <param name="account"></param>
+            <param name="password"></param>
+            <returns></returns>
+            <exception cref="T:ServiceStack.WebServiceException"></exception>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountAdd">
+            <summary>
+            Adds a new callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountAdd.Callsign">
+            <summary>
+            Account callsign or tactical address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountAdd.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.AccountAlternateEmailGet">
             <summary>
             Gets the alternate email associated with this callsign.
@@ -604,6 +1134,16 @@
             Sends a message. If successfully posted the message ID is returned with the response.
             </summary>
         </member>
+        <member name="P:winlink.cms.webservices.MessageSend.Callsign">
+            <summary>
+            Callsign of message sender
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageSend.Password">
+            <summary>
+            Password for callsign account
+            </summary>
+        </member>
         <member name="P:winlink.cms.webservices.MessageSend.MessageId">
             <summary>
             The ID of the message. One will be created if not provided
@@ -856,7 +1396,7 @@
         </member>
         <member name="P:winlink.cms.webservices.SessionAdd.Server">
             <summary>
-            Callsign of server (gateway)
+            Callsign of server (SSID optional)
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.SessionAdd.ServerGrid">
@@ -866,7 +1406,7 @@
         </member>
         <member name="P:winlink.cms.webservices.SessionAdd.Client">
             <summary>
-            Callsign of client
+            Callsign of client (SSID optional)
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.SessionAdd.ClientGrid">
@@ -1171,7 +1711,7 @@
         </member>
         <member name="P:winlink.cms.webservices.WatchSet.Callsign">
             <summary>
-            Callsign
+            Account callsign
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.WatchSet.Password">
@@ -1213,488 +1753,6 @@
             <summary>
             Web service access key -- allows use of Winlink web services
             </summary>
-        </member>
-        <member name="T:winlink.WinlinkWebServiceConfiguration">
-            <summary>
-            Configuration settings - populate an instance of this class and pass it to the
-            WinlinkWebServices.SetConfiguration() method prior to making any API requests.
-            </summary>
-        </member>
-        <member name="P:winlink.WinlinkWebServiceConfiguration.WebServicesHost">
-            <summary>
-            The winlink web service host
-            </summary>
-        </member>
-        <member name="P:winlink.WinlinkWebServiceConfiguration.WebServiceAccessKey">
-            <summary>
-            The web service access key grants access to one or more API's. A winlink administrator will
-            create the access key and determine which API are appropriate to assign to your project.
-            </summary>
-        </member>
-        <member name="T:winlink.WinlinkWebServices">
-            <summary>
-            Common public Winlink API's
-            </summary>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SetConfiguration(winlink.WinlinkWebServiceConfiguration)">
-            <summary>
-            Configures necessary endpoint and access key. This method must be called
-            with valid config settings prior to using any other of the below methods.
-            </summary>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AccountExists(System.String)">
-            <summary>
-            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
-            </summary>
-            <param name="callsign"></param>
-            <returns>True if callsign account exists</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AccountExistsAsync(System.String)">
-            <summary>
-            Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>
-            </summary>
-            <param name="callsign"></param>
-            <returns>True if callsign account exists</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AccountTacticalExists(System.String)">
-            <summary>
-            Checks to see if the tactical address exists/>
-            </summary>
-            <param name="tacticalAddress"></param>
-            <returns>True if account exists</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AccountTacticalExistsAsync(System.String)">
-            <summary>
-            Checks to see if the tactical address exists/>
-            </summary>
-            <param name="tacticalAddress"></param>
-            <returns>True if account exists</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddGatewayChannel(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
-            <summary>
-            Adds/Updates a single gateway channel record. Channel records should be re-added 
-            every two hours or so to avoid having them removed from listings and maps.
-            This is the mechanism that the CMS uses to determine if a gateway is on-line.
-            </summary>
-            <param name="callsign">Callsign with optional SSID</param>
-            <param name="baseCallsign">Account callsign</param>
-            <param name="gridSquare">Six character maidenhead grid locator</param>
-            <param name="frequency">Center frequency in hertz</param>
-            <param name="mode">Mode of operation</param>
-            <param name="baud">Baud rate - primarily for packet (optional)</param>
-            <param name="power">Transmit power in watts (optional)</param>
-            <param name="height">Height of antenna above average terrain (optional)</param>
-            <param name="gain">Antenna gain in db (optional)</param>
-            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
-            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
-            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddGatewayChannelAsync(System.String,System.String,System.String,System.Int32,winlink.cms.webservices.ModeMappings,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.String)">
-            <summary>
-            Adds/Updates a single gateway channel record. Channel records should be re-added 
-            every two hours or so to avoid having them removed from listings and maps.
-            This is the mechanism that the CMS uses to determine if a gateway is on-line.
-            </summary>
-            <param name="callsign">Callsign with optional SSID</param>
-            <param name="baseCallsign">Account callsign</param>
-            <param name="gridSquare">Six character maidenhead grid locator</param>
-            <param name="frequency">Center frequency in hertz</param>
-            <param name="mode">Mode of operation</param>
-            <param name="baud">Baud rate - primarily for packet (optional)</param>
-            <param name="power">Transmit power in watts (optional)</param>
-            <param name="height">Height of antenna above average terrain (optional)</param>
-            <param name="gain">Antenna gain in db (optional)</param>
-            <param name="direction">Antenna direction - 0 for omni, 360 for North (optional)</param>
-            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
-            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddMultipleGatewayChannels(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
-            <summary>
-            Adds/Updates multiple gateway channel records. Channel records should be re-added 
-            every two hours or so to avoid having them removed from listings and maps.
-            This is the mechanism that the CMS uses to determine if a gateway is on-line.
-            </summary>
-            <param name="callsign">Callsign with optional SSID</param>
-            <param name="baseCallsign">Account callsign</param>
-            <param name="gridSquare">Six character maidenhead grid locator</param>
-            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
-            <param name="partialChannelRecords"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddMultipleGatewayChannelsAsync(System.String,System.String,System.String,System.String,System.String,System.Collections.Generic.List{winlink.cms.webservices.PartialChannelRecord})">
-            <summary>
-            Adds/Updates multiple gateway channel records. Channel records should be re-added 
-            every two hours or so to avoid having them removed from listings and maps.
-            This is the mechanism that the CMS uses to determine if a gateway is on-line.
-            </summary>
-            <param name="callsign">Callsign with optional SSID</param>
-            <param name="baseCallsign">Account callsign</param>
-            <param name="gridSquare">Six character maidenhead grid locator</param>
-            <param name="serviceCode">Single service code - default is PUBLIC (optional)</param>
-            <param name="operatingHours">Hours of operation, eg. 00-23 (optional)</param>
-            <param name="partialChannelRecords"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddProgramVersion(System.String,System.String,System.String,System.String)">
-            <summary>
-            Add/update a program version record. Version records should be sent at application startup and
-            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
-            </summary>
-            <param name="callsign">Account callsign (no SSID)</param>
-            <param name="program">Program Name - must be a valid 'monitored' program name</param>
-            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
-            <param name="comments"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddProgramVersionAsync(System.String,System.String,System.String,System.String)">
-            <summary>
-            Add/update a program version record. Version records should be sent at application startup and
-            then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
-            </summary>
-            <param name="callsign">Account callsign (no SSID)</param>
-            <param name="program">Program Name - must be a valid 'monitored' program name</param>
-            <param name="version">Dotted version of the program (e.g., 1.2.3)</param>
-            <param name="comments"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddSysop(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            Adds or updates a sysop record
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="gridSquare"></param>
-            <param name="sysopName"></param>
-            <param name="streetAddress1"></param>
-            <param name="streetAddress2"></param>
-            <param name="city"></param>
-            <param name="state"></param>
-            <param name="country"></param>
-            <param name="postalCode"></param>
-            <param name="email"></param>
-            <param name="phones"></param>
-            <param name="website"></param>
-            <param name="comments"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddSysopAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            Adds or updates a sysop record
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="gridSquare"></param>
-            <param name="sysopName"></param>
-            <param name="streetAddress1"></param>
-            <param name="streetAddress2"></param>
-            <param name="city"></param>
-            <param name="state"></param>
-            <param name="country"></param>
-            <param name="postalCode"></param>
-            <param name="email"></param>
-            <param name="phones"></param>
-            <param name="website"></param>
-            <param name="comments"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddSessionRecord(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            Adds a radio session record to the CMS database
-            </summary>
-            <param name="application">Program name</param>
-            <param name="version">Program version</param>
-            <param name="server">Server callsign</param>
-            <param name="serverGrid">Server maidenhead grid locator</param>
-            <param name="client">Client callsign</param>
-            <param name="clientGrid">Client maidenhead grid locator</param>
-            <param name="sid">Session identifier</param>
-            <param name="mode">The mode of the connection</param>
-            <param name="frequency">Frequency in Hertz</param>
-            <param name="lastCommand">Last protocol command</param>
-            <param name="messagesSent">Number of messages sent during this session</param>
-            <param name="messagesReceived">Number of messages received during this session</param>
-            <param name="bytesSent">Number of bytes sent during this session</param>
-            <param name="bytesReceived">Number of bytes received during this session</param>
-            <param name="holdingSeconds">Duration of the session</param>
-            <param name="idTag">User defined value - 12 characters max</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddSessionRecordAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.String)">
-            <summary>
-            Adds a radio session record to the CMS database
-            </summary>
-            <param name="application">Program name</param>
-            <param name="version">Program version</param>
-            <param name="server">Server callsign</param>
-            <param name="serverGrid">Server maidenhead grid locator</param>
-            <param name="client">Client callsign</param>
-            <param name="clientGrid">Client maidenhead grid locator</param>
-            <param name="sid">Session identifier</param>
-            <param name="mode">The mode of the connection</param>
-            <param name="frequency">Frequency in Hertz</param>
-            <param name="lastCommand">Last protocol command</param>
-            <param name="messagesSent">Number of messages sent during this session</param>
-            <param name="messagesReceived">Number of messages received during this session</param>
-            <param name="bytesSent">Number of bytes sent during this session</param>
-            <param name="bytesReceived">Number of bytes received during this session</param>
-            <param name="holdingSeconds">Duration of the session</param>
-            <param name="idTag">User defined value - 12 characters max</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddTacticalAddress(System.String,System.String)">
-            <summary>
-            Creates and adds the specified tactical address using the supplied password (optional)
-            </summary>
-            <param name="tacticalAddress">Name of the tactical address</param>
-            <param name="password">Optional password</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.AddTacticalAddressAsync(System.String,System.String)">
-            <summary>
-            Creates and adds the specified tactical address using the supplied password (optional)
-            </summary>
-            <param name="tacticalAddress">Name of the tactical address</param>
-            <param name="password">Optional password</param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.ChangePassword(System.String,System.String,System.String)">
-            <summary>
-            Change account (or tactical address) password
-            </summary>
-            <param name="callsign"></param>
-            <param name="oldPassword"></param>
-            <param name="newPassword"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.ChangePasswordAsync(System.String,System.String,System.String)">
-            <summary>
-            Change account (or tactical address) password
-            </summary>
-            <param name="callsign"></param>
-            <param name="oldPassword"></param>
-            <param name="newPassword"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.DeleteWatch(System.String,System.String,System.String)">
-            <summary>
-            Deletes the watch for the specified callsign and program
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.DeleteWatchAsync(System.String,System.String,System.String)">
-            <summary>
-            Deletes the watch for the specified callsign and program
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetGatewayStatusRecords(winlink.cms.webservices.GatewayOperatingMode,System.Int32,System.String)">
-            <summary>
-            Returns a list of gateways status records for the specified operating mode
-            </summary>
-            <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
-            <param name="historyHours">Number of hours since the station last updated their channels</param>
-            <param name="serviceCodes">One or more service codes</param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetGatewayStatusRecordsAsync(winlink.cms.webservices.GatewayOperatingMode,System.Int32,System.String)">
-            <summary>
-            Returns a list of gateways status records for the specified operating mode
-            </summary>
-            <param name="mode">Mode (pactor, packet, vara, anyall, etc.)</param>
-            <param name="historyHours">Number of hours since the station last updated their channels</param>
-            <param name="serviceCodes">One or more service codes</param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetChannelListing(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
-            <summary>
-            Return a list of all channel records for one or more modes
-            </summary>
-            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
-            <param name="historyHours">Number of hours since the station last updated their channels</param>
-            <param name="serviceCodes">One or more service codes</param>
-            <returns>Returns a list of channel records for the modes specified</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetChannelListingAsync(System.Collections.Generic.List{System.Int32},System.Int32,System.String)">
-            <summary>
-            Return a list of all channel records for one or more modes
-            </summary>
-            <param name="modes">One or more integers representing the mode (pactor, packet, vara, etc.) of the channel</param>
-            <param name="historyHours">Number of hours since the station last updated their channels</param>
-            <param name="serviceCodes">One or more service codes</param>
-            <returns>Returns a list of channel records for the modes specified</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetChannelRecords(System.String)">
-            <summary>
-            Get a list of channel records for the specified callsign
-            </summary>
-            <param name="callsign"></param>
-            <returns>Returns a list of channel records for this callsign</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetChannelRecordsAsync(System.String)">
-            <summary>
-            Get a list of channel records for the specified callsign
-            </summary>
-            <param name="callsign"></param>
-            <returns>Returns a list of channel records for this callsign</returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetWatch(System.String,System.String,System.String)">
-            <summary>
-            Retrieves the watch record for the specified callsign and program
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetWatchAsync(System.String,System.String,System.String)">
-            <summary>
-            Retrieves the watch record for the specified callsign and program
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetWatchList(System.String,System.String)">
-            <summary>
-            Returns a list of watch records for the specified callsign
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.GetWatchListAsync(System.String,System.String)">
-            <summary>
-            Returns a list of watch records for the specified callsign
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.LookupLicense(System.String)">
-            <summary>
-            Returns information regarding the the amateur radio license. It's
-            primary use is to determine is the license is valid and to populate
-            the local database with this information.
-            </summary>
-            <param name="callsign"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.LookupLicenseAsync(System.String)">
-            <summary>
-            Returns information regarding the the amateur radio license. It's
-            primary use is to determine is the license is valid and to populate
-            the local database with this information.
-            </summary>
-            <param name="callsign"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.PingWatch(System.String,System.String)">
-            <summary>
-            Updates status of the watched program
-            </summary>
-            <param name="callsign"></param>
-            <param name="program"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.PingWatchAsync(System.String,System.String)">
-            <summary>
-            Updates status of the watched program
-            </summary>
-            <param name="callsign"></param>
-            <param name="program"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.ProtocolModeMappings">
-            <summary>
-            Handy reference to mapping of integer mode to protocol name
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SendPassword(System.String)">
-            <summary>
-            Requests that the account password be sent to the recovery email address on record
-            </summary>
-            <param name="callsign"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SendPasswordAsync(System.String)">
-            <summary>
-            Requests that the account password be sent to the recovery email address on record
-            </summary>
-            <param name="callsign"></param>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SetPasswordRecoveryEmail(System.String,System.String,System.String)">
-            <summary>
-            Adds a recovery email address to the account. Used to send forgotten passwords.
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="recoveryEmail"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SetPasswordRecoveryEmailAsync(System.String,System.String,System.String)">
-            <summary>
-            Adds a recovery email address to the account. Used to send forgotten passwords.
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="recoveryEmail"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SetWatch(System.String,System.String,System.String,System.Int32,System.String)">
-            <summary>
-            Establish a watch for a program.
-            
-            The CMS checks the status of each active watch once an hour. If the time of the last 
-            watch/ping from the application is older than AllowedTardyHours a notification message 
-            is sent to the email address(es) configured for the watch.If there are no email address
-            specified the notification is sent to the callsign account associated with the watch.
-            Notification messages are sent once a day for three days. The watch is disabled
-            (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <param name="tardyHours"></param>
-            <param name="emailAddresses"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.SetWatchAsync(System.String,System.String,System.String,System.Int32,System.String)">
-            <summary>
-            Establish a watch for a program.
-            
-            The CMS checks the status of each active watch once an hour. If the time of the last 
-            watch/ping from the application is older than AllowedTardyHours a notification message 
-            is sent to the email address(es) configured for the watch.If there are no email address
-            specified the notification is sent to the callsign account associated with the watch.
-            Notification messages are sent once a day for three days. The watch is disabled
-            (AllowedTardyHours set to 0) if a ping has not been received after 3 days.
-            </summary>
-            <param name="callsign"></param>
-            <param name="password"></param>
-            <param name="program"></param>
-            <param name="tardyHours"></param>
-            <param name="emailAddresses"></param>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.ValidatePassword(System.String,System.String)">
-            <summary>
-            Validate callsign (or tactical address) password
-            </summary>
-            <param name="account"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
-        </member>
-        <member name="M:winlink.WinlinkWebServices.ValidatePasswordAsync(System.String,System.String)">
-            <summary>
-            Validate callsign (or tactical address) password
-            </summary>
-            <param name="account"></param>
-            <param name="password"></param>
-            <returns></returns>
-            <exception cref="T:ServiceStack.WebServiceException"></exception>
         </member>
     </members>
 </doc>

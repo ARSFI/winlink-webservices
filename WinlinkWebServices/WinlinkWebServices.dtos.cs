@@ -1,6 +1,6 @@
 /* Options:
-Date: 2020-09-10 14:41:36
-Version: 5.40
+Date: 2022-03-08 16:39:03
+Version: 5.140
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
 
@@ -31,13 +31,11 @@ using System.Runtime.Serialization;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using winlink.cms.webservices;
-using winlink.util;
 using winlink.cms;
-
+using winlink.util;
 
 namespace winlink.cms
 {
-
     public enum ClientType
     {
         Unknown,
@@ -56,6 +54,7 @@ namespace winlink.cms
         DRATS,
         UnixLINK,
         Pat,
+        WoAD,
     }
 
     public enum EventType
@@ -76,10 +75,36 @@ namespace winlink.cms
         P2P,
         RadioOnly,
     }
+
 }
 
 namespace winlink.cms.webservices
 {
+    ///<summary>
+    ///Adds a new callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
+    ///</summary>
+    [Route("/account/add", "POST")]
+    [Api(Description="Adds a new callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.")]
+    public partial class AccountAdd
+        : WebServiceRequest, IReturn<AccountAddResponse>
+    {
+        ///<summary>
+        ///Account callsign or tactical address
+        ///</summary>
+        [ApiMember(Description="Account callsign or tactical address", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class AccountAddResponse
+        : WebServiceResponse
+    {
+    }
 
     ///<summary>
     ///Gets the alternate email associated with this callsign.
@@ -1081,7 +1106,6 @@ namespace winlink.cms.webservices
     ///<summary>
     ///Returns a list of radio network hybrid stations.
     ///</summary>
-    [Route("/hybirdStation/list", "POST,GET")]
     [Route("/hybridStation/list", "POST,GET")]
     [Api(Description="Returns a list of radio network hybrid stations.")]
     public partial class HybridStationList
@@ -1442,6 +1466,18 @@ namespace winlink.cms.webservices
         : WebServiceRequest, IReturn<MessageSendResponse>
     {
         ///<summary>
+        ///Callsign of message sender
+        ///</summary>
+        [ApiMember(Description="Callsign of message sender", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Password for callsign account
+        ///</summary>
+        [ApiMember(Description="Password for callsign account", IsRequired=true)]
+        public virtual string Password { get; set; }
+
+        ///<summary>
         ///The ID of the message. One will be created if not provided
         ///</summary>
         [ApiMember(Description="The ID of the message. One will be created if not provided")]
@@ -1483,7 +1519,7 @@ namespace winlink.cms.webservices
         ///<summary>
         ///Sender's callsign or email address
         ///</summary>
-        [ApiMember(Description="Sender\'s callsign or email address", IsRequired=true, Name="From")]
+        [ApiMember(Description="Sender's callsign or email address", IsRequired=true, Name="From")]
         public virtual string From { get; set; }
 
         ///<summary>
@@ -1618,6 +1654,7 @@ namespace winlink.cms.webservices
         VARAFM = 51,
         VARAFMWide = 52,
         VARA500 = 53,
+        VARA2750 = 54,
     }
 
     [DataContract]
@@ -2117,9 +2154,9 @@ namespace winlink.cms.webservices
         public virtual string Version { get; set; }
         public virtual string Cms { get; set; }
         ///<summary>
-        ///Callsign of server (gateway)
+        ///Callsign of server (SSID optional)
         ///</summary>
-        [ApiMember(Description="Callsign of server (gateway)", IsRequired=true)]
+        [ApiMember(Description="Callsign of server (SSID optional)", IsRequired=true)]
         public virtual string Server { get; set; }
 
         ///<summary>
@@ -2129,9 +2166,9 @@ namespace winlink.cms.webservices
         public virtual string ServerGrid { get; set; }
 
         ///<summary>
-        ///Callsign of client
+        ///Callsign of client (SSID optional)
         ///</summary>
-        [ApiMember(Description="Callsign of client", IsRequired=true)]
+        [ApiMember(Description="Callsign of client (SSID optional)", IsRequired=true)]
         public virtual string Client { get; set; }
 
         ///<summary>
@@ -2798,9 +2835,9 @@ namespace winlink.cms.webservices
         : WebServiceRequest, IReturn<WatchSetResponse>
     {
         ///<summary>
-        ///Callsign
+        ///Account callsign
         ///</summary>
-        [ApiMember(Description="Callsign", IsRequired=true)]
+        [ApiMember(Description="Account callsign", IsRequired=true)]
         public virtual string Callsign { get; set; }
 
         ///<summary>
@@ -2920,11 +2957,11 @@ namespace winlink.cms.webservices
     {
         public virtual ResponseStatus ResponseStatus { get; set; }
     }
+
 }
 
 namespace winlink.util
 {
-
     [DataContract]
     public partial class LicenseRecord
     {
@@ -2965,5 +3002,6 @@ namespace winlink.util
         Exempt,
         Expired,
     }
+
 }
 

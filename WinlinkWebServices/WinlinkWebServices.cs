@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using ServiceStack;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using ServiceStack;
 using winlink.cms.webservices;
 using winlink.util;
 
@@ -17,7 +17,7 @@ namespace winlink
         /// <summary>
         /// Configures necessary endpoint and access key. This method must be called
         /// with valid config settings prior to using any other of the below methods.
-        /// The access key will determine which of the below services are enabled.
+        /// Your access key will determine which of the below services are enabled.
         /// </summary>
         public static void SetConfiguration(WinlinkWebServiceConfiguration config)
         {
@@ -54,6 +54,36 @@ namespace winlink
         }
 
         /// <summary>
+        /// Adds a new winlink account 
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static bool CreateAccount(string callsign, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountAdd { Key = _webServiceAccessKey, Callsign = callsign, Password = password };
+            var response = client.Send<AccountAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return true;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds a new winlink account 
+        /// </summary>
+        /// <param name="callsign"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static async Task<bool> CreateAccountAsync(string callsign, string password)
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountAdd { Key = _webServiceAccessKey, Callsign = callsign, Password = password };
+            var response = await client.SendAsync<AccountAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return true;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
         /// Checks to see if the tactical address exists/>
         /// </summary>
         /// <param name="tacticalAddress"></param>
@@ -78,6 +108,36 @@ namespace winlink
             var request = new AccountTacticalExists { Key = _webServiceAccessKey, TacticalAccount = tacticalAddress };
             var response = await client.SendAsync<AccountTacticalExistsResponse>(request);
             if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return response.Tactical;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds a new tactical account
+        /// </summary>
+        /// <param name="tacticalAddress"></param>
+        /// <param name="password">Password can be blank</param>
+        /// <returns>True if account was added</returns>
+        public static bool CreateTacticalAccount(string tacticalAddress, string password = "")
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountTacticalAdd { Key = _webServiceAccessKey, TacticalAccount = tacticalAddress, Password = password };
+            var response = client.Send<AccountTacticalAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return true;
+            throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
+        }
+
+        /// <summary>
+        /// Adds a new tactical account
+        /// </summary>
+        /// <param name="tacticalAddress"></param>
+        /// <param name="password">Password can be blank</param>
+        /// <returns>True if account was added</returns>
+        public static async Task<bool> CreateTacticalAccountAsync(string tacticalAddress, string password = "")
+        {
+            var client = new JsonServiceClient(_webServicesHost);
+            var request = new AccountTacticalAdd { Key = _webServiceAccessKey, TacticalAccount = tacticalAddress, Password = password };
+            var response = await client.SendAsync<AccountTacticalAddResponse>(request);
+            if (string.IsNullOrWhiteSpace(response.ResponseStatus.ErrorCode)) return true;
             throw new WebServiceException(response.ResponseStatus.ErrorCode + ": " + response.ResponseStatus.Message);
         }
 
