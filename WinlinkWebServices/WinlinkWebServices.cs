@@ -935,7 +935,8 @@ namespace winlink
                 {50, "VARA"},
                 {51, "VARA FM"},
                 {52, "VARA FM WIDE"},
-                {53, "VARA 500"}
+                {53, "VARA 500"},
+                {54, "VARA 2750"}
             };
             return mappings;
         }
