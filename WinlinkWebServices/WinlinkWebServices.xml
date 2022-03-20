@@ -33,6 +33,14 @@
             Your access key will determine which of the below services are enabled.
             </summary>
         </member>
+        <member name="M:winlink.WinlinkWebServices.CheckForInternetConnection(System.Int32,System.String)">
+            <summary>
+            Returns true if a connectiion to the winlink server can be made
+            </summary>
+            <param name="timeoutMs"></param>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
         <member name="M:winlink.WinlinkWebServices.AccountExists(System.String)">
             <summary>
             Checks to see if there is an active winlink account for the specified <paramref name="callsign"/>

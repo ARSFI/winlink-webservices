@@ -43,6 +43,20 @@ namespace WinlinkWebServices.Test
         }
 
         [TestMethod]
+        public void InternetConnectionTest()
+        {
+            var connected = winlink.WinlinkWebServices.CheckForInternetConnection();
+            Assert.IsTrue(connected);
+        }
+
+        [TestMethod]
+        public void InternetConnectionFailTest()
+        {
+            var connected = winlink.WinlinkWebServices.CheckForInternetConnection(5000, "abogusurl.junk");
+            Assert.IsFalse(connected);
+        }
+
+        [TestMethod]
         public void AccountExistsTest()
         {
             var response = winlink.WinlinkWebServices.AccountExists(_testCallsign);

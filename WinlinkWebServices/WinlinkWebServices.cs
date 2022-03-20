@@ -1,5 +1,6 @@
 ﻿using ServiceStack;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using winlink.cms.webservices;
 using winlink.util;
@@ -23,6 +24,29 @@ namespace winlink
         {
             _webServiceAccessKey = config.WebServiceAccessKey;
             _webServicesHost = config.WebServicesHost;
+        }
+
+        /// <summary>
+        /// Returns true if a connectiion to the winlink server can be made
+        /// </summary>
+        /// <param name="timeoutMs"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static bool CheckForInternetConnection(int timeoutMs = 5000, string url = null)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(url)) { url = _webServicesHost; }
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.KeepAlive = false;
+                request.Timeout = timeoutMs;
+                using (var response = (HttpWebResponse)request.GetResponse())
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
