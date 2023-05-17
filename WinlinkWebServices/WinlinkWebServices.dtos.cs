@@ -1,5 +1,5 @@
 /* Options:
-Date: 2022-03-08 16:39:03
+Date: 2023-05-17 04:06:47
 Version: 5.140
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://api.winlink.org
@@ -31,8 +31,8 @@ using System.Runtime.Serialization;
 using ServiceStack;
 using ServiceStack.DataAnnotations;
 using winlink.cms.webservices;
-using winlink.cms;
 using winlink.util;
+using winlink.cms;
 
 namespace winlink.cms
 {
@@ -55,6 +55,7 @@ namespace winlink.cms
         UnixLINK,
         Pat,
         WoAD,
+        RadioMail,
     }
 
     public enum EventType
@@ -80,6 +81,67 @@ namespace winlink.cms
 
 namespace winlink.cms.webservices
 {
+    ///<summary>
+    ///Returns a collection of details about the user's account
+    ///</summary>
+    [Route("/about/user", "POST,GET")]
+    [Api(Description="Returns a collection of details about the user's account")]
+    public partial class AboutUser
+        : WebServiceRequest, IReturn<AboutUserResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AboutUserResponse
+        : WebServiceResponse
+    {
+        public AboutUserResponse()
+        {
+            Activity = new List<ActivityRecord>{};
+            Donations = new List<DonationRecord>{};
+            EmailAliasList = new List<EmailAliasRecord>{};
+            GatewayChannels = new List<ChannelRecord>{};
+            IPAddresses = new List<IPAddressRecord>{};
+            MpsList = new List<MessagePickupStationRecord>{};
+            PositionReports = new List<PositionReportRecord>{};
+            SessionRecords = new List<SessionRecord>{};
+            TrafficLogs = new List<TrafficRecord>{};
+            VersionList = new List<VersionRecord>{};
+            WhiteList = new List<WhitelistRecord>{};
+        }
+
+        public virtual string Callsign { get; set; }
+        public virtual string Password { get; set; }
+        public virtual string CallsignPrefix { get; set; }
+        public virtual string CallsignSuffix { get; set; }
+        public virtual bool IsTactical { get; set; }
+        public virtual string AlternateEmailAddress { get; set; }
+        public virtual string PasswordRecoveryAddress { get; set; }
+        public virtual bool NoPurge { get; set; }
+        public virtual bool GatewayAccess { get; set; }
+        public virtual bool LockedOut { get; set; }
+        public virtual string LockedOutReason { get; set; }
+        public virtual int MaxMessageSize { get; set; }
+        public virtual int PendingMessages { get; set; }
+        public virtual DateTime LastAccess { get; set; }
+        public virtual List<ActivityRecord> Activity { get; set; }
+        public virtual List<DonationRecord> Donations { get; set; }
+        public virtual List<EmailAliasRecord> EmailAliasList { get; set; }
+        public virtual List<ChannelRecord> GatewayChannels { get; set; }
+        public virtual List<IPAddressRecord> IPAddresses { get; set; }
+        public virtual List<MessagePickupStationRecord> MpsList { get; set; }
+        public virtual List<PositionReportRecord> PositionReports { get; set; }
+        public virtual List<SessionRecord> SessionRecords { get; set; }
+        public virtual SysopRecord SysopData { get; set; }
+        public virtual List<TrafficRecord> TrafficLogs { get; set; }
+        public virtual List<VersionRecord> VersionList { get; set; }
+        public virtual List<WhitelistRecord> WhiteList { get; set; }
+    }
+
     ///<summary>
     ///Adds a new callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
     ///</summary>
@@ -107,10 +169,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Gets the alternate email associated with this callsign.
+    ///Gets the alternate email associated with this callsign. This is the forwarding email address.
     ///</summary>
     [Route("/account/alternateEmail/get", "POST,GET")]
-    [Api(Description="Gets the alternate email associated with this callsign.")]
+    [Api(Description="Gets the alternate email associated with this callsign. This is the forwarding email address.")]
     public partial class AccountAlternateEmailGet
         : WebServiceRequest, IReturn<AccountAlternateEmailGetResponse>
     {
@@ -128,10 +190,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Sets the alternate email address for this callsign.
+    ///Sets the alternate email address for this callsign. This is the forwarding email address.
     ///</summary>
     [Route("/account/alternateEmail/set", "POST,GET")]
-    [Api(Description="Sets the alternate email address for this callsign.")]
+    [Api(Description="Sets the alternate email address for this callsign. This is the forwarding email address.")]
     public partial class AccountAlternateEmailSet
         : WebServiceRequest, IReturn<AccountAlternateEmailSetResponse>
     {
@@ -149,6 +211,53 @@ namespace winlink.cms.webservices
     }
 
     public partial class AccountAlternateEmailSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Gets the callsign prefix for this callsign.
+    ///</summary>
+    [Route("/account/callsignPrefix/get", "POST,GET")]
+    [Api(Description="Gets the callsign prefix for this callsign.")]
+    public partial class AccountCallsignPrefixGet
+        : WebServiceRequest, IReturn<AccountCallsignPrefixGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountCallsignPrefixGetResponse
+        : WebServiceResponse
+    {
+        public virtual string CallsignPrefix { get; set; }
+    }
+
+    ///<summary>
+    ///Sets the callsign prefix for this callsign.
+    ///</summary>
+    [Route("/account/callsignPrefix/set", "POST,GET")]
+    [Api(Description="Sets the callsign prefix for this callsign.")]
+    public partial class AccountCallsignPrefixSet
+        : WebServiceRequest, IReturn<AccountCallsignPrefixSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Callsign prefix
+        ///</summary>
+        [ApiMember(Description="Callsign prefix", IsRequired=true, Name="CallsignPrefix")]
+        public virtual string CallsignPrefix { get; set; }
+    }
+
+    public partial class AccountCallsignPrefixSetResponse
         : WebServiceResponse
     {
     }
@@ -186,10 +295,57 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Determines if the specified callsign or tactical account exists in the Winlink system.
+    ///Gets the callsign suffix for this callsign.
+    ///</summary>
+    [Route("/account/callsignSuffix/get", "POST,GET")]
+    [Api(Description="Gets the callsign suffix for this callsign.")]
+    public partial class AccountCallsignSuffixGet
+        : WebServiceRequest, IReturn<AccountCallsignSuffixGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountCallsignSuffixGetResponse
+        : WebServiceResponse
+    {
+        public virtual string CallsignSuffix { get; set; }
+    }
+
+    ///<summary>
+    ///Sets the callsign suffix for this callsign.
+    ///</summary>
+    [Route("/account/callsignSuffix/set", "POST,GET")]
+    [Api(Description="Sets the callsign suffix for this callsign.")]
+    public partial class AccountCallsignSuffixSet
+        : WebServiceRequest, IReturn<AccountCallsignSuffixSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Callsign suffix
+        ///</summary>
+        [ApiMember(Description="Callsign suffix", IsRequired=true, Name="CallsignSuffix")]
+        public virtual string CallsignSuffix { get; set; }
+    }
+
+    public partial class AccountCallsignSuffixSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Determines if the specified callsign or tactical account exists in the Winlink system. Request frequency: no more than once a day.
     ///</summary>
     [Route("/account/exists", "POST,GET")]
-    [Api(Description="Determines if the specified callsign or tactical account exists in the Winlink system.")]
+    [Api(Description="Determines if the specified callsign or tactical account exists in the Winlink system. Request frequency: no more than once a day.")]
     public partial class AccountExists
         : WebServiceRequest, IReturn<AccountExistsResponse>
     {
@@ -209,10 +365,308 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
+    ///Gets the state of the gateway access setting. This setting indicates if the callsign has been approved to operate as a gateway.
+    ///</summary>
+    [Route("/account/gatewayAccess/get", "POST,GET")]
+    [Api(Description="Gets the state of the gateway access setting. This setting indicates if the callsign has been approved to operate as a gateway.")]
+    public partial class AccountGatewayAccessGet
+        : WebServiceRequest, IReturn<AccountGatewayAccessGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountGatewayAccessGetResponse
+        : WebServiceResponse
+    {
+        public virtual bool GatewayAccess { get; set; }
+    }
+
+    ///<summary>
+    ///Gets a list of all gateway authorized callsigns.
+    ///</summary>
+    [Route("/account/gatewayAccess/list", "POST,GET")]
+    [Api(Description="Gets a list of all gateway authorized callsigns.")]
+    public partial class AccountGatewayAccessList
+        : WebServiceRequest, IReturn<AccountGatewayAccessListResponse>
+    {
+    }
+
+    public partial class AccountGatewayAccessListResponse
+        : WebServiceResponse
+    {
+        public AccountGatewayAccessListResponse()
+        {
+            GatewayAuthorized = new List<string>{};
+        }
+
+        public virtual List<string> GatewayAuthorized { get; set; }
+    }
+
+    ///<summary>
+    ///Sets the state of the gateway access setting.
+    ///</summary>
+    [Route("/account/gatewayAccess/set", "POST,GET")]
+    [Api(Description="Sets the state of the gateway access setting.")]
+    public partial class AccountGatewayAccessSet
+        : WebServiceRequest, IReturn<AccountGatewayAccessSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Controls who can act as a Winlink gateway
+        ///</summary>
+        [ApiMember(Description="Controls who can act as a Winlink gateway", IsRequired=true, Name="GatewayAccess")]
+        public virtual bool? GatewayAccess { get; set; }
+    }
+
+    public partial class AccountGatewayAccessSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Determines if the specified callsign or tactical account is a group address account.
+    ///</summary>
+    [Route("/account/isGroupAddress", "POST,GET")]
+    [Api(Description="Determines if the specified callsign or tactical account is a group address account.")]
+    public partial class AccountIsGroupAddress
+        : WebServiceRequest, IReturn<AccountIsGroupAddressResponse>
+    {
+        ///<summary>
+        ///Account callsign or tactical
+        ///</summary>
+        [ApiMember(Description="Account callsign or tactical", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountIsGroupAddressResponse
+        : WebServiceResponse
+    {
+        public virtual bool IsGroupAddress { get; set; }
+    }
+
+    ///<summary>
+    ///Returns last time the callsign account was used.
+    ///</summary>
+    [Route("/account/lastAccess/get", "POST,GET")]
+    [Api(Description="Returns last time the callsign account was used.")]
+    public partial class AccountLastAccessGet
+        : WebServiceRequest, IReturn<AccountLastAccessGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountLastAccessGetResponse
+        : WebServiceResponse
+    {
+        public virtual DateTime LastAccess { get; set; }
+    }
+
+    ///<summary>
+    ///Unlocks a callsign account - allowing access.
+    ///</summary>
+    [Route("/account/lockedOut/clear", "POST,GET")]
+    [Api(Description="Unlocks a callsign account - allowing access.")]
+    public partial class AccountLockedOutClear
+        : WebServiceRequest, IReturn<AccountLockedOutClearResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountLockedOutClearResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Gets the state of the locked out setting for the specified account.
+    ///</summary>
+    [Route("/account/lockedOut/get", "POST,GET")]
+    [Api(Description="Gets the state of the locked out setting for the specified account.")]
+    public partial class AccountLockedOutGet
+        : WebServiceRequest, IReturn<AccountLockedOutGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountLockedOutGetResponse
+        : WebServiceResponse
+    {
+        public virtual bool LockedOut { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of locked out accounts.
+    ///</summary>
+    [Route("/account/lockedOut/list", "POST,GET")]
+    [Api(Description="Returns a list of locked out accounts.")]
+    public partial class AccountLockedOutList
+        : WebServiceRequest, IReturn<AccountLockedOutListResponse>
+    {
+    }
+
+    public partial class AccountLockedOutListResponse
+        : WebServiceResponse
+    {
+        public AccountLockedOutListResponse()
+        {
+            LockedOutList = new List<LockedOutRecord>{};
+        }
+
+        public virtual List<LockedOutRecord> LockedOutList { get; set; }
+    }
+
+    ///<summary>
+    ///Locks a callsign account - preventing system access.
+    ///</summary>
+    [Route("/account/lockedOut/set", "POST,GET")]
+    [Api(Description="Locks a callsign account - preventing system access.")]
+    public partial class AccountLockedOutSet
+        : WebServiceRequest, IReturn<AccountLockedOutSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Callsign of administrator performing this action
+        ///</summary>
+        [ApiMember(Description="Callsign of administrator performing this action", IsRequired=true)]
+        public virtual string AdminCallsign { get; set; }
+
+        ///<summary>
+        ///Reason for lockout
+        ///</summary>
+        [ApiMember(Description="Reason for lockout", IsRequired=true)]
+        public virtual string Reason { get; set; }
+    }
+
+    public partial class AccountLockedOutSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Gets the maximum message size for this callsign.
+    ///</summary>
+    [Route("/account/maxMessageSize/get", "POST,GET")]
+    [Api(Description="Gets the maximum message size for this callsign.")]
+    public partial class AccountMaxMessageSizeGet
+        : WebServiceRequest, IReturn<AccountMaxMessageSizeGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountMaxMessageSizeGetResponse
+        : WebServiceResponse
+    {
+        public virtual int MaxMessageSize { get; set; }
+    }
+
+    ///<summary>
+    ///Sets the maximum message size for this callsign.
+    ///</summary>
+    [Route("/account/maxMessageSize/set", "POST,GET")]
+    [Api(Description="Sets the maximum message size for this callsign.")]
+    public partial class AccountMaxMessageSizeSet
+        : WebServiceRequest, IReturn<AccountMaxMessageSizeSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Maximum messages size (default: 120000)
+        ///</summary>
+        [ApiMember(Description="Maximum messages size (default: 120000)", Name="MaxMessageSize")]
+        public virtual int MaxMessageSize { get; set; }
+    }
+
+    public partial class AccountMaxMessageSizeSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Gets the state of the no purge setting.
+    ///</summary>
+    [Route("/account/noPurge/get", "POST,GET")]
+    [Api(Description="Gets the state of the no purge setting.")]
+    public partial class AccountNoPurgeGet
+        : WebServiceRequest, IReturn<AccountNoPurgeGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountNoPurgeGetResponse
+        : WebServiceResponse
+    {
+        public virtual bool NoPurge { get; set; }
+    }
+
+    ///<summary>
+    ///Sets the state of the no purge setting.
+    ///</summary>
+    [Route("/account/noPurge/set", "POST,GET")]
+    [Api(Description="Sets the state of the no purge setting.")]
+    public partial class AccountNoPurgeSet
+        : WebServiceRequest, IReturn<AccountNoPurgeSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///No purge flag
+        ///</summary>
+        [ApiMember(Description="No purge flag", IsRequired=true, Name="NoPurge")]
+        public virtual bool? NoPurge { get; set; }
+    }
+
+    public partial class AccountNoPurgeSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only. Triggers message to user informing then of password change.
     ///</summary>
     [Route("/account/password/change", "POST,GET")]
-    [Api(Description="Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.")]
+    [Api(Description="Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only. Triggers message to user informing then of password change.")]
     public partial class AccountPasswordChange
         : WebServiceRequest, IReturn<AccountPasswordChangeResponse>
     {
@@ -238,6 +692,33 @@ namespace winlink.cms.webservices
     public partial class AccountPasswordChangeResponse
         : WebServiceResponse
     {
+    }
+
+    ///<summary>
+    ///Gets the recovery email address.
+    ///</summary>
+    [Route("/account/password/recovery/email/get", "POST,GET")]
+    [Api(Description="Gets the recovery email address.")]
+    public partial class AccountPasswordRecoveryEmailGet
+        : WebServiceRequest, IReturn<AccountPasswordRecoveryEmailGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class AccountPasswordRecoveryEmailGetResponse
+        : WebServiceResponse
+    {
+        public virtual string RecoveryEmail { get; set; }
     }
 
     ///<summary>
@@ -273,10 +754,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Causes the password to be emailed to the recovery address.
+    ///Causes the password to be emailed to the recovery address. If no recovery address is found an error is returned.
     ///</summary>
     [Route("/account/password/send", "POST,GET")]
-    [Api(Description="Causes the password to be emailed to the recovery address.")]
+    [Api(Description="Causes the password to be emailed to the recovery address. If no recovery address is found an error is returned.")]
     public partial class AccountPasswordSend
         : WebServiceRequest, IReturn<AccountPasswordSendResponse>
     {
@@ -294,10 +775,36 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Verifies Password is correct for Callsign.
+    ///Sets the password for Callsign. This API does not trigger a message to the user.
+    ///</summary>
+    [Route("/account/password/set", "POST,GET")]
+    [Api(Description="Sets the password for Callsign. This API does not trigger a message to the user.")]
+    public partial class AccountPasswordSet
+        : WebServiceRequest, IReturn<AccountPasswordSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class AccountPasswordSetResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Verifies Password is correct for the callsign or tactical account.
     ///</summary>
     [Route("/account/password/validate", "POST")]
-    [Api(Description="Verifies Password is correct for Callsign.")]
+    [Api(Description="Verifies Password is correct for the callsign or tactical account.")]
     public partial class AccountPasswordValidate
         : WebServiceRequest, IReturn<AccountPasswordValidateResponse>
     {
@@ -318,6 +825,85 @@ namespace winlink.cms.webservices
         : WebServiceResponse
     {
         public virtual bool IsValid { get; set; }
+    }
+
+    ///<summary>
+    ///Removes a callsign or tactical account and all references to it. If the tactical account has a password, it must be included.
+    ///</summary>
+    [Route("/account/remove", "POST,GET")]
+    [Api(Description="Removes a callsign or tactical account and all references to it. If the tactical account has a password, it must be included.")]
+    public partial class AccountRemove
+        : WebServiceRequest, IReturn<AccountRemoveResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class AccountRemoveResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Gets multiple properties for this callsign.
+    ///</summary>
+    [Route("/account/settings/get", "POST,GET")]
+    [Api(Description="Gets multiple properties for this callsign.")]
+    public partial class AccountSettingsGet
+        : WebServiceRequest, IReturn<AccountSettingsGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class AccountSettingsGetResponse
+        : WebServiceResponse
+    {
+        public virtual AccountSettingsRecord AccountSettings { get; set; }
+        public virtual string Callsign { get; set; }
+        public virtual DateTime LastAccess { get; set; }
+        public virtual string Password { get; set; }
+        public virtual string RecoveryEmail { get; set; }
+        public virtual string CallsignPrefix { get; set; }
+        public virtual string CallsignSuffix { get; set; }
+        public virtual int MaxMessageSize { get; set; }
+        public virtual bool NoPurge { get; set; }
+        public virtual bool GatewayAccess { get; set; }
+        public virtual bool LockedOut { get; set; }
+        public virtual string LockOutReason { get; set; }
+        public virtual string LockedOutBy { get; set; }
+        public virtual string AlternateEmail { get; set; }
+        public virtual bool Tactical { get; set; }
+    }
+
+    public partial class AccountSettingsRecord
+    {
+        public virtual string Callsign { get; set; }
+        public virtual DateTime LastAccess { get; set; }
+        public virtual string Password { get; set; }
+        public virtual string RecoveryEmail { get; set; }
+        public virtual string CallsignPrefix { get; set; }
+        public virtual string CallsignSuffix { get; set; }
+        public virtual int MaxMessageSize { get; set; }
+        public virtual bool NoPurge { get; set; }
+        public virtual bool GatewayAccess { get; set; }
+        public virtual bool LockedOut { get; set; }
+        public virtual string LockOutReason { get; set; }
+        public virtual string LockedOutBy { get; set; }
+        public virtual string AlternateEmail { get; set; }
+        public virtual bool Tactical { get; set; }
     }
 
     ///<summary>
@@ -368,10 +954,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Removes an existing tactical account and all references to it.
+    ///Removes an existing tactical account and all references to it. If a password was used it must be provided.
     ///</summary>
     [Route("/account/tactical/remove", "POST,GET")]
-    [Api(Description="Removes an existing tactical account and all references to it.")]
+    [Api(Description="Removes an existing tactical account and all references to it. If a password was used it must be provided.")]
     public partial class AccountTacticalRemove
         : WebServiceRequest, IReturn<AccountTacticalRemoveResponse>
     {
@@ -380,9 +966,663 @@ namespace winlink.cms.webservices
         ///</summary>
         [ApiMember(Description="Tactical account name", IsRequired=true, Name="TacticalAccount")]
         public virtual string TacticalAccount { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", Name="Password")]
+        public virtual string Password { get; set; }
     }
 
     public partial class AccountTacticalRemoveResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of activity records for the specified callsign.
+    ///</summary>
+    [Route("/activity/get", "POST,GET")]
+    [Api(Description="Returns a list of activity records for the specified callsign.")]
+    public partial class ActivityGet
+        : WebServiceRequest, IReturn<ActivityGetResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class ActivityGetResponse
+        : WebServiceResponse
+    {
+        public ActivityGetResponse()
+        {
+            Activity = new List<ActivityRecord>{};
+        }
+
+        public virtual List<ActivityRecord> Activity { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of the latest activity for each callsign over the number of hours requested.
+    ///</summary>
+    [Route("/activity/latest", "POST,GET")]
+    [Api(Description="Returns a list of the latest activity for each callsign over the number of hours requested.")]
+    public partial class ActivityLatest
+        : WebServiceRequest, IReturn<ActivityLatestResponse>
+    {
+        ///<summary>
+        ///Number of hours of history to include
+        ///</summary>
+        [ApiMember(Description="Number of hours of history to include")]
+        public virtual int HistoryHours { get; set; }
+    }
+
+    public partial class ActivityLatestResponse
+        : WebServiceResponse
+    {
+        public ActivityLatestResponse()
+        {
+            Activity = new List<LatestActivity>{};
+        }
+
+        public virtual List<LatestActivity> Activity { get; set; }
+    }
+
+    [DataContract]
+    public partial class ActivityRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Source { get; set; }
+
+        [DataMember]
+        public virtual string Channel { get; set; }
+
+        [DataMember]
+        public virtual int ClientType { get; set; }
+
+        [DataMember]
+        public virtual int LinkType { get; set; }
+
+        [DataMember]
+        public virtual int Protocol { get; set; }
+
+        [DataMember]
+        public virtual int MessagesInbound { get; set; }
+
+        [DataMember]
+        public virtual int MessagesOutbound { get; set; }
+
+        [DataMember]
+        public virtual int BytesInbound { get; set; }
+
+        [DataMember]
+        public virtual int BytesOutbound { get; set; }
+
+        [DataMember]
+        public virtual int ConnectTime { get; set; }
+    }
+
+    ///<summary>
+    ///Returns one of several activity reports for the specified period and callsign.
+    ///</summary>
+    [Route("/activity/report", "POST,GET")]
+    [Api(Description="Returns one of several activity reports for the specified period and callsign.")]
+    public partial class ActivityReport
+        : WebServiceRequest, IReturn<ActivityReportResponse>
+    {
+        ///<summary>
+        ///Report Type:  SystemSummary - requires HistoryDays > 0 and no more than 365.  GatewaySummary - requires Callsign, HistoryDays > 0 and no more than 365.  SystemActivity - requires HistoryDays > 0 and no more than 21.  GatewayActivity - requires Callsign, HistoryDays > 0 and no more than 21.  GatewayFrequency - requires ServiceCodes.  UserActivity - requires Callsign, HistoryDays > 0 and no more than 21.
+        ///</summary>
+        [ApiMember(Description="Report Type:\r\n  SystemSummary - requires HistoryDays > 0 and no more than 365.\r\n  GatewaySummary - requires Callsign, HistoryDays > 0 and no more than 365.\r\n  SystemActivity - requires HistoryDays > 0 and no more than 21.\r\n  GatewayActivity - requires Callsign, HistoryDays > 0 and no more than 21.\r\n  GatewayFrequency - requires ServiceCodes.\r\n  UserActivity - requires Callsign, HistoryDays > 0 and no more than 21.", IsRequired=true, Name="ReportType")]
+        public virtual ActivityReportType ReportType { get; set; }
+
+        ///<summary>
+        ///Number of days of history to include (default: 1)
+        ///</summary>
+        [ApiMember(Description="Number of days of history to include (default: 1)", Name="HistoryDays")]
+        public virtual int HistoryDays { get; set; }
+
+        ///<summary>
+        ///Number of hours of history to include (default: 0)
+        ///</summary>
+        [ApiMember(Description="Number of hours of history to include (default: 0)", Name="HistoryHours")]
+        public virtual int HistoryHours { get; set; }
+
+        ///<summary>
+        ///Station Callsign (required sometimes)
+        ///</summary>
+        [ApiMember(Description="Station Callsign (required sometimes)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///One or more service codes (default: PUBLIC)
+        ///</summary>
+        [ApiMember(Description="One or more service codes (default: PUBLIC)", Name="ServiceCodes")]
+        public virtual string ServiceCodes { get; set; }
+    }
+
+    public partial class ActivityReportResponse
+        : WebServiceResponse
+    {
+        public virtual string Report { get; set; }
+    }
+
+    [DataContract]
+    public enum ActivityReportType
+    {
+        SystemSummary,
+        GatewaySummary,
+        SystemActivity,
+        GatewayActivity,
+        GatewayFrequency,
+        UserActivity,
+    }
+
+    ///<summary>
+    ///Returns the system activity summary for the specified period.
+    ///</summary>
+    [Route("/activitySummary/get", "POST,GET")]
+    [Route("/activity/summary", "POST,GET")]
+    [Api(Description="Returns the system activity summary for the specified period.")]
+    public partial class ActivitySummaryGet
+        : WebServiceRequest, IReturn<ActivitySummaryGetResponse>
+    {
+        ///<summary>
+        ///Specific period (YYYYMM)  default: Current year/month
+        ///</summary>
+        [ApiMember(Description="Specific period (YYYYMM)  default: Current year/month", Name="Period")]
+        public virtual string Period { get; set; }
+    }
+
+    public partial class ActivitySummaryGetResponse
+        : WebServiceResponse
+    {
+        public virtual string Period { get; set; }
+        public virtual int TotalReceivedPacket { get; set; }
+        public virtual int TotalSentPacket { get; set; }
+        public virtual int TotalReceivedAprs { get; set; }
+        public virtual int TotalSentAprs { get; set; }
+        public virtual int TotalReceivedWeb { get; set; }
+        public virtual int TotalSentWeb { get; set; }
+        public virtual int P1Connections { get; set; }
+        public virtual int P2Connections { get; set; }
+        public virtual int P3Connections { get; set; }
+        public virtual int P4Connections { get; set; }
+        public virtual int Winmor500Connections { get; set; }
+        public virtual int Winmor1600Connections { get; set; }
+        public virtual int RobustPacketConnections { get; set; }
+        public virtual int Ardop200Connections { get; set; }
+        public virtual int Ardop500Connections { get; set; }
+        public virtual int Ardop1000Connections { get; set; }
+        public virtual int Ardop2000Connections { get; set; }
+        public virtual int Ardop2000FMConnections { get; set; }
+        public virtual int VaraConnections { get; set; }
+        public virtual int Vara500Connections { get; set; }
+        public virtual int Vara2750Connections { get; set; }
+        public virtual int Vara1200FmConnections { get; set; }
+        public virtual int Vara9600FmConnections { get; set; }
+        public virtual int HfMessagesReceived { get; set; }
+        public virtual int HfMessagesSent { get; set; }
+        public virtual int HfBytesReceived { get; set; }
+        public virtual int HfBytesSent { get; set; }
+    }
+
+    ///<summary>
+    ///Adds an ARSFi donation record.
+    ///</summary>
+    [Route("/arsfi/registration/add", "POST")]
+    [Route("/arsfi/donation/add", "POST")]
+    [Api(Description="Adds an ARSFi donation record.")]
+    public partial class ArsfiDonationAdd
+        : WebServiceRequest, IReturn<ArsfiDonationAddResponse>
+    {
+        ///<summary>
+        ///Callsign of person
+        ///</summary>
+        [ApiMember(Description="Callsign of person", Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of person
+        ///</summary>
+        [ApiMember(Description="Name of person", IsRequired=true, Name="Name")]
+        public virtual string Name { get; set; }
+
+        ///<summary>
+        ///Email address
+        ///</summary>
+        [ApiMember(Description="Email address", IsRequired=true, Name="EmailAddress")]
+        public virtual string EmailAddress { get; set; }
+
+        ///<summary>
+        ///Dollar amount
+        ///</summary>
+        [ApiMember(Description="Dollar amount", IsRequired=true, Name="Amount")]
+        public virtual double Amount { get; set; }
+
+        ///<summary>
+        ///Type of transaction (Winmor, V4, Donation, etc.)
+        ///</summary>
+        [ApiMember(Description="Type of transaction (Winmor, V4, Donation, etc.)", IsRequired=true, Name="TransactionType")]
+        public virtual string TransactionType { get; set; }
+
+        ///<summary>
+        ///Registration key
+        ///</summary>
+        [ApiMember(Description="Registration key", Name="RegistrationKey")]
+        public virtual string RegistrationKey { get; set; }
+
+        ///<summary>
+        ///True if record has been voided
+        ///</summary>
+        [ApiMember(Description="True if record has been voided", Name="Voided")]
+        public virtual bool Voided { get; set; }
+
+        ///<summary>
+        ///Notes
+        ///</summary>
+        [ApiMember(Description="Notes", Name="Notes")]
+        public virtual string Notes { get; set; }
+    }
+
+    public partial class ArsfiDonationAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes a specific ARSFi donation record.
+    ///</summary>
+    [Route("/arsfi/donation/delete", "POST,GET")]
+    [Api(Description="Deletes a specific ARSFi donation record.")]
+    public partial class ArsfiDonationDelete
+        : WebServiceRequest, IReturn<ArsfiDonationDeleteResponse>
+    {
+        ///<summary>
+        ///The unique transaction ID
+        ///</summary>
+        [ApiMember(Description="The unique transaction ID", IsRequired=true, Name="TransactionId")]
+        public virtual string TransactionId { get; set; }
+    }
+
+    public partial class ArsfiDonationDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns zero or more records that partially match the specified filter.
+    ///</summary>
+    [Route("/arsfi/donation/filter", "POST,GET")]
+    [Api(Description="Returns zero or more records that partially match the specified filter.")]
+    public partial class ArsfiDonationFilter
+        : WebServiceRequest, IReturn<ArsfiDonationFilterResponse>
+    {
+        ///<summary>
+        ///Filter text applied to multiple fields
+        ///</summary>
+        [ApiMember(Description="Filter text applied to multiple fields")]
+        public virtual string Filter { get; set; }
+
+        ///<summary>
+        ///Limit number of returned records (default: 100)
+        ///</summary>
+        [ApiMember(Description="Limit number of returned records (default: 100)")]
+        public virtual int RecordLimit { get; set; }
+    }
+
+    public partial class ArsfiDonationFilterResponse
+        : WebServiceResponse
+    {
+        public ArsfiDonationFilterResponse()
+        {
+            Donations = new List<DonationRecord>{};
+        }
+
+        public virtual List<DonationRecord> Donations { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a specific ARSFi donation record.
+    ///</summary>
+    [Route("/arsfi/donation/get", "POST,GET")]
+    [Api(Description="Returns a specific ARSFi donation record.")]
+    public partial class ArsfiDonationGet
+        : WebServiceRequest, IReturn<ArsfiDonationGetResponse>
+    {
+        ///<summary>
+        ///The unique transaction ID
+        ///</summary>
+        [ApiMember(Description="The unique transaction ID", IsRequired=true, Name="TransactionId")]
+        public virtual string TransactionId { get; set; }
+    }
+
+    public partial class ArsfiDonationGetResponse
+        : WebServiceResponse
+    {
+        public virtual DonationRecord Donation { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of ARSFi donation records (optionally, based on filter settings).
+    ///</summary>
+    [Route("/arsfi/donation/list", "POST,GET")]
+    [Api(Description="Returns a list of ARSFi donation records (optionally, based on filter settings).")]
+    public partial class ArsfiDonationList
+        : WebServiceRequest, IReturn<ArsfiDonationListResponse>
+    {
+        ///<summary>
+        ///Full or partial callsign
+        ///</summary>
+        [ApiMember(Description="Full or partial callsign", Name="CallsignFilter")]
+        public virtual string CallsignFilter { get; set; }
+
+        ///<summary>
+        ///Full or partial name
+        ///</summary>
+        [ApiMember(Description="Full or partial name", Name="NameFilter")]
+        public virtual string NameFilter { get; set; }
+
+        ///<summary>
+        ///Number of days to look back
+        ///</summary>
+        [ApiMember(Description="Number of days to look back", Name="AgeFilter")]
+        public virtual string AgeFilter { get; set; }
+
+        ///<summary>
+        ///Limit number of records returned (default: 100)
+        ///</summary>
+        [ApiMember(Description="Limit number of records returned (default: 100)")]
+        public virtual int RecordLimit { get; set; }
+    }
+
+    public partial class ArsfiDonationListResponse
+        : WebServiceResponse
+    {
+        public ArsfiDonationListResponse()
+        {
+            Donations = new List<DonationRecord>{};
+        }
+
+        public virtual List<DonationRecord> Donations { get; set; }
+    }
+
+    ///<summary>
+    ///Returns zero or more ARSFi donation records.
+    ///</summary>
+    [Route("/arsfi/donation/search", "POST,GET")]
+    [Api(Description="Returns zero or more ARSFi donation records.")]
+    public partial class ArsfiDonationSearch
+        : WebServiceRequest, IReturn<ArsfiDonationSearchResponse>
+    {
+        ///<summary>
+        ///Callsign of person making donation
+        ///</summary>
+        [ApiMember(Description="Callsign of person making donation", Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of person making donation
+        ///</summary>
+        [ApiMember(Description="Name of person making donation", Name="Name")]
+        public virtual string Name { get; set; }
+
+        ///<summary>
+        ///Email address
+        ///</summary>
+        [ApiMember(Description="Email address", Name="EmailAddress")]
+        public virtual string EmailAddress { get; set; }
+
+        ///<summary>
+        ///Type of transaction (Winmor, V4, Donation, etc.)
+        ///</summary>
+        [ApiMember(Description="Type of transaction (Winmor, V4, Donation, etc.)", Name="TransactionType")]
+        public virtual string TransactionType { get; set; }
+
+        ///<summary>
+        ///Registration key
+        ///</summary>
+        [ApiMember(Description="Registration key", Name="RegistrationKey")]
+        public virtual string RegistrationKey { get; set; }
+
+        ///<summary>
+        ///True to search for voided records (default: false)
+        ///</summary>
+        [ApiMember(Description="True to search for voided records (default: false)", Name="Voided")]
+        public virtual bool Voided { get; set; }
+
+        ///<summary>
+        ///Limit number of records returned (default: 100)
+        ///</summary>
+        [ApiMember(Description="Limit number of records returned (default: 100)")]
+        public virtual int RecordLimit { get; set; }
+    }
+
+    public partial class ArsfiDonationSearchResponse
+        : WebServiceResponse
+    {
+        public ArsfiDonationSearchResponse()
+        {
+            Donations = new List<DonationRecord>{};
+        }
+
+        public virtual List<DonationRecord> Donations { get; set; }
+    }
+
+    ///<summary>
+    ///Updates a ARSFi donation record. Omitted parameters are left unchanged.
+    ///</summary>
+    [Route("/arsfi/donation/update", "POST,GET")]
+    [Api(Description="Updates a ARSFi donation record. Omitted parameters are left unchanged.")]
+    public partial class ArsfiDonationUpdate
+        : WebServiceRequest, IReturn<ArsfiDonationUpdateResponse>
+    {
+        ///<summary>
+        ///The unique transaction ID
+        ///</summary>
+        [ApiMember(Description="The unique transaction ID", IsRequired=true, Name="TransactionId")]
+        public virtual string TransactionId { get; set; }
+
+        ///<summary>
+        ///Callsign of person making donation
+        ///</summary>
+        [ApiMember(Description="Callsign of person making donation", Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of person making donation
+        ///</summary>
+        [ApiMember(Description="Name of person making donation", Name="Name")]
+        public virtual string Name { get; set; }
+
+        ///<summary>
+        ///Email address
+        ///</summary>
+        [ApiMember(Description="Email address", Name="EmailAddress")]
+        public virtual string EmailAddress { get; set; }
+
+        ///<summary>
+        ///Dollar amount of donation
+        ///</summary>
+        [ApiMember(Description="Dollar amount of donation", Name="Amount")]
+        public virtual double Amount { get; set; }
+
+        ///<summary>
+        ///Type of transaction (Winmor, V4, Donation, etc.)
+        ///</summary>
+        [ApiMember(Description="Type of transaction (Winmor, V4, Donation, etc.)", Name="TransactionType")]
+        public virtual string TransactionType { get; set; }
+
+        ///<summary>
+        ///Registration key
+        ///</summary>
+        [ApiMember(Description="Registration key", Name="RegistrationKey")]
+        public virtual string RegistrationKey { get; set; }
+
+        ///<summary>
+        ///Notes
+        ///</summary>
+        [ApiMember(Description="Notes", Name="Notes")]
+        public virtual string Notes { get; set; }
+
+        ///<summary>
+        ///True to void the registration record
+        ///</summary>
+        [ApiMember(Description="True to void the registration record", Name="Void")]
+        public virtual bool Void { get; set; }
+    }
+
+    public partial class ArsfiDonationUpdateResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a registration key for the specified callsign.
+    ///</summary>
+    [Route("/arsfi/registration/key", "POST,GET")]
+    [Api(Description="Returns a registration key for the specified callsign.")]
+    public partial class ArsfiRegistrationKey
+        : WebServiceRequest, IReturn<ArsfiRegistrationKeyResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Type of registration key to create (Winmor, V4, Express, etc.)
+        ///</summary>
+        [ApiMember(Description="Type of registration key to create (Winmor, V4, Express, etc.)", IsRequired=true)]
+        public virtual string KeyType { get; set; }
+    }
+
+    public partial class ArsfiRegistrationKeyResponse
+        : WebServiceResponse
+    {
+        public virtual string Callsign { get; set; }
+        public virtual string RegistrationKey { get; set; }
+        public virtual string KeyType { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of valid registration records for the specified callsign.
+    ///</summary>
+    [Route("/arsfi/registration/list", "POST,GET")]
+    [Api(Description="Returns a list of valid registration records for the specified callsign.")]
+    public partial class ArsfiRegistrationList
+        : WebServiceRequest, IReturn<ArsfiRegistrationListResponse>
+    {
+        ///<summary>
+        ///Callsign  of person (no SID)
+        ///</summary>
+        [ApiMember(Description="Callsign  of person (no SID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class ArsfiRegistrationListResponse
+        : WebServiceResponse
+    {
+        public ArsfiRegistrationListResponse()
+        {
+            Registrations = new List<RegistrationRecord>{};
+        }
+
+        public virtual List<RegistrationRecord> Registrations { get; set; }
+    }
+
+    ///<summary>
+    ///Returns the registration key for the specified callsign and registration type if it exists and has not been voided.
+    ///</summary>
+    [Route("/arsfi/registration/lookup", "POST,GET")]
+    [Api(Description="Returns the registration key for the specified callsign and registration type if it exists and has not been voided.")]
+    public partial class ArsfiRegistrationLookup
+        : WebServiceRequest, IReturn<ArsfiRegistrationLookupResponse>
+    {
+        ///<summary>
+        ///Callsign of person
+        ///</summary>
+        [ApiMember(Description="Callsign of person", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Type of registration (Winmor, V4, etc.)
+        ///</summary>
+        [ApiMember(Description="Type of registration (Winmor, V4, etc.)", IsRequired=true, Name="RegistrationType")]
+        public virtual string RegistrationType { get; set; }
+    }
+
+    public partial class ArsfiRegistrationLookupResponse
+        : WebServiceResponse
+    {
+        public virtual string RegistrationKey { get; set; }
+    }
+
+    ///<summary>
+    ///Returns true if the specified registration exists and has not been voided.
+    ///</summary>
+    [Route("/arsfi/registration/valid", "POST,GET")]
+    [Api(Description="Returns true if the specified registration exists and has not been voided.")]
+    public partial class ArsfiRegistrationValid
+        : WebServiceRequest, IReturn<ArsfiRegistrationValidResponse>
+    {
+        ///<summary>
+        ///Callsign of person (no SID)
+        ///</summary>
+        [ApiMember(Description="Callsign of person (no SID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Registration key
+        ///</summary>
+        [ApiMember(Description="Registration key", IsRequired=true, Name="RegistrationKey")]
+        public virtual string RegistrationKey { get; set; }
+    }
+
+    public partial class ArsfiRegistrationValidResponse
+        : WebServiceResponse
+    {
+        public virtual bool Valid { get; set; }
+    }
+
+    ///<summary>
+    ///Voids or un-voids the specified registration record.
+    ///</summary>
+    [Route("/arsfi/registration/void", "POST,GET")]
+    [Api(Description="Voids or un-voids the specified registration record.")]
+    public partial class ArsfiRegistrationVoid
+        : WebServiceRequest, IReturn<ArsfiRegistrationVoidResponse>
+    {
+        ///<summary>
+        ///Callsign  of person (no SID)
+        ///</summary>
+        [ApiMember(Description="Callsign  of person (no SID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Registration key
+        ///</summary>
+        [ApiMember(Description="Registration key", IsRequired=true, Name="RegistrationKey")]
+        public virtual string RegistrationKey { get; set; }
+
+        ///<summary>
+        ///True to void the registration record
+        ///</summary>
+        [ApiMember(Description="True to void the registration record", Name="Void")]
+        public virtual bool Void { get; set; }
+    }
+
+    public partial class ArsfiRegistrationVoidResponse
         : WebServiceResponse
     {
     }
@@ -400,6 +1640,78 @@ namespace winlink.cms.webservices
 
         [DataMember]
         public virtual byte[] Image { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a number 0-x indicating if the submitted IP address (v4 only) is blacklisted by zero, one or more DNSBL services. Also returned are the names of the DNSBL services returning a positive result (if any). This service uses a number of popular DNS spam blacklist'ing services (currently: Barracuda, Spamcop, and Spamhaus).
+    ///</summary>
+    [Route("/blacklist/query", "POST,GET")]
+    [Api(Description="Returns a number 0-x indicating if the submitted IP address (v4 only) is blacklisted by zero, one or more DNSBL services. Also returned are the names of the DNSBL services returning a positive result (if any). This service uses a number of popular DNS spam blacklist'ing services (currently: Barracuda, Spamcop, and Spamhaus).")]
+    public partial class Blacklist
+        : WebServiceRequest, IReturn<BlacklistResponse>
+    {
+        ///<summary>
+        ///A single version 4 IP address (dotted notation in string format)
+        ///</summary>
+        [ApiMember(Description="A single version 4 IP address (dotted notation in string format)", IsRequired=true, Name="IP")]
+        public virtual string IP { get; set; }
+    }
+
+    public partial class BlacklistResponse
+        : WebServiceResponse
+    {
+        public virtual int BlacklistCount { get; set; }
+        public virtual string BlacklistSources { get; set; }
+    }
+
+    ///<summary>
+    ///Sets multiple properties for this callsign.
+    ///</summary>
+    [Route("/callsign/properties/set", "POST,GET")]
+    [Api(Description="Sets multiple properties for this callsign.")]
+    public partial class CallsignPropertiesSet
+        : WebServiceRequest, IReturn<CallsignPropertiesSetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Callsign prefix (default: blank)
+        ///</summary>
+        [ApiMember(Description="Callsign prefix (default: blank)", Name="CallsignPrefix")]
+        public virtual string CallsignPrefix { get; set; }
+
+        ///<summary>
+        ///Callsign suffix (default: blank)
+        ///</summary>
+        [ApiMember(Description="Callsign suffix (default: blank)", Name="CallsignSuffix")]
+        public virtual string CallsignSuffix { get; set; }
+
+        ///<summary>
+        ///Maximum messages size (default: 120000)
+        ///</summary>
+        [ApiMember(Description="Maximum messages size (default: 120000)", Name="MaxMessageSize")]
+        public virtual int MaxMessageSize { get; set; }
+
+        ///<summary>
+        ///Controls who can act as a Winlink gateway (default: false)
+        ///</summary>
+        [ApiMember(Description="Controls who can act as a Winlink gateway (default: false)", Name="GatewayAccess")]
+        public virtual bool GatewayAccess { get; set; }
+
+        ///<summary>
+        ///No purge flag (default: false)
+        ///</summary>
+        [ApiMember(Description="No purge flag (default: false)", Name="NoPurge")]
+        public virtual bool NoPurge { get; set; }
+    }
+
+    public partial class CallsignPropertiesSetResponse
+        : WebServiceResponse
+    {
     }
 
     ///<summary>
@@ -484,10 +1796,10 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Adds multiple channel records replacing any previously defined
+    ///Adds multiple channel records replacing any previously defined.
     ///</summary>
     [Route("/channel/add/multiple", "POST")]
-    [Api(Description="Adds multiple channel records replacing any previously defined")]
+    [Api(Description="Adds multiple channel records replacing any previously defined.")]
     public partial class ChannelAddMultiple
         : WebServiceRequest, IReturn<ChannelAddMultipleResponse>
     {
@@ -705,6 +2017,305 @@ namespace winlink.cms.webservices
 
         [DataMember]
         public virtual string ServiceCode { get; set; }
+    }
+
+    [DataContract]
+    public partial class CmsApplication
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Name { get; set; }
+
+        [DataMember]
+        public virtual string Version { get; set; }
+    }
+
+    ///<summary>
+    ///Adds an application status record to the cmsstatus table.
+    ///</summary>
+    [Route("/cms/applicationStatus/add", "POST,GET")]
+    [Api(Description="Adds an application status record to the cmsstatus table.")]
+    public partial class CmsApplicationStatusAdd
+        : WebServiceRequest, IReturn<CmsApplicationStatusAddResponse>
+    {
+        ///<summary>
+        ///The datetime value to be recorded with this application status
+        ///</summary>
+        [ApiMember(Description="The datetime value to be recorded with this application status", Name="Timestamp")]
+        public virtual DateTime Timestamp { get; set; }
+
+        ///<summary>
+        ///The CMS name (e.g., 'Perth')
+        ///</summary>
+        [ApiMember(Description="The CMS name (e.g., 'Perth')", IsRequired=true, Name="CmsName")]
+        public virtual string CmsName { get; set; }
+
+        ///<summary>
+        ///The name of the applicaiton (e.g., 'CMS Telnet Server')
+        ///</summary>
+        [ApiMember(Description="The name of the applicaiton (e.g., 'CMS Telnet Server')", IsRequired=true, Name="Application")]
+        public virtual string Application { get; set; }
+
+        ///<summary>
+        ///The name of the property (e.g., 'Running')
+        ///</summary>
+        [ApiMember(Description="The name of the property (e.g., 'Running')", IsRequired=true, Name="Property")]
+        public virtual string Property { get; set; }
+
+        ///<summary>
+        ///The value for this property (e.g., 'True')
+        ///</summary>
+        [ApiMember(Description="The value for this property (e.g., 'True')", Name="Value")]
+        public virtual string Value { get; set; }
+    }
+
+    public partial class CmsApplicationStatusAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes an application status record from the cmsstatus table.
+    ///</summary>
+    [Route("/cms/applicationStatus/delete", "POST,GET")]
+    [Api(Description="Deletes an application status record from the cmsstatus table.")]
+    public partial class CmsApplicationStatusDelete
+        : WebServiceRequest, IReturn<CmsApplicationStatusDeleteResponse>
+    {
+        ///<summary>
+        ///The CMS name (e.g., 'Perth')
+        ///</summary>
+        [ApiMember(Description="The CMS name (e.g., 'Perth')", IsRequired=true, Name="CmsName")]
+        public virtual string CmsName { get; set; }
+
+        ///<summary>
+        ///The name of the application (e.g., 'CMS Telnet Server')
+        ///</summary>
+        [ApiMember(Description="The name of the application (e.g., 'CMS Telnet Server')", IsRequired=true, Name="Application")]
+        public virtual string Application { get; set; }
+
+        ///<summary>
+        ///The name of the property (e.g., 'Running')
+        ///</summary>
+        [ApiMember(Description="The name of the property (e.g., 'Running')", IsRequired=true, Name="Property")]
+        public virtual string Property { get; set; }
+    }
+
+    public partial class CmsApplicationStatusDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list showing the status of all applications running on the specified server.
+    ///</summary>
+    [Route("/cms/applicationStatus", "POST,GET")]
+    [Route("/cms/applicationStatus/get", "POST,GET")]
+    [Api(Description="Returns a list showing the status of all applications running on the specified server.")]
+    public partial class CmsApplicationStatusGet
+        : WebServiceRequest, IReturn<CmsApplicationStatusGetResponse>
+    {
+        ///<summary>
+        ///The CMS name (e.g., 'Perth')
+        ///</summary>
+        [ApiMember(Description="The CMS name (e.g., 'Perth')", IsRequired=true, Name="CmsName")]
+        public virtual string CmsName { get; set; }
+    }
+
+    public partial class CmsApplicationStatusGetResponse
+        : WebServiceResponse
+    {
+        public CmsApplicationStatusGetResponse()
+        {
+            Applications = new List<CmsApplication>{};
+        }
+
+        public virtual DateTime Timestamp { get; set; }
+        public virtual string CmsName { get; set; }
+        public virtual bool Online { get; set; }
+        public virtual List<CmsApplication> Applications { get; set; }
+    }
+
+    [DataContract]
+    public partial class DeliveryListRecord
+    {
+        [DataMember]
+        public virtual string Address { get; set; }
+
+        [DataMember]
+        public virtual bool Forwarded { get; set; }
+    }
+
+    [DataContract]
+    public partial class DonationRecord
+    {
+        [DataMember]
+        public virtual string TransactionId { get; set; }
+
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Name { get; set; }
+
+        [DataMember]
+        public virtual string EmailAddress { get; set; }
+
+        [DataMember]
+        public virtual double Amount { get; set; }
+
+        [DataMember]
+        public virtual string TransactionType { get; set; }
+
+        [DataMember]
+        public virtual string RegistrationKey { get; set; }
+
+        [DataMember]
+        public virtual bool Void { get; set; }
+
+        [DataMember]
+        public virtual string Notes { get; set; }
+    }
+
+    ///<summary>
+    ///Echos the sent data back to the requestor.
+    ///</summary>
+    [Route("/echo", "POST,GET")]
+    [Api(Description="Echos the sent data back to the requestor.")]
+    public partial class Echo
+        : WebServiceRequest, IReturn<EchoResponse>
+    {
+        public virtual string Data { get; set; }
+    }
+
+    public partial class EchoResponse
+        : WebServiceResponse
+    {
+        public virtual string Data { get; set; }
+    }
+
+    ///<summary>
+    ///Adds an email alias record.
+    ///</summary>
+    [Route("/emailAlias/add", "POST,GET")]
+    [Api(Description="Adds an email alias record.")]
+    public partial class EmailAliasAdd
+        : WebServiceRequest, IReturn<EmailAliasAddResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Alias name
+        ///</summary>
+        [ApiMember(Description="Alias name", IsRequired=true, Name="Alias")]
+        public virtual string Alias { get; set; }
+
+        ///<summary>
+        ///Email address for alias
+        ///</summary>
+        [ApiMember(Description="Email address for alias", IsRequired=true, Name="Address")]
+        public virtual string Address { get; set; }
+    }
+
+    public partial class EmailAliasAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes the specified email alias record.
+    ///</summary>
+    [Route("/emailAlias/delete", "POST,GET")]
+    [Api(Description="Deletes the specified email alias record.")]
+    public partial class EmailAliasDelete
+        : WebServiceRequest, IReturn<EmailAliasDeleteResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Alias name
+        ///</summary>
+        [ApiMember(Description="Alias name", IsRequired=true, Name="Alias")]
+        public virtual string Alias { get; set; }
+    }
+
+    public partial class EmailAliasDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns the email address for the specified alias.
+    ///</summary>
+    [Route("/emailAlias/get", "POST,GET")]
+    [Api(Description="Returns the email address for the specified alias.")]
+    public partial class EmailAliasGet
+        : WebServiceRequest, IReturn<EmailAliasGetResponse>
+    {
+        ///<summary>
+        ///Account callsign
+        ///</summary>
+        [ApiMember(Description="Account callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Alias name
+        ///</summary>
+        [ApiMember(Description="Alias name", IsRequired=true, Name="Alias")]
+        public virtual string Alias { get; set; }
+    }
+
+    public partial class EmailAliasGetResponse
+        : WebServiceResponse
+    {
+        public virtual string Address { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of all email aliases.
+    ///</summary>
+    [Route("/emailAlias/list", "POST,GET")]
+    [Api(Description="Returns a list of all email aliases.")]
+    public partial class EmailAliasList
+        : WebServiceRequest, IReturn<EmailAliasListResponse>
+    {
+    }
+
+    public partial class EmailAliasListResponse
+        : WebServiceResponse
+    {
+        public EmailAliasListResponse()
+        {
+            AliasList = new List<EmailAliasRecord>{};
+        }
+
+        public virtual List<EmailAliasRecord> AliasList { get; set; }
+    }
+
+    [DataContract]
+    public partial class EmailAliasRecord
+    {
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Alias { get; set; }
+
+        [DataMember]
+        public virtual string Address { get; set; }
     }
 
     ///<summary>
@@ -961,6 +2572,127 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns an array of data structures showing connection statistics of the gateway.
+    ///</summary>
+    [Route("/gatewayStats", "POST,GET")]
+    [Route("/gateway/stats", "POST,GET")]
+    [Api(Description="Returns an array of data structures showing connection statistics of the gateway.")]
+    public partial class GatewayStats
+        : WebServiceRequest, IReturn<GatewayStatsResponse>
+    {
+        ///<summary>
+        ///Gateway callsign (may include SSID)
+        ///</summary>
+        [ApiMember(Description="Gateway callsign (may include SSID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///One or more service codes (default: PUBLIC)
+        ///</summary>
+        [ApiMember(Description="One or more service codes (default: PUBLIC)", Name="ServiceCodes")]
+        public virtual string ServiceCodes { get; set; }
+
+        ///<summary>
+        ///Year and month - YYYYMM (default: current year and month)
+        ///</summary>
+        [ApiMember(Description="Year and month - YYYYMM (default: current year and month)", Name="Period")]
+        public virtual string Period { get; set; }
+    }
+
+    [DataContract]
+    public partial class GatewayStatsRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Period { get; set; }
+
+        [DataMember]
+        public virtual string Channel { get; set; }
+
+        [DataMember]
+        public virtual int TcpIp { get; set; }
+
+        [DataMember]
+        public virtual int Packet { get; set; }
+
+        [DataMember]
+        public virtual int Pactor1 { get; set; }
+
+        [DataMember]
+        public virtual int Pactor2 { get; set; }
+
+        [DataMember]
+        public virtual int Pactor3 { get; set; }
+
+        [DataMember]
+        public virtual int Pactor4 { get; set; }
+
+        [DataMember]
+        public virtual int Winmor500 { get; set; }
+
+        [DataMember]
+        public virtual int Winmor1600 { get; set; }
+
+        [DataMember]
+        public virtual int RobustPacket { get; set; }
+
+        [DataMember]
+        public virtual int Ardop200 { get; set; }
+
+        [DataMember]
+        public virtual int Ardop500 { get; set; }
+
+        [DataMember]
+        public virtual int Ardop1000 { get; set; }
+
+        [DataMember]
+        public virtual int Ardop2000 { get; set; }
+
+        [DataMember]
+        public virtual int Ardop2000Fm { get; set; }
+
+        [DataMember]
+        public virtual int Vara { get; set; }
+
+        [DataMember]
+        public virtual int Vara1200Fm { get; set; }
+
+        [DataMember]
+        public virtual int Vara9600Fm { get; set; }
+
+        [DataMember]
+        public virtual int Vara500 { get; set; }
+
+        [DataMember]
+        public virtual int Vara2750 { get; set; }
+
+        [DataMember]
+        public virtual int MessagesIn { get; set; }
+
+        [DataMember]
+        public virtual int MessagesOut { get; set; }
+
+        [DataMember]
+        public virtual string ServiceCode { get; set; }
+    }
+
+    public partial class GatewayStatsResponse
+        : WebServiceResponse
+    {
+        public GatewayStatsResponse()
+        {
+            GatewayStats = new List<GatewayStatsRecord>{};
+        }
+
+        public virtual List<GatewayStatsRecord> GatewayStats { get; set; }
+    }
+
+    ///<summary>
     ///Returns an array of data structures showing the status of Winlink gateways.
     ///</summary>
     [Route("/gatewayStatus", "POST,GET")]
@@ -1039,6 +2771,50 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Adds a new group. A group name is used to send mail to all members of the group
+    ///</summary>
+    [Route("/group/add", "POST,GET")]
+    [Api(Description="Adds a new group. A group name is used to send mail to all members of the group")]
+    public partial class GroupAdd
+        : WebServiceRequest, IReturn<GroupAddResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+
+        ///<summary>
+        ///Description of the group
+        ///</summary>
+        [ApiMember(Description="Description of the group")]
+        public virtual string Description { get; set; }
+
+        ///<summary>
+        ///SQL query or name and parameters for pre-defined query
+        ///</summary>
+        [ApiMember(Description="SQL query or name and parameters for pre-defined query")]
+        public virtual string Query { get; set; }
+
+        ///<summary>
+        ///True to send messages to the email address associated with each callsign
+        ///</summary>
+        [ApiMember(Description="True to send messages to the email address associated with each callsign")]
+        public virtual bool CcEmailAddress { get; set; }
+
+        ///<summary>
+        ///True to send messages to internet email address associated with each callsign ONLY
+        ///</summary>
+        [ApiMember(Description="True to send messages to internet email address associated with each callsign ONLY")]
+        public virtual bool InternetAddressesOnly { get; set; }
+    }
+
+    public partial class GroupAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
     ///Returns a list groups and addresses that are managed by the supplied account
     ///</summary>
     [Route("/group/address/list", "POST,GET")]
@@ -1090,6 +2866,512 @@ namespace winlink.cms.webservices
         public virtual List<string> AddressList { get; set; }
     }
 
+    ///<summary>
+    ///Deletes an existing group.
+    ///</summary>
+    [Route("/group/delete", "POST,GET")]
+    [Api(Description="Deletes an existing group.")]
+    public partial class GroupDelete
+        : WebServiceRequest, IReturn<GroupDeleteResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns true is the group already exists
+    ///</summary>
+    [Route("/group/exists", "POST,GET")]
+    [Api(Description="Returns true is the group already exists")]
+    public partial class GroupExists
+        : WebServiceRequest, IReturn<GroupExistsResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupExistsResponse
+        : WebServiceResponse
+    {
+        public virtual bool Exists { get; set; }
+    }
+
+    ///<summary>
+    ///Returns details of the specified group.
+    ///</summary>
+    [Route("/group/get", "POST,GET")]
+    [Api(Description="Returns details of the specified group.")]
+    public partial class GroupGet
+        : WebServiceRequest, IReturn<GroupGetResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupGetResponse
+        : WebServiceResponse
+    {
+        public virtual GroupRecord Group { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of defined groups
+    ///</summary>
+    [Route("/group/list", "POST,GET")]
+    [Api(Description="Returns a list of defined groups")]
+    public partial class GroupList
+        : WebServiceRequest, IReturn<GroupListResponse>
+    {
+        ///<summary>
+        ///Callsign of group manager or admin (omit for all)
+        ///</summary>
+        [ApiMember(Description="Callsign of group manager or admin (omit for all)")]
+        public virtual string Manager { get; set; }
+
+        ///<summary>
+        ///If true return only names for groups that are locked
+        ///</summary>
+        [ApiMember(Description="If true return only names for groups that are locked")]
+        public virtual bool LockedOnly { get; set; }
+    }
+
+    public partial class GroupListResponse
+        : WebServiceResponse
+    {
+        public GroupListResponse()
+        {
+            Groups = new List<string>{};
+        }
+
+        public virtual List<string> Groups { get; set; }
+    }
+
+    ///<summary>
+    ///Adds a manager to an existing group
+    ///</summary>
+    [Route("/group/manager/add", "POST,GET")]
+    [Api(Description="Adds a manager to an existing group")]
+    public partial class GroupManagerAdd
+        : WebServiceRequest, IReturn<GroupManagerAddResponse>
+    {
+        ///<summary>
+        ///Callsign of the group manager
+        ///</summary>
+        [ApiMember(Description="Callsign of the group manager", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupManagerAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of group address for which the user is a manager of
+    ///</summary>
+    [Route("/group/manager/address/list", "POST,GET")]
+    [Api(Description="Returns a list of group address for which the user is a manager of")]
+    public partial class GroupManagerAddressList
+        : WebServiceRequest, IReturn<GroupManagerAddressListResponse>
+    {
+        ///<summary>
+        ///Callsign of the manager
+        ///</summary>
+        [ApiMember(Description="Callsign of the manager", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class GroupManagerAddressListResponse
+        : WebServiceResponse
+    {
+        public GroupManagerAddressListResponse()
+        {
+            GroupAddresses = new List<GroupManagerAddressRecord>{};
+        }
+
+        public virtual List<GroupManagerAddressRecord> GroupAddresses { get; set; }
+    }
+
+    [DataContract]
+    public partial class GroupManagerAddressRecord
+    {
+        [DataMember]
+        public virtual string GroupName { get; set; }
+
+        [DataMember]
+        public virtual string Description { get; set; }
+    }
+
+    ///<summary>
+    ///Returns true if callsign is a manager (or admin) of any group
+    ///</summary>
+    [Route("/group/manager/any", "POST,GET")]
+    [Api(Description="Returns true if callsign is a manager (or admin) of any group")]
+    public partial class GroupManagerAny
+        : WebServiceRequest, IReturn<GroupManagerAnyResponse>
+    {
+        ///<summary>
+        ///Callsign of the manager
+        ///</summary>
+        [ApiMember(Description="Callsign of the manager", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class GroupManagerAnyResponse
+        : WebServiceResponse
+    {
+        public virtual bool IsValid { get; set; }
+    }
+
+    ///<summary>
+    ///Removes a manager from an existing group
+    ///</summary>
+    [Route("/group/manager/delete", "POST,GET")]
+    [Api(Description="Removes a manager from an existing group")]
+    public partial class GroupManagerDelete
+        : WebServiceRequest, IReturn<GroupManagerDeleteResponse>
+    {
+        ///<summary>
+        ///Callsign of the group manager
+        ///</summary>
+        [ApiMember(Description="Callsign of the group manager", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupManagerDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of managers for the specified group
+    ///</summary>
+    [Route("/group/manager/list", "POST,GET")]
+    [Api(Description="Returns a list of managers for the specified group")]
+    public partial class GroupManagerList
+        : WebServiceRequest, IReturn<GroupManagerListResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupManagerListResponse
+        : WebServiceResponse
+    {
+        public GroupManagerListResponse()
+        {
+            Managers = new List<string>{};
+        }
+
+        public virtual List<string> Managers { get; set; }
+    }
+
+    ///<summary>
+    ///Adds a member address to an existing group
+    ///</summary>
+    [Route("/group/member/add", "POST,GET")]
+    [Api(Description="Adds a member address to an existing group")]
+    public partial class GroupMemberAdd
+        : WebServiceRequest, IReturn<GroupMemberAddResponse>
+    {
+        ///<summary>
+        ///Address (callsign or email)
+        ///</summary>
+        [ApiMember(Description="Address (callsign or email)", IsRequired=true)]
+        public virtual string Address { get; set; }
+
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupMemberAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Removes a member address from an existing group
+    ///</summary>
+    [Route("/group/member/delete", "POST,GET")]
+    [Api(Description="Removes a member address from an existing group")]
+    public partial class GroupMemberDelete
+        : WebServiceRequest, IReturn<GroupMemberDeleteResponse>
+    {
+        ///<summary>
+        ///Address (callsign or email)
+        ///</summary>
+        [ApiMember(Description="Address (callsign or email)", IsRequired=true)]
+        public virtual string Address { get; set; }
+
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    ///<summary>
+    ///Removes all member addresses from an existing group
+    ///</summary>
+    [Route("/group/member/delete/all", "POST,GET")]
+    [Api(Description="Removes all member addresses from an existing group")]
+    public partial class GroupMemberDeleteAll
+        : WebServiceRequest, IReturn<GroupMemberDeleteAllResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+    }
+
+    public partial class GroupMemberDeleteAllResponse
+        : WebServiceResponse
+    {
+    }
+
+    public partial class GroupMemberDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Imports a list of member addresses into an existing group
+    ///</summary>
+    [Route("/group/member/import", "POST,GET")]
+    [Api(Description="Imports a list of member addresses into an existing group")]
+    public partial class GroupMemberImport
+        : WebServiceRequest, IReturn<GroupMemberImportResponse>
+    {
+        public GroupMemberImport()
+        {
+            ImportList = new List<string>{};
+        }
+
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+
+        ///<summary>
+        ///List of callsigns and email addresses to import (txt or csv format, one item per line)
+        ///</summary>
+        [ApiMember(Description="List of callsigns and email addresses to import (txt or csv format, one item per line)", IsRequired=true)]
+        public virtual List<string> ImportList { get; set; }
+    }
+
+    public partial class GroupMemberImportResponse
+        : WebServiceResponse
+    {
+        public GroupMemberImportResponse()
+        {
+            ErrorList = new List<string>{};
+        }
+
+        public virtual List<string> ErrorList { get; set; }
+    }
+
+    ///<summary>
+    ///Return a list of member addresses from the specified group
+    ///</summary>
+    [Route("/group/member/list", "POST,GET")]
+    [Api(Description="Return a list of member addresses from the specified group")]
+    public partial class GroupMemberList
+        : WebServiceRequest, IReturn<GroupMemberListResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+
+        ///<summary>
+        ///Include members added because of a dynamic group query (default: true)
+        ///</summary>
+        [ApiMember(Description="Include members added because of a dynamic group query (default: true)")]
+        public virtual bool IncludeDynamic { get; set; }
+
+        ///<summary>
+        ///Flag dynamic members with asterisk (default: false)
+        ///</summary>
+        [ApiMember(Description="Flag dynamic members with asterisk (default: false)")]
+        public virtual bool FlagDynamic { get; set; }
+
+        ///<summary>
+        ///Limit the number of member addresses returned to this value (0 = no limit)
+        ///</summary>
+        [ApiMember(Description="Limit the number of member addresses returned to this value (0 = no limit)")]
+        public virtual int DynamicResultLimit { get; set; }
+    }
+
+    public partial class GroupMemberListResponse
+        : WebServiceResponse
+    {
+        public GroupMemberListResponse()
+        {
+            Members = new List<string>{};
+        }
+
+        public virtual List<string> Members { get; set; }
+    }
+
+    ///<summary>
+    ///Return a list of groups this addresses is a member of
+    ///</summary>
+    [Route("/group/membership", "POST,GET")]
+    [Api(Description="Return a list of groups this addresses is a member of")]
+    public partial class GroupMembership
+        : WebServiceRequest, IReturn<GroupMembershipResponse>
+    {
+        ///<summary>
+        ///Address (callsign or email)
+        ///</summary>
+        [ApiMember(Description="Address (callsign or email)", IsRequired=true)]
+        public virtual string Address { get; set; }
+    }
+
+    public partial class GroupMembershipResponse
+        : WebServiceResponse
+    {
+        public GroupMembershipResponse()
+        {
+            Addresses = new List<string>{};
+        }
+
+        public virtual List<string> Addresses { get; set; }
+    }
+
+    [DataContract]
+    public partial class GroupRecord
+    {
+        [DataMember]
+        public virtual string GroupName { get; set; }
+
+        [DataMember]
+        public virtual string Description { get; set; }
+
+        [DataMember]
+        public virtual string Query { get; set; }
+
+        [DataMember]
+        public virtual bool CcEmailAddress { get; set; }
+
+        [DataMember]
+        public virtual bool InternetAddressesOnly { get; set; }
+
+        [DataMember]
+        public virtual bool Locked { get; set; }
+    }
+
+    ///<summary>
+    ///Changes the name of an existing group to a new unused name
+    ///</summary>
+    [Route("/group/rename", "POST,GET")]
+    [Api(Description="Changes the name of an existing group to a new unused name")]
+    public partial class GroupRename
+        : WebServiceRequest, IReturn<GroupRenameResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+
+        ///<summary>
+        ///New name for the group
+        ///</summary>
+        [ApiMember(Description="New name for the group", IsRequired=true)]
+        public virtual string NewGroupName { get; set; }
+    }
+
+    public partial class GroupRenameResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Updates an existing group record.
+    ///</summary>
+    [Route("/group/update", "POST,GET")]
+    [Api(Description="Updates an existing group record.")]
+    public partial class GroupUpdate
+        : WebServiceRequest, IReturn<GroupUpdateResponse>
+    {
+        ///<summary>
+        ///Name of the group
+        ///</summary>
+        [ApiMember(Description="Name of the group", IsRequired=true)]
+        public virtual string GroupName { get; set; }
+
+        ///<summary>
+        ///Description of the group
+        ///</summary>
+        [ApiMember(Description="Description of the group")]
+        public virtual string Description { get; set; }
+
+        ///<summary>
+        ///SQL query or name and parameters for pre-defined query
+        ///</summary>
+        [ApiMember(Description="SQL query or name and parameters for pre-defined query")]
+        public virtual string Query { get; set; }
+
+        ///<summary>
+        ///True to send messages to the email address associated with each callsign
+        ///</summary>
+        [ApiMember(Description="True to send messages to the email address associated with each callsign")]
+        public virtual bool CcEmailAddress { get; set; }
+
+        ///<summary>
+        ///True to send messages to internet email address associated with each callsign ONLY
+        ///</summary>
+        [ApiMember(Description="True to send messages to internet email address associated with each callsign ONLY")]
+        public virtual bool InternetAddressesOnly { get; set; }
+    }
+
+    public partial class GroupUpdateResponse
+        : WebServiceResponse
+    {
+    }
+
     [DataContract]
     public partial class HybridRecord
     {
@@ -1125,6 +3407,394 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns a list of inquiry records for use in updating the Winlink catalog.
+    ///</summary>
+    [Route("/inquiries/catalog", "POST,GET")]
+    [Api(Description="Returns a list of inquiry records for use in updating the Winlink catalog.")]
+    public partial class InquiriesCatalog
+        : WebServiceRequest, IReturn<InquiriesCatalogResponse>
+    {
+    }
+
+    public partial class InquiriesCatalogResponse
+        : WebServiceResponse
+    {
+        public InquiriesCatalogResponse()
+        {
+            Inquiries = new List<InquiryRecord>{};
+        }
+
+        public virtual List<InquiryRecord> Inquiries { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of inquiries
+    ///</summary>
+    [Route("/inquiries/list", "POST,GET")]
+    [Api(Description="Returns a list of inquiries")]
+    public partial class InquiriesList
+        : WebServiceRequest, IReturn<InquiriesListResponse>
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of disabled inquiry records.
+    ///</summary>
+    [Route("/inquiries/list/disabled", "POST,GET")]
+    [Api(Description="Returns a list of disabled inquiry records.")]
+    public partial class InquiriesListDisabled
+        : WebServiceRequest, IReturn<InquiriesListDisabledResponse>
+    {
+    }
+
+    public partial class InquiriesListDisabledResponse
+        : WebServiceResponse
+    {
+        public InquiriesListDisabledResponse()
+        {
+            Inquiries = new List<InquiryRecord>{};
+        }
+
+        public virtual List<InquiryRecord> Inquiries { get; set; }
+    }
+
+    public partial class InquiriesListResponse
+        : WebServiceResponse
+    {
+        public InquiriesListResponse()
+        {
+            List = new List<InquiryRecord>{};
+        }
+
+        public virtual List<InquiryRecord> List { get; set; }
+    }
+
+    ///<summary>
+    ///Adds or updates an inquiry returns.
+    ///</summary>
+    [Route("/inquiry/add", "POST,GET")]
+    [Route("/inquiry/update", "POST,GET")]
+    [Api(Description="Adds or updates an inquiry returns.")]
+    public partial class InquiryAddUpdate
+        : WebServiceRequest, IReturn<InquiryAddUpdateResponse>
+    {
+        ///<summary>
+        ///The ID of the inquiry record
+        ///</summary>
+        [ApiMember(Description="The ID of the inquiry record", IsRequired=true)]
+        public virtual string InquiryId { get; set; }
+
+        public virtual string Category { get; set; }
+        public virtual string Subject { get; set; }
+        public virtual string Process { get; set; }
+        public virtual string Url { get; set; }
+        public virtual int Lifetime { get; set; }
+        public virtual int SizeEstimate { get; set; }
+        public virtual bool Enabled { get; set; }
+        public virtual int DownloadCount { get; set; }
+        public virtual int ImageQuality { get; set; }
+    }
+
+    public partial class InquiryAddUpdateResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes the specified inquiry record
+    ///</summary>
+    [Route("/inquiry/delete", "POST,GET")]
+    [Api(Description="Deletes the specified inquiry record")]
+    public partial class InquiryDelete
+        : WebServiceRequest, IReturn<InquiryDeleteResponse>
+    {
+        ///<summary>
+        ///The ID of the inquiry record
+        ///</summary>
+        [ApiMember(Description="The ID of the inquiry record", IsRequired=true)]
+        public virtual string InquiryId { get; set; }
+    }
+
+    public partial class InquiryDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns the specified inquiry record.
+    ///</summary>
+    [Route("/inquiry/get", "POST,GET")]
+    [Api(Description="Returns the specified inquiry record.")]
+    public partial class InquiryGet
+        : WebServiceRequest, IReturn<InquiryGetResponse>
+    {
+        ///<summary>
+        ///The ID of the inquiry record
+        ///</summary>
+        [ApiMember(Description="The ID of the inquiry record", IsRequired=true)]
+        public virtual string InquiryId { get; set; }
+    }
+
+    public partial class InquiryGetResponse
+        : WebServiceResponse
+    {
+        public virtual InquiryRecord Inquiry { get; set; }
+    }
+
+    [DataContract]
+    public partial class InquiryRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string InquiryId { get; set; }
+
+        [DataMember]
+        public virtual string Category { get; set; }
+
+        [DataMember]
+        public virtual string Subject { get; set; }
+
+        [DataMember]
+        public virtual string Process { get; set; }
+
+        [DataMember]
+        public virtual string Url { get; set; }
+
+        [DataMember]
+        public virtual int Lifetime { get; set; }
+
+        [DataMember]
+        public virtual int SizeEstimate { get; set; }
+
+        [DataMember]
+        public virtual bool Enabled { get; set; }
+
+        [DataMember]
+        public virtual int DownloadCount { get; set; }
+
+        [DataMember]
+        public virtual int ImageQuality { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of inquiry records using the specified filter.
+    ///</summary>
+    [Route("/inquiry/search", "POST,GET")]
+    [Api(Description="Returns a list of inquiry records using the specified filter.")]
+    public partial class InquirySearch
+        : WebServiceRequest, IReturn<InquirySearchResponse>
+    {
+        ///<summary>
+        ///Filter text -- applied to multiple columns
+        ///</summary>
+        [ApiMember(Description="Filter text -- applied to multiple columns")]
+        public virtual string Filter { get; set; }
+    }
+
+    public partial class InquirySearchResponse
+        : WebServiceResponse
+    {
+        public InquirySearchResponse()
+        {
+            Inquiries = new List<InquiryRecord>{};
+        }
+
+        public virtual List<InquiryRecord> Inquiries { get; set; }
+    }
+
+    ///<summary>
+    ///Submits an inquiry request for processing
+    ///</summary>
+    [Route("/inquiry/submit", "POST,GET")]
+    [Api(Description="Submits an inquiry request for processing")]
+    public partial class InquirySubmit
+        : WebServiceRequest, IReturn<InquirySubmitResponse>
+    {
+        ///<summary>
+        ///The ID of the inquiry record or a URL
+        ///</summary>
+        [ApiMember(Description="The ID of the inquiry record or a URL", IsRequired=true)]
+        public virtual string InquiryId { get; set; }
+
+        ///<summary>
+        ///Callsign account
+        ///</summary>
+        [ApiMember(Description="Callsign account", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class InquirySubmitResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Updates the record timestamp to the current date
+    ///</summary>
+    [Route("/inquiry/touch", "POST,GET")]
+    [Api(Description="Updates the record timestamp to the current date")]
+    public partial class InquiryTouch
+        : WebServiceRequest, IReturn<InquiryTouchResponse>
+    {
+        ///<summary>
+        ///The ID of the inquiry record
+        ///</summary>
+        [ApiMember(Description="The ID of the inquiry record", IsRequired=true)]
+        public virtual string InquiryId { get; set; }
+    }
+
+    public partial class InquiryTouchResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of winlink admin accounts
+    ///</summary>
+    [Route("/internal/admin/accounts/get", "POST,GET")]
+    [Api(Description="Returns a list of winlink admin accounts")]
+    public partial class InternalAdminAccountsGet
+        : WebServiceRequest, IReturn<InternalAdminAccountsGetResponse>
+    {
+    }
+
+    public partial class InternalAdminAccountsGetResponse
+        : WebServiceResponse
+    {
+        public InternalAdminAccountsGetResponse()
+        {
+            AdminAccounts = new List<string>{};
+        }
+
+        public virtual List<string> AdminAccounts { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of group admin accounts
+    ///</summary>
+    [Route("/internal/group/admin/accounts/get", "POST,GET")]
+    [Api(Description="Returns a list of group admin accounts")]
+    public partial class InternalGroupAdminAccountsGet
+        : WebServiceRequest, IReturn<InternalGroupAdminAccountsGetResponse>
+    {
+    }
+
+    public partial class InternalGroupAdminAccountsGetResponse
+        : WebServiceResponse
+    {
+        public InternalGroupAdminAccountsGetResponse()
+        {
+            GroupAdminAccounts = new List<string>{};
+        }
+
+        public virtual List<string> GroupAdminAccounts { get; set; }
+    }
+
+    [DataContract]
+    public partial class IPAddressRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string IPAddress { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of callsigns know to have used the provided IP address to access Winlink systems
+    ///</summary>
+    [Route("/ipAddressUsers/get", "POST,GET")]
+    [Api(Description="Returns a list of callsigns know to have used the provided IP address to access Winlink systems")]
+    public partial class IPAddressUsers
+        : WebServiceRequest, IReturn<IPAddressUsersResponse>
+    {
+        ///<summary>
+        ///IP address
+        ///</summary>
+        [ApiMember(Description="IP address", IsRequired=true, Name="IPAddress")]
+        public virtual string IPAddress { get; set; }
+    }
+
+    public partial class IPAddressUsersResponse
+        : WebServiceResponse
+    {
+        public IPAddressUsersResponse()
+        {
+            IPAddressUsers = new List<IPAddressRecord>{};
+        }
+
+        public virtual List<IPAddressRecord> IPAddressUsers { get; set; }
+    }
+
+    public partial class LatestActivity
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+    }
+
+    [DataContract]
+    public partial class LatestProgramVersionRecord
+    {
+        [DataMember]
+        public virtual string Program { get; set; }
+
+        [DataMember]
+        public virtual string Version { get; set; }
+
+        [DataMember]
+        public virtual UserType UserType { get; set; }
+    }
+
+    ///<summary>
+    ///Deletes a license record.
+    ///</summary>
+    [Route("/license/delete", "POST,GET")]
+    [Api(Description="Deletes a license record.")]
+    public partial class LicenseDelete
+        : WebServiceRequest, IReturn<LicenseDeleteResponse>
+    {
+        ///<summary>
+        ///Callsign
+        ///</summary>
+        [ApiMember(Description="Callsign", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class LicenseDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Retrieves a specific license record from the database.
+    ///</summary>
+    [Route("/license/get", "POST,GET")]
+    [Api(Description="Retrieves a specific license record from the database.")]
+    public partial class LicenseGet
+        : WebServiceRequest, IReturn<LicenseGetResponse>
+    {
+        ///<summary>
+        ///Callsign
+        ///</summary>
+        [ApiMember(Description="Callsign", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class LicenseGetResponse
+        : WebServiceResponse
+    {
+        public virtual LicenseRecord LicenseRecord { get; set; }
+    }
+
+    ///<summary>
     ///Returns information regarding the the amateur radio license.
     ///</summary>
     [Route("/license/lookup", "POST,GET")]
@@ -1146,10 +3816,176 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
-    ///Returns a list of all messages pending for this account.
+    ///Adds a license record to the database. If the record already exists, it is replaced
+    ///</summary>
+    [Route("/license/put", "POST,GET")]
+    [Api(Description="Adds a license record to the database. If the record already exists, it is replaced")]
+    public partial class LicensePut
+        : WebServiceRequest, IReturn<LicensePutResponse>
+    {
+        [ApiMember(IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        public virtual string LicenseName { get; set; }
+        public virtual string Country { get; set; }
+        public virtual LicenseStatus Status { get; set; }
+        public virtual string StatusDescription { get; set; }
+        public virtual string ServiceUsed { get; set; }
+        public virtual DateTime RecheckDate { get; set; }
+        public virtual string Comments { get; set; }
+    }
+
+    public partial class LicensePutResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns list of license records where one or more of the callsign, name or comments fields contain the supplied search text.
+    ///</summary>
+    [Route("/license/search", "POST,GET")]
+    [Api(Description="Returns list of license records where one or more of the callsign, name or comments fields contain the supplied search text.")]
+    public partial class LicenseSearch
+        : WebServiceRequest, IReturn<LicenseSearchResponse>
+    {
+        ///<summary>
+        ///Text to filter results by
+        ///</summary>
+        [ApiMember(Description="Text to filter results by", IsRequired=true)]
+        public virtual string SearchText { get; set; }
+    }
+
+    public partial class LicenseSearchResponse
+        : WebServiceResponse
+    {
+        public LicenseSearchResponse()
+        {
+            LicenseRecords = new List<LicenseRecord>{};
+        }
+
+        public virtual List<LicenseRecord> LicenseRecords { get; set; }
+    }
+
+    ///<summary>
+    ///Adds or updates a license record. If the record already exists only the provided elements are replaced - others remain unaltered.
+    ///</summary>
+    [Route("/license/update", "POST,GET")]
+    [Api(Description="Adds or updates a license record. If the record already exists only the provided elements are replaced - others remain unaltered.")]
+    public partial class LicenseUpdate
+        : WebServiceRequest, IReturn<LicenseUpdateResponse>
+    {
+        [ApiMember(IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        public virtual string LicenseName { get; set; }
+        public virtual string Country { get; set; }
+        public virtual LicenseStatus Status { get; set; }
+        public virtual string StatusDescription { get; set; }
+        public virtual string ServiceUsed { get; set; }
+        public virtual DateTime RecheckDate { get; set; }
+        public virtual string Comments { get; set; }
+    }
+
+    public partial class LicenseUpdateResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns information regarding the validity of the amateur radio license.
+    ///</summary>
+    [Route("/license/validate", "POST,GET")]
+    [Api(Description="Returns information regarding the validity of the amateur radio license.")]
+    public partial class LicenseValidate
+        : WebServiceRequest, IReturn<LicenseValidateResponse>
+    {
+        ///<summary>
+        ///Callsign to test
+        ///</summary>
+        [ApiMember(Description="Callsign to test", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class LicenseValidateResponse
+        : WebServiceResponse
+    {
+        public virtual LicenseRecord ValidationRecord { get; set; }
+    }
+
+    [DataContract]
+    public partial class LockedOutRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string AdminCallsign { get; set; }
+
+        [DataMember]
+        public virtual string Reason { get; set; }
+    }
+
+    ///<summary>
+    ///Deletes (marks as forwarded) a specific email message identified by MessageId.
+    ///</summary>
+    [Route("/message/delete", "POST,GET")]
+    [Route("/message/kill", "POST,GET")]
+    [Api(Description="Deletes (marks as forwarded) a specific email message identified by MessageId.")]
+    public partial class MessageDelete
+        : WebServiceRequest, IReturn<MessageDeleteResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true)]
+        public virtual string MessageId { get; set; }
+
+        ///<summary>
+        ///Completely remove all traces of the message from the database (default: false)
+        ///</summary>
+        [ApiMember(Description="Completely remove all traces of the message from the database (default: false)")]
+        public virtual bool CompleteDeletion { get; set; }
+    }
+
+    public partial class MessageDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of addressees for this message and their delivery status
+    ///</summary>
+    [Route("/message/delivery/list", "POST,GET")]
+    [Api(Description="Returns a list of addressees for this message and their delivery status")]
+    public partial class MessageDeliveryList
+        : WebServiceRequest, IReturn<MessageDeliveryListResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true, Name="MessageId")]
+        public virtual string MessageId { get; set; }
+    }
+
+    public partial class MessageDeliveryListResponse
+        : WebServiceResponse
+    {
+        public MessageDeliveryListResponse()
+        {
+            DeliveryList = new List<DeliveryListRecord>{};
+        }
+
+        public virtual List<DeliveryListRecord> DeliveryList { get; set; }
+    }
+
+    ///<summary>
+    ///Returns if the message with MessageId exists.
     ///</summary>
     [Route("/message/exists", "POST,GET")]
-    [Api(Description="Returns a list of all messages pending for this account.")]
+    [Api(Description="Returns if the message with MessageId exists.")]
     public partial class MessageExists
         : WebServiceRequest, IReturn<MessageExistsResponse>
     {
@@ -1200,6 +4036,28 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Gets a specific email message identified by MessageId. Returns the mime encoded message.
+    ///</summary>
+    [Route("/message/get/byid", "POST,GET")]
+    [Api(Description="Gets a specific email message identified by MessageId. Returns the mime encoded message.")]
+    public partial class MessageGetById
+        : WebServiceRequest, IReturn<MessageGetByIdResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true)]
+        public virtual string MessageId { get; set; }
+    }
+
+    public partial class MessageGetByIdResponse
+        : WebServiceResponse
+    {
+        public virtual string MessageId { get; set; }
+        public virtual string Mime { get; set; }
+    }
+
+    ///<summary>
     ///Gets a specific email message identified by MessageId. Returns the decoded message.
     ///</summary>
     [Route("/message/get/decoded", "POST,GET")]
@@ -1230,6 +4088,21 @@ namespace winlink.cms.webservices
         ///</summary>
         [ApiMember(Description="Message is marked as forwarded (delivered)")]
         public virtual bool MarkAsForwarded { get; set; }
+    }
+
+    ///<summary>
+    ///Gets a specific email message identified by MessageId. Returns the decoded message.
+    ///</summary>
+    [Route("/message/get/decoded/internal", "POST,GET")]
+    [Api(Description="Gets a specific email message identified by MessageId. Returns the decoded message.")]
+    public partial class MessageGetDecodedInternal
+        : WebServiceRequest, IReturn<MessageGetDecodedResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true, Name="MessageId")]
+        public virtual string MessageId { get; set; }
     }
 
     public partial class MessageGetDecodedResponse
@@ -1281,6 +4154,95 @@ namespace winlink.cms.webservices
         ///</summary>
         [ApiMember(Description="Password for account (tactical address may not have a password)", IsRequired=true)]
         public virtual string Password { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of messages and message details based on the query parameters (Default: Messages seen in the last 24 hours)
+    ///</summary>
+    [Route("/message/list/query", "POST,GET")]
+    [Api(Description="Returns a list of messages and message details based on the query parameters (Default: Messages seen in the last 24 hours)")]
+    public partial class MessageListQuery
+        : WebServiceRequest, IReturn<MessageListQueryResponse>
+    {
+        ///<summary>
+        ///Type of query (one of: Action,Addressee,Cms,Gateway,MessageId,Sender,Source,Subject)
+        ///</summary>
+        [ApiMember(Description="Type of query (one of: Action,Addressee,Cms,Gateway,MessageId,Sender,Source,Subject)")]
+        public virtual MessageQueryType QueryType { get; set; }
+
+        ///<summary>
+        ///Parameter value for selected query type (required when query type specified)
+        ///</summary>
+        [ApiMember(Description="Parameter value for selected query type (required when query type specified)")]
+        public virtual string QueryArgument { get; set; }
+
+        ///<summary>
+        ///Number of hours of history to include (default: 24)
+        ///</summary>
+        [ApiMember(Description="Number of hours of history to include (default: 24)")]
+        public virtual int HistoryHours { get; set; }
+
+        ///<summary>
+        ///Limit number of records returned (default: 1000)
+        ///</summary>
+        [ApiMember(Description="Limit number of records returned (default: 1000)")]
+        public virtual int RecordLimit { get; set; }
+
+        ///<summary>
+        ///True to include messages that were hidden
+        ///</summary>
+        [ApiMember(Description="True to include messages that were hidden")]
+        public virtual bool IncludeHidden { get; set; }
+
+        ///<summary>
+        ///Specify specific status (Accepted, Proposed, Rejected, Forwarded, etc.
+        ///</summary>
+        [ApiMember(Description="Specify specific status (Accepted, Proposed, Rejected, Forwarded, etc.")]
+        public virtual string Status { get; set; }
+    }
+
+    public partial class MessageListQueryRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string MessageId { get; set; }
+
+        [DataMember]
+        public virtual int Size { get; set; }
+
+        [DataMember]
+        public virtual int Attachments { get; set; }
+
+        [DataMember]
+        public virtual string Action { get; set; }
+
+        [DataMember]
+        public virtual string Source { get; set; }
+
+        [DataMember]
+        public virtual string Cms { get; set; }
+
+        [DataMember]
+        public virtual string Gateway { get; set; }
+
+        [DataMember]
+        public virtual string Sender { get; set; }
+
+        [DataMember]
+        public virtual string Subject { get; set; }
+    }
+
+    public partial class MessageListQueryResponse
+        : WebServiceResponse
+    {
+        public MessageListQueryResponse()
+        {
+            MessageList = new List<MessageListQueryRecord>{};
+        }
+
+        public virtual List<MessageListQueryRecord> MessageList { get; set; }
     }
 
     [DataContract]
@@ -1457,6 +4419,41 @@ namespace winlink.cms.webservices
         public virtual string MpsCallsign { get; set; }
     }
 
+    [DataContract]
+    public enum MessageQueryType
+    {
+        None,
+        Action,
+        Addressee,
+        Cms,
+        Gateway,
+        MessageId,
+        Sender,
+        Source,
+        Subject,
+        FullText,
+    }
+
+    ///<summary>
+    ///Reprocesses the specified message. This may cause duplicates.
+    ///</summary>
+    [Route("/message/reprocess", "POST,GET")]
+    [Api(Description="Reprocesses the specified message. This may cause duplicates.")]
+    public partial class MessageReprocess
+        : WebServiceRequest, IReturn<MessageReprocessResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true, Name="MessageId")]
+        public virtual string MessageId { get; set; }
+    }
+
+    public partial class MessageReprocessResponse
+        : WebServiceResponse
+    {
+    }
+
     ///<summary>
     ///Sends a message. If successfully posted the message ID is returned with the response.
     ///</summary>
@@ -1623,6 +4620,169 @@ namespace winlink.cms.webservices
         public virtual string MessageId { get; set; }
     }
 
+    ///<summary>
+    ///Returns a list of tracked actions for the specified message ID
+    ///</summary>
+    [Route("/message/track", "POST,GET")]
+    [Api(Description="Returns a list of tracked actions for the specified message ID")]
+    public partial class MessageTrack
+        : WebServiceRequest, IReturn<MessageTrackResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true, Name="MessageId")]
+        public virtual string MessageId { get; set; }
+    }
+
+    [DataContract]
+    public partial class MessageTrackRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Site { get; set; }
+
+        [DataMember]
+        public virtual string MessageId { get; set; }
+
+        [DataMember]
+        public virtual string Event { get; set; }
+
+        [DataMember]
+        public virtual string Status { get; set; }
+
+        [DataMember]
+        public virtual string Sender { get; set; }
+
+        [DataMember]
+        public virtual string Address { get; set; }
+
+        [DataMember]
+        public virtual string Detail { get; set; }
+    }
+
+    public partial class MessageTrackResponse
+        : WebServiceResponse
+    {
+        public MessageTrackResponse()
+        {
+            TrackList = new List<MessageTrackRecord>{};
+        }
+
+        public virtual List<MessageTrackRecord> TrackList { get; set; }
+    }
+
+    ///<summary>
+    ///Removes a record from the message view table
+    ///</summary>
+    [Route("/message/view/delete", "POST,GET")]
+    [Api(Description="Removes a record from the message view table")]
+    public partial class MessageViewDelete
+        : WebServiceRequest, IReturn<MessageViewDeleteResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true, Name="MessageId")]
+        public virtual string MessageId { get; set; }
+    }
+
+    public partial class MessageViewDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of messages and message details based on the query parameters
+    ///</summary>
+    [Route("/message/view/query", "POST,GET")]
+    [Api(Description="Returns a list of messages and message details based on the query parameters")]
+    public partial class MessageViewQuery
+        : WebServiceRequest, IReturn<MessageViewQueryResponse>
+    {
+        ///<summary>
+        ///Type of query (one of: MessageId,Gateway,Source,Sender,Subject,Addressee,FullText)
+        ///</summary>
+        [ApiMember(Description="Type of query (one of: MessageId,Gateway,Source,Sender,Subject,Addressee,FullText)")]
+        public virtual MessageQueryType QueryType { get; set; }
+
+        ///<summary>
+        ///Parameter value for selected query type (required when query type specified)
+        ///</summary>
+        [ApiMember(Description="Parameter value for selected query type (required when query type specified)")]
+        public virtual string QueryArgument { get; set; }
+
+        ///<summary>
+        ///Number of hours of history to include (default: 24)
+        ///</summary>
+        [ApiMember(Description="Number of hours of history to include (default: 24)")]
+        public virtual int HistoryHours { get; set; }
+
+        ///<summary>
+        ///Limit number of records returned (default: 1000)
+        ///</summary>
+        [ApiMember(Description="Limit number of records returned (default: 1000)")]
+        public virtual int RecordLimit { get; set; }
+
+        ///<summary>
+        ///The minimum full text search match score (default: 5)
+        ///</summary>
+        [ApiMember(Description="The minimum full text search match score (default: 5)")]
+        public virtual double MinimumScore { get; set; }
+    }
+
+    public partial class MessageViewQueryRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string MessageId { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Gateway { get; set; }
+
+        [DataMember]
+        public virtual string Cms { get; set; }
+
+        [DataMember]
+        public virtual string Sender { get; set; }
+
+        [DataMember]
+        public virtual string Source { get; set; }
+
+        [DataMember]
+        public virtual string Subject { get; set; }
+
+        [DataMember]
+        public virtual int Frequency { get; set; }
+
+        [DataMember]
+        public virtual int Attachments { get; set; }
+
+        [DataMember]
+        public virtual int Size { get; set; }
+
+        [DataMember]
+        public virtual string ClientType { get; set; }
+    }
+
+    public partial class MessageViewQueryResponse
+        : WebServiceResponse
+    {
+        public MessageViewQueryResponse()
+        {
+            MessageList = new List<MessageViewQueryRecord>{};
+        }
+
+        public virtual List<MessageViewQueryRecord> MessageList { get; set; }
+    }
+
     [DataContract]
     public enum ModeMappings
     {
@@ -1696,6 +4856,72 @@ namespace winlink.cms.webservices
 
         [DataMember]
         public virtual int Direction { get; set; }
+    }
+
+    [DataContract]
+    public partial class PasswordHashRecord
+    {
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string PasswordHash { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of password hashes for use in validating client passwords off-air. Maximum request frequency - 5 minutes.
+    ///</summary>
+    [Route("/passwords/list", "POST,GET")]
+    [Api(Description="Returns a list of password hashes for use in validating client passwords off-air. Maximum request frequency - 5 minutes.")]
+    public partial class PasswordsList
+        : WebServiceRequest, IReturn<PasswordsListResponse>
+    {
+        ///<summary>
+        ///Challenge phrase
+        ///</summary>
+        [ApiMember(Description="Challenge phrase", IsRequired=true, Name="Challenge")]
+        public virtual string Challenge { get; set; }
+    }
+
+    public partial class PasswordsListResponse
+        : WebServiceResponse
+    {
+        public PasswordsListResponse()
+        {
+            PasswordHash = new List<PasswordHashRecord>{};
+        }
+
+        public virtual List<PasswordHashRecord> PasswordHash { get; set; }
+    }
+
+    ///<summary>
+    ///Tests CMS web services connectivity. Request frequency: no more than once an hour.
+    ///</summary>
+    [Route("/ping", "POST,GET")]
+    [Api(Description="Tests CMS web services connectivity. Request frequency: no more than once an hour.")]
+    public partial class Ping
+        : IReturn<PingResponse>
+    {
+    }
+
+    ///<summary>
+    ///Tests telnet, web services, and web application interfaces. Returns HTTP 200 if all pass, otherwise 4xx indicating an error.
+    ///</summary>
+    [Route("/ping/health", "POST,GET")]
+    [Api(Description="Tests telnet, web services, and web application interfaces. Returns HTTP 200 if all pass, otherwise 4xx indicating an error.")]
+    public partial class PingHealth
+        : WebServiceRequest, IReturn<PingHealthResponse>
+    {
+    }
+
+    public partial class PingHealthResponse
+        : WebServiceResponse
+    {
+    }
+
+    public partial class PingResponse
+        : WebServiceResponse
+    {
     }
 
     [DataContract]
@@ -1788,6 +5014,32 @@ namespace winlink.cms.webservices
     }
 
     public partial class PositionReportsAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Delete an existing position report.
+    ///</summary>
+    [Route("/position/reports/delete", "POST,GET")]
+    [Api(Description="Delete an existing position report.")]
+    public partial class PositionReportsDelete
+        : WebServiceRequest, IReturn<PositionReportsDeleteResponse>
+    {
+        ///<summary>
+        ///Callsign
+        ///</summary>
+        [ApiMember(Description="Callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Date and time of the position report
+        ///</summary>
+        [ApiMember(Description="Date and time of the position report", IsRequired=true, Name="Timestamp")]
+        public virtual DateTime Timestamp { get; set; }
+    }
+
+    public partial class PositionReportsDeleteResponse
         : WebServiceResponse
     {
     }
@@ -1972,6 +5224,114 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns a data structure containing version information for all version reporting programs.
+    ///</summary>
+    [Route("/program/versions", "POST,GET")]
+    [Api(Description="Returns a data structure containing version information for all version reporting programs.")]
+    public partial class ProgramVersions
+        : WebServiceRequest, IReturn<ProgramVersionsResponse>
+    {
+        ///<summary>
+        ///One of Client, Sysop, or AnyAll (default: AnyAll)
+        ///</summary>
+        [ApiMember(Description="One of Client, Sysop, or AnyAll (default: AnyAll)", Name="UserType")]
+        public virtual UserType UserType { get; set; }
+    }
+
+    [DataContract]
+    public partial class ProgramVersionsCountRecord
+    {
+        [DataMember]
+        public virtual string Program { get; set; }
+
+        [DataMember]
+        public virtual string Version { get; set; }
+
+        [DataMember]
+        public virtual int Count { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a data structure containing the name and counts of all programs reporting version within the past 30 days.
+    ///</summary>
+    [Route("/program/version/counts", "POST,GET")]
+    [Api(Description="Returns a data structure containing the name and counts of all programs reporting version within the past 30 days.")]
+    public partial class ProgramVersionsCounts
+        : WebServiceRequest, IReturn<ProgramVersionsCountsResponse>
+    {
+    }
+
+    public partial class ProgramVersionsCountsResponse
+        : WebServiceResponse
+    {
+        public ProgramVersionsCountsResponse()
+        {
+            ProgramVersionCounts = new List<ProgramVersionsCountRecord>{};
+        }
+
+        public virtual List<ProgramVersionsCountRecord> ProgramVersionCounts { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a data structure containing the most recent version for each program.
+    ///</summary>
+    [Route("/program/versions/latest", "POST,GET")]
+    [Api(Description="Returns a data structure containing the most recent version for each program.")]
+    public partial class ProgramVersionsLatest
+        : WebServiceRequest, IReturn<ProgramVersionsLatestResponse>
+    {
+        ///<summary>
+        ///One of Client, Sysop, or AnyAll (default: AnyAll)
+        ///</summary>
+        [ApiMember(Description="One of Client, Sysop, or AnyAll (default: AnyAll)", Name="UserType")]
+        public virtual UserType UserType { get; set; }
+    }
+
+    public partial class ProgramVersionsLatestResponse
+        : WebServiceResponse
+    {
+        public ProgramVersionsLatestResponse()
+        {
+            ProgramVersionList = new List<LatestProgramVersionRecord>{};
+        }
+
+        public virtual List<LatestProgramVersionRecord> ProgramVersionList { get; set; }
+    }
+
+    [DataContract]
+    public partial class ProgramVersionsRecord
+    {
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Program { get; set; }
+
+        [DataMember]
+        public virtual string Version { get; set; }
+
+        [DataMember]
+        public virtual string CurrentVersion { get; set; }
+
+        [DataMember]
+        public virtual UserType UserType { get; set; }
+
+        [DataMember]
+        public virtual bool UpdateNeeded { get; set; }
+    }
+
+    public partial class ProgramVersionsResponse
+        : WebServiceResponse
+    {
+        public ProgramVersionsResponse()
+        {
+            ProgramVersionList = new List<ProgramVersionsRecord>{};
+        }
+
+        public virtual List<ProgramVersionsRecord> ProgramVersionList { get; set; }
+    }
+
+    ///<summary>
     ///Returns a list of propagation records within the specified sliding time window specified by the parameters
     ///</summary>
     [Route("/propagation/list", "POST,GET")]
@@ -2041,6 +5401,31 @@ namespace winlink.cms.webservices
 
         [DataMember]
         public virtual int HoldingSeconds { get; set; }
+    }
+
+    [DataContract]
+    public partial class QueueCounts
+    {
+        [DataMember]
+        public virtual int RmsInboundCount { get; set; }
+
+        [DataMember]
+        public virtual int SmtpInboundCount { get; set; }
+
+        [DataMember]
+        public virtual int ActivityCount { get; set; }
+
+        [DataMember]
+        public virtual int SmtpQueueCount { get; set; }
+
+        [DataMember]
+        public virtual int RpQueueCount { get; set; }
+
+        [DataMember]
+        public virtual int PrQueueCount { get; set; }
+
+        [DataMember]
+        public virtual int MessagesPendingDelivery { get; set; }
     }
 
     ///<summary>
@@ -2137,6 +5522,16 @@ namespace winlink.cms.webservices
         public virtual List<ParamRecord> ParamList { get; set; }
     }
 
+    [DataContract]
+    public partial class RegistrationRecord
+    {
+        [DataMember]
+        public virtual string RegistrationType { get; set; }
+
+        [DataMember]
+        public virtual string RegistrationKey { get; set; }
+    }
+
     ///<summary>
     ///Adds a gateway session record to the database.
     ///</summary>
@@ -2194,6 +5589,120 @@ namespace winlink.cms.webservices
     public partial class SessionAddResponse
         : WebServiceResponse
     {
+    }
+
+    ///<summary>
+    ///Returns a list of session records matching the request parameters
+    ///</summary>
+    [Route("/session/list", "POST,GET")]
+    [Api(Description="Returns a list of session records matching the request parameters")]
+    public partial class SessionList
+        : WebServiceRequest, IReturn<SessionListResponse>
+    {
+        ///<summary>
+        ///Number of hours of history to include (default: 24)
+        ///</summary>
+        [ApiMember(Description="Number of hours of history to include (default: 24)")]
+        public virtual int HistoryHours { get; set; }
+
+        ///<summary>
+        ///Name of application (gateway)
+        ///</summary>
+        [ApiMember(Description="Name of application (gateway)")]
+        public virtual string Application { get; set; }
+
+        ///<summary>
+        ///Specific server (gateway) callsign
+        ///</summary>
+        [ApiMember(Description="Specific server (gateway) callsign")]
+        public virtual string Server { get; set; }
+
+        ///<summary>
+        ///Connection mode (default: all modes)
+        ///</summary>
+        [ApiMember(Description="Connection mode (default: all modes)")]
+        public virtual string Mode { get; set; }
+
+        ///<summary>
+        ///Filter records based on the service code used by the gateway
+        ///</summary>
+        [ApiMember(Description="Filter records based on the service code used by the gateway")]
+        public virtual string ServiceCodeFilter { get; set; }
+    }
+
+    public partial class SessionListResponse
+        : WebServiceResponse
+    {
+        public SessionListResponse()
+        {
+            Sessions = new List<SessionRecord>{};
+        }
+
+        public virtual List<SessionRecord> Sessions { get; set; }
+    }
+
+    [DataContract]
+    public partial class SessionRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Application { get; set; }
+
+        [DataMember]
+        public virtual string Version { get; set; }
+
+        [DataMember]
+        public virtual string Cms { get; set; }
+
+        [DataMember]
+        public virtual string Server { get; set; }
+
+        [DataMember]
+        public virtual string ServerGrid { get; set; }
+
+        [DataMember]
+        public virtual string Client { get; set; }
+
+        [DataMember]
+        public virtual string ClientGrid { get; set; }
+
+        [DataMember]
+        public virtual string Sid { get; set; }
+
+        [DataMember]
+        public virtual string Mode { get; set; }
+
+        [DataMember]
+        public virtual int Frequency { get; set; }
+
+        [DataMember]
+        public virtual int Kilometers { get; set; }
+
+        [DataMember]
+        public virtual int Degrees { get; set; }
+
+        [DataMember]
+        public virtual string LastCommand { get; set; }
+
+        [DataMember]
+        public virtual int MessagesSent { get; set; }
+
+        [DataMember]
+        public virtual int MessagesReceived { get; set; }
+
+        [DataMember]
+        public virtual int BytesSent { get; set; }
+
+        [DataMember]
+        public virtual int BytesReceived { get; set; }
+
+        [DataMember]
+        public virtual int HoldingSeconds { get; set; }
+
+        [DataMember]
+        public virtual string IdTag { get; set; }
     }
 
     ///<summary>
@@ -2431,6 +5940,32 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Deletes an existing sysop record.
+    ///</summary>
+    [Route("/sysop/delete", "POST,GET")]
+    [Api(Description="Deletes an existing sysop record.")]
+    public partial class SysopDelete
+        : WebServiceRequest, IReturn<SysopDeleteResponse>
+    {
+        ///<summary>
+        ///Sysop callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Sysop callsign (no SSID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Account password
+        ///</summary>
+        [ApiMember(Description="Account password", IsRequired=true, Name="Password")]
+        public virtual string Password { get; set; }
+    }
+
+    public partial class SysopDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
     ///Returns zero or more records that partially match the specified filter.
     ///</summary>
     [Route("/sysop/filter", "POST,GET")]
@@ -2460,6 +5995,27 @@ namespace winlink.cms.webservices
         }
 
         public virtual List<SysopRecord> SysopList { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a sysop record.
+    ///</summary>
+    [Route("/sysop/get", "POST,GET")]
+    [Api(Description="Returns a sysop record.")]
+    public partial class SysopGet
+        : WebServiceRequest, IReturn<SysopGetResponse>
+    {
+        ///<summary>
+        ///Sysop callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Sysop callsign (no SSID)", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class SysopGetResponse
+        : WebServiceResponse
+    {
+        public virtual SysopRecord Sysop { get; set; }
     }
 
     ///<summary>
@@ -2530,6 +6086,71 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns assorted system statistics.
+    ///</summary>
+    [Route("/system/stats")]
+    [Api(Description="Returns assorted system statistics.")]
+    public partial class SystemStats
+        : WebServiceRequest, IReturn<SystemStatusResponse>
+    {
+    }
+
+    ///<summary>
+    ///Returns status of several CMS queues.
+    ///</summary>
+    [Route("/systemStatus", "POST,GET")]
+    [Route("/queue/status", "POST,GET")]
+    [Api(Description="Returns status of several CMS queues.")]
+    public partial class SystemStatus
+        : WebServiceRequest, IReturn<SystemStatusResponse>
+    {
+    }
+
+    public partial class SystemStatusResponse
+        : WebServiceResponse
+    {
+        public virtual DateTime Timestamp { get; set; }
+        public virtual string AvailableRam { get; set; }
+        public virtual QueueCounts QueueCounts { get; set; }
+        public virtual string WebServiceVersion { get; set; }
+    }
+
+    [DataContract]
+    public partial class TableInfo
+    {
+        [DataMember]
+        public virtual string TableName { get; set; }
+
+        [DataMember]
+        public virtual int RowCount { get; set; }
+
+        [DataMember]
+        public virtual int DataLength { get; set; }
+    }
+
+    ///<summary>
+    ///Returns statistics about most CMSMaster tables.
+    ///</summary>
+    [Route("/table/stats", "POST,GET")]
+    [Route("/table/stats/get", "POST,GET")]
+    [Api(Description="Returns statistics about most CMSMaster tables.")]
+    public partial class TableStatsGet
+        : WebServiceRequest, IReturn<TableStatsGetResponse>
+    {
+    }
+
+    public partial class TableStatsGetResponse
+        : WebServiceResponse
+    {
+        public TableStatsGetResponse()
+        {
+            Tables = new List<TableInfo>{};
+        }
+
+        public virtual List<TableInfo> Tables { get; set; }
+    }
+
+    ///<summary>
     ///Add P2P traffic information to the CMS for audit purposes
     ///</summary>
     [Route("/traffic/add", "POST,GET")]
@@ -2592,6 +6213,161 @@ namespace winlink.cms.webservices
     }
 
     ///<summary>
+    ///Returns a list of records showing details of traffic that passed through the specified gateway.
+    ///</summary>
+    [Route("/traffic/logs/callsign/get", "POST,GET")]
+    [Api(Description="Returns a list of records showing details of traffic that passed through the specified gateway.")]
+    public partial class TrafficLogsCallsignGet
+        : WebServiceRequest, IReturn<TrafficLogsCallsignGetResponse>
+    {
+        ///<summary>
+        ///Gateway Callsign (no SSID) or other gateway identifier such as TELNET, WEBMAIL, SERVICE, etc.
+        ///</summary>
+        [ApiMember(Description="Gateway Callsign (no SSID) or other gateway identifier such as TELNET, WEBMAIL, SERVICE, etc.", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class TrafficLogsCallsignGetResponse
+        : WebServiceResponse
+    {
+        public TrafficLogsCallsignGetResponse()
+        {
+            TrafficList = new List<TrafficRecord>{};
+        }
+
+        public virtual List<TrafficRecord> TrafficList { get; set; }
+    }
+
+    ///<summary>
+    ///Hides a record in the traffic logs table
+    ///</summary>
+    [Route("/traffic/logs/hide", "POST,GET")]
+    [Api(Description="Hides a record in the traffic logs table")]
+    public partial class TrafficLogsHide
+        : WebServiceRequest, IReturn<TrafficLogsHideResponse>
+    {
+        ///<summary>
+        ///The ID of the message
+        ///</summary>
+        [ApiMember(Description="The ID of the message", IsRequired=true)]
+        public virtual string MessageId { get; set; }
+
+        ///<summary>
+        ///True to hide traffic log records for this message ID
+        ///</summary>
+        [ApiMember(Description="True to hide traffic log records for this message ID")]
+        public virtual bool Hide { get; set; }
+    }
+
+    public partial class TrafficLogsHideResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of records showing details of traffic sent by the specified sender.
+    ///</summary>
+    [Route("/traffic/logs/sender/get", "POST,GET")]
+    [Api(Description="Returns a list of records showing details of traffic sent by the specified sender.")]
+    public partial class TrafficLogsSenderGet
+        : WebServiceRequest, IReturn<TrafficLogsSenderGetResponse>
+    {
+        ///<summary>
+        ///Callsign or SMTP email address.
+        ///</summary>
+        [ApiMember(Description="Callsign or SMTP email address.", IsRequired=true, Name="Sender")]
+        public virtual string Sender { get; set; }
+    }
+
+    public partial class TrafficLogsSenderGetResponse
+        : WebServiceResponse
+    {
+        public TrafficLogsSenderGetResponse()
+        {
+            TrafficList = new List<TrafficRecord>{};
+        }
+
+        public virtual List<TrafficRecord> TrafficList { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of records showing details of traffic sent by the specified source.
+    ///</summary>
+    [Route("/traffic/logs/source/get", "POST,GET")]
+    [Api(Description="Returns a list of records showing details of traffic sent by the specified source.")]
+    public partial class TrafficLogsSourceGet
+        : WebServiceRequest, IReturn<TrafficLogsSourceGetResponse>
+    {
+        ///<summary>
+        ///Callsign or other source identifier such as WEBMAIL, SMTP, SERVICE, etc.
+        ///</summary>
+        [ApiMember(Description="Callsign or other source identifier such as WEBMAIL, SMTP, SERVICE, etc.", IsRequired=true, Name="Source")]
+        public virtual string Source { get; set; }
+    }
+
+    public partial class TrafficLogsSourceGetResponse
+        : WebServiceResponse
+    {
+        public TrafficLogsSourceGetResponse()
+        {
+            TrafficList = new List<TrafficRecord>{};
+        }
+
+        public virtual List<TrafficRecord> TrafficList { get; set; }
+    }
+
+    [DataContract]
+    public partial class TrafficRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Site { get; set; }
+
+        [DataMember]
+        public virtual string Event { get; set; }
+
+        [DataMember]
+        public virtual string MessageId { get; set; }
+
+        [DataMember]
+        public virtual int ClientType { get; set; }
+
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Gateway { get; set; }
+
+        [DataMember]
+        public virtual string Source { get; set; }
+
+        [DataMember]
+        public virtual string Sender { get; set; }
+
+        [DataMember]
+        public virtual string Subject { get; set; }
+
+        [DataMember]
+        public virtual int Size { get; set; }
+
+        [DataMember]
+        public virtual int Attachments { get; set; }
+
+        [DataMember]
+        public virtual int Frequency { get; set; }
+    }
+
+    [DataContract]
+    public enum UserType
+    {
+        AnyAll,
+        Client,
+        Sysop,
+    }
+
+    ///<summary>
     ///Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
     ///</summary>
     [Route("/version/add", "POST,GET")]
@@ -2625,6 +6401,32 @@ namespace winlink.cms.webservices
     }
 
     public partial class VersionAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes an existing program version record for a specific callsign.
+    ///</summary>
+    [Route("/version/delete", "POST,GET")]
+    [Api(Description="Deletes an existing program version record for a specific callsign.")]
+    public partial class VersionDelete
+        : WebServiceRequest, IReturn<VersionDeleteResponse>
+    {
+        ///<summary>
+        ///Station callsign
+        ///</summary>
+        [ApiMember(Description="Station callsign", IsRequired=true, Name="Callsign")]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Name of program (e.g., Winlink Express)
+        ///</summary>
+        [ApiMember(Description="Name of program (e.g., Winlink Express)", IsRequired=true, Name="Program")]
+        public virtual string Program { get; set; }
+    }
+
+    public partial class VersionDeleteResponse
         : WebServiceResponse
     {
     }
@@ -2779,6 +6581,45 @@ namespace winlink.cms.webservices
         }
 
         public virtual List<WatchRecord> List { get; set; }
+    }
+
+    ///<summary>
+    ///Returns a list of watch notification records showing the number of notices sent for each watch (callsign+program) over the past 30 days
+    ///</summary>
+    [Route("/watch/notices", "POST,GET")]
+    [Api(Description="Returns a list of watch notification records showing the number of notices sent for each watch (callsign+program) over the past 30 days")]
+    public partial class WatchNotices
+        : WebServiceRequest, IReturn<WatchNoticesResponse>
+    {
+        ///<summary>
+        ///A single service code, if applicable
+        ///</summary>
+        [ApiMember(Description="A single service code, if applicable")]
+        public virtual string ServiceCode { get; set; }
+    }
+
+    [DataContract]
+    public partial class WatchNoticesRecord
+    {
+        [DataMember]
+        public virtual string Callsign { get; set; }
+
+        [DataMember]
+        public virtual string Program { get; set; }
+
+        [DataMember]
+        public virtual int Count { get; set; }
+    }
+
+    public partial class WatchNoticesResponse
+        : WebServiceResponse
+    {
+        public WatchNoticesResponse()
+        {
+            Notices = new List<WatchNoticesRecord>{};
+        }
+
+        public virtual List<WatchNoticesRecord> Notices { get; set; }
     }
 
     ///<summary>
@@ -2956,6 +6797,104 @@ namespace winlink.cms.webservices
     public partial class WebServiceResponse
     {
         public virtual ResponseStatus ResponseStatus { get; set; }
+    }
+
+    ///<summary>
+    ///Add or update a whitelist item.
+    ///</summary>
+    [Route("/whitelist/add", "POST,GET")]
+    [Api(Description="Add or update a whitelist item.")]
+    public partial class WhitelistAdd
+        : WebServiceRequest, IReturn<WhitelistAddResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Email address or domain to add
+        ///</summary>
+        [ApiMember(Description="Email address or domain to add", IsRequired=true)]
+        public virtual string Address { get; set; }
+
+        ///<summary>
+        ///Allow or disallow an address or domain
+        ///</summary>
+        [ApiMember(Description="Allow or disallow an address or domain", IsRequired=true)]
+        public virtual bool? Allow { get; set; }
+    }
+
+    public partial class WhitelistAddResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Deletes a whitelist entry.
+    ///</summary>
+    [Route("/whitelist/delete", "POST,GET")]
+    [Api(Description="Deletes a whitelist entry.")]
+    public partial class WhitelistDelete
+        : WebServiceRequest, IReturn<WhitelistDeleteResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+
+        ///<summary>
+        ///Email address or domain to delete
+        ///</summary>
+        [ApiMember(Description="Email address or domain to delete", IsRequired=true)]
+        public virtual string Address { get; set; }
+    }
+
+    public partial class WhitelistDeleteResponse
+        : WebServiceResponse
+    {
+    }
+
+    ///<summary>
+    ///Returns a list of allowed and disallowed addresses for the specified callsign. Maximum request frequency - 30 minutes.
+    ///</summary>
+    [Route("/whitelist/get", "POST,GET")]
+    [Route("/whitelist/list", "POST,GET")]
+    [Api(Description="Returns a list of allowed and disallowed addresses for the specified callsign. Maximum request frequency - 30 minutes.")]
+    public partial class WhitelistGet
+        : WebServiceRequest, IReturn<WhitelistGetResponse>
+    {
+        ///<summary>
+        ///Account callsign (no SSID)
+        ///</summary>
+        [ApiMember(Description="Account callsign (no SSID)", IsRequired=true)]
+        public virtual string Callsign { get; set; }
+    }
+
+    public partial class WhitelistGetResponse
+        : WebServiceResponse
+    {
+        public WhitelistGetResponse()
+        {
+            AccessList = new List<WhitelistRecord>{};
+        }
+
+        public virtual List<WhitelistRecord> AccessList { get; set; }
+    }
+
+    [DataContract]
+    public partial class WhitelistRecord
+    {
+        [DataMember]
+        public virtual DateTime Timestamp { get; set; }
+
+        [DataMember]
+        public virtual string Address { get; set; }
+
+        [DataMember]
+        public virtual bool Allow { get; set; }
     }
 
 }

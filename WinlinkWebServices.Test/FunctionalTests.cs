@@ -29,7 +29,7 @@ namespace WinlinkWebServices.Test
             var builder = new ConfigurationBuilder().AddUserSecrets<FunctionalTests>();
             ConfigSecrets = builder.Build();
 
-            var config = new WinlinkWebServiceConfiguration { WebServiceAccessKey = ConfigSecrets["WebserviceAccessKey"], WebServicesHost = "https://cms-z.winlink.org" };
+            var config = new WinlinkWebServiceConfiguration { WebServiceAccessKey = ConfigSecrets["WebserviceAccessKey"], WebServicesHost = "http://cms-z.winlink.org" };
             winlink.WinlinkWebServices.SetConfiguration(config);
 
             _testCallsign = ConfigSecrets["TestCallsign"];

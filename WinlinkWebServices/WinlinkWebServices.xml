@@ -527,6 +527,16 @@
             <returns></returns>
             <exception cref="T:ServiceStack.WebServiceException"></exception>
         </member>
+        <member name="T:winlink.cms.webservices.AboutUser">
+            <summary>
+            Returns a collection of details about the user's account
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AboutUser.Callsign">
+            <summary>
+            Account callsign (no SSID)
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.AccountAdd">
             <summary>
             Adds a new callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
@@ -544,7 +554,7 @@
         </member>
         <member name="T:winlink.cms.webservices.AccountAlternateEmailGet">
             <summary>
-            Gets the alternate email associated with this callsign.
+            Gets the alternate email associated with this callsign. This is the forwarding email address.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountAlternateEmailGet.Callsign">
@@ -554,7 +564,7 @@
         </member>
         <member name="T:winlink.cms.webservices.AccountAlternateEmailSet">
             <summary>
-            Sets the alternate email address for this callsign.
+            Sets the alternate email address for this callsign. This is the forwarding email address.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountAlternateEmailSet.Callsign">
@@ -565,6 +575,31 @@
         <member name="P:winlink.cms.webservices.AccountAlternateEmailSet.AlternateEmail">
             <summary>
             Alternate email address to use for forwarding messages
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountCallsignPrefixGet">
+            <summary>
+            Gets the callsign prefix for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignPrefixGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountCallsignPrefixSet">
+            <summary>
+            Sets the callsign prefix for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignPrefixSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignPrefixSet.CallsignPrefix">
+            <summary>
+            Callsign prefix
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.AccountCallsignSearch">
@@ -582,9 +617,34 @@
             Limits number of returned records (default: 100)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.AccountCallsignSuffixGet">
+            <summary>
+            Gets the callsign suffix for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignSuffixGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountCallsignSuffixSet">
+            <summary>
+            Sets the callsign suffix for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignSuffixSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountCallsignSuffixSet.CallsignSuffix">
+            <summary>
+            Callsign suffix
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.AccountExists">
             <summary>
-            Determines if the specified callsign or tactical account exists in the Winlink system.
+            Determines if the specified callsign or tactical account exists in the Winlink system. Request frequency: no more than once a day.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountExists.Callsign">
@@ -592,9 +652,154 @@
             Account callsign or tactical
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.AccountGatewayAccessGet">
+            <summary>
+            Gets the state of the gateway access setting. This setting indicates if the callsign has been approved to operate as a gateway.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountGatewayAccessGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountGatewayAccessList">
+            <summary>
+            Gets a list of all gateway authorized callsigns.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountGatewayAccessSet">
+            <summary>
+            Sets the state of the gateway access setting.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountGatewayAccessSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountGatewayAccessSet.GatewayAccess">
+            <summary>
+            Controls who can act as a Winlink gateway
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountIsGroupAddress">
+            <summary>
+            Determines if the specified callsign or tactical account is a group address account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountIsGroupAddress.Callsign">
+            <summary>
+            Account callsign or tactical
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountLastAccessGet">
+            <summary>
+            Returns last time the callsign account was used.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLastAccessGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountLockedOutClear">
+            <summary>
+            Unlocks a callsign account - allowing access.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLockedOutClear.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountLockedOutGet">
+            <summary>
+            Gets the state of the locked out setting for the specified account.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLockedOutGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountLockedOutList">
+            <summary>
+            Returns a list of locked out accounts.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountLockedOutSet">
+            <summary>
+            Locks a callsign account - preventing system access.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLockedOutSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLockedOutSet.AdminCallsign">
+            <summary>
+            Callsign of administrator performing this action
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountLockedOutSet.Reason">
+            <summary>
+            Reason for lockout
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountMaxMessageSizeGet">
+            <summary>
+            Gets the maximum message size for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountMaxMessageSizeGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountMaxMessageSizeSet">
+            <summary>
+            Sets the maximum message size for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountMaxMessageSizeSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountMaxMessageSizeSet.MaxMessageSize">
+            <summary>
+            Maximum messages size (default: 120000)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountNoPurgeGet">
+            <summary>
+            Gets the state of the no purge setting.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountNoPurgeGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountNoPurgeSet">
+            <summary>
+            Sets the state of the no purge setting.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountNoPurgeSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountNoPurgeSet.NoPurge">
+            <summary>
+            No purge flag
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.AccountPasswordChange">
             <summary>
-            Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only.
+            Changes the password for an existing callsign or tactical account. Password can be no less than 6 and no more than 12 characters long. Password can be blank for tactical accounts only. Triggers message to user informing then of password change.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountPasswordChange.Callsign">
@@ -610,6 +815,21 @@
         <member name="P:winlink.cms.webservices.AccountPasswordChange.NewPassword">
             <summary>
             New account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountPasswordRecoveryEmailGet">
+            <summary>
+            Gets the recovery email address.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordRecoveryEmailGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordRecoveryEmailGet.Password">
+            <summary>
+            Account password
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.AccountPasswordRecoveryEmailSet">
@@ -634,7 +854,7 @@
         </member>
         <member name="T:winlink.cms.webservices.AccountPasswordSend">
             <summary>
-            Causes the password to be emailed to the recovery address.
+            Causes the password to be emailed to the recovery address. If no recovery address is found an error is returned.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountPasswordSend.Callsign">
@@ -642,9 +862,24 @@
             Account callsign
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.AccountPasswordSet">
+            <summary>
+            Sets the password for Callsign. This API does not trigger a message to the user.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountPasswordSet.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.AccountPasswordValidate">
             <summary>
-            Verifies Password is correct for Callsign.
+            Verifies Password is correct for the callsign or tactical account.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountPasswordValidate.Callsign">
@@ -655,6 +890,31 @@
         <member name="P:winlink.cms.webservices.AccountPasswordValidate.Password">
             <summary>
             Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountRemove">
+            <summary>
+            Removes a callsign or tactical account and all references to it. If the tactical account has a password, it must be included.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountRemove.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountRemove.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.AccountSettingsGet">
+            <summary>
+            Gets multiple properties for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountSettingsGet.Callsign">
+            <summary>
+            Account callsign
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.AccountTacticalAdd">
@@ -684,12 +944,392 @@
         </member>
         <member name="T:winlink.cms.webservices.AccountTacticalRemove">
             <summary>
-            Removes an existing tactical account and all references to it.
+            Removes an existing tactical account and all references to it. If a password was used it must be provided.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.AccountTacticalRemove.TacticalAccount">
             <summary>
             Tactical account name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.AccountTacticalRemove.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ActivityGet">
+            <summary>
+            Returns a list of activity records for the specified callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityGet.Callsign">
+            <summary>
+            Account callsign (no SSID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ActivityLatest">
+            <summary>
+            Returns a list of the latest activity for each callsign over the number of hours requested.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityLatest.HistoryHours">
+            <summary>
+            Number of hours of history to include
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ActivityReport">
+            <summary>
+            Returns one of several activity reports for the specified period and callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityReport.ReportType">
+            <summary>
+            Report Type:  SystemSummary - requires HistoryDays > 0 and no more than 365.  GatewaySummary - requires Callsign, HistoryDays > 0 and no more than 365.  SystemActivity - requires HistoryDays > 0 and no more than 21.  GatewayActivity - requires Callsign, HistoryDays > 0 and no more than 21.  GatewayFrequency - requires ServiceCodes.  UserActivity - requires Callsign, HistoryDays > 0 and no more than 21.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityReport.HistoryDays">
+            <summary>
+            Number of days of history to include (default: 1)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityReport.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 0)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityReport.Callsign">
+            <summary>
+            Station Callsign (required sometimes)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivityReport.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ActivitySummaryGet">
+            <summary>
+            Returns the system activity summary for the specified period.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ActivitySummaryGet.Period">
+            <summary>
+            Specific period (YYYYMM)  default: Current year/month
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationAdd">
+            <summary>
+            Adds an ARSFi donation record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.Callsign">
+            <summary>
+            Callsign of person
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.Name">
+            <summary>
+            Name of person
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.EmailAddress">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.Amount">
+            <summary>
+            Dollar amount
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.TransactionType">
+            <summary>
+            Type of transaction (Winmor, V4, Donation, etc.)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.RegistrationKey">
+            <summary>
+            Registration key
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.Voided">
+            <summary>
+            True if record has been voided
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationAdd.Notes">
+            <summary>
+            Notes
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationDelete">
+            <summary>
+            Deletes a specific ARSFi donation record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationDelete.TransactionId">
+            <summary>
+            The unique transaction ID
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationFilter">
+            <summary>
+            Returns zero or more records that partially match the specified filter.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationFilter.Filter">
+            <summary>
+            Filter text applied to multiple fields
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationFilter.RecordLimit">
+            <summary>
+            Limit number of returned records (default: 100)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationGet">
+            <summary>
+            Returns a specific ARSFi donation record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationGet.TransactionId">
+            <summary>
+            The unique transaction ID
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationList">
+            <summary>
+            Returns a list of ARSFi donation records (optionally, based on filter settings).
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationList.CallsignFilter">
+            <summary>
+            Full or partial callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationList.NameFilter">
+            <summary>
+            Full or partial name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationList.AgeFilter">
+            <summary>
+            Number of days to look back
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationList.RecordLimit">
+            <summary>
+            Limit number of records returned (default: 100)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationSearch">
+            <summary>
+            Returns zero or more ARSFi donation records.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.Callsign">
+            <summary>
+            Callsign of person making donation
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.Name">
+            <summary>
+            Name of person making donation
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.EmailAddress">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.TransactionType">
+            <summary>
+            Type of transaction (Winmor, V4, Donation, etc.)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.RegistrationKey">
+            <summary>
+            Registration key
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.Voided">
+            <summary>
+            True to search for voided records (default: false)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationSearch.RecordLimit">
+            <summary>
+            Limit number of records returned (default: 100)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiDonationUpdate">
+            <summary>
+            Updates a ARSFi donation record. Omitted parameters are left unchanged.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.TransactionId">
+            <summary>
+            The unique transaction ID
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.Callsign">
+            <summary>
+            Callsign of person making donation
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.Name">
+            <summary>
+            Name of person making donation
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.EmailAddress">
+            <summary>
+            Email address
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.Amount">
+            <summary>
+            Dollar amount of donation
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.TransactionType">
+            <summary>
+            Type of transaction (Winmor, V4, Donation, etc.)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.RegistrationKey">
+            <summary>
+            Registration key
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.Notes">
+            <summary>
+            Notes
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiDonationUpdate.Void">
+            <summary>
+            True to void the registration record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiRegistrationKey">
+            <summary>
+            Returns a registration key for the specified callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationKey.Callsign">
+            <summary>
+            Account callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationKey.KeyType">
+            <summary>
+            Type of registration key to create (Winmor, V4, Express, etc.)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiRegistrationList">
+            <summary>
+            Returns a list of valid registration records for the specified callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationList.Callsign">
+            <summary>
+            Callsign  of person (no SID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiRegistrationLookup">
+            <summary>
+            Returns the registration key for the specified callsign and registration type if it exists and has not been voided.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationLookup.Callsign">
+            <summary>
+            Callsign of person
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationLookup.RegistrationType">
+            <summary>
+            Type of registration (Winmor, V4, etc.)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiRegistrationValid">
+            <summary>
+            Returns true if the specified registration exists and has not been voided.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationValid.Callsign">
+            <summary>
+            Callsign of person (no SID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationValid.RegistrationKey">
+            <summary>
+            Registration key
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ArsfiRegistrationVoid">
+            <summary>
+            Voids or un-voids the specified registration record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationVoid.Callsign">
+            <summary>
+            Callsign  of person (no SID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationVoid.RegistrationKey">
+            <summary>
+            Registration key
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ArsfiRegistrationVoid.Void">
+            <summary>
+            True to void the registration record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.Blacklist">
+            <summary>
+            Returns a number 0-x indicating if the submitted IP address (v4 only) is blacklisted by zero, one or more DNSBL services. Also returned are the names of the DNSBL services returning a positive result (if any). This service uses a number of popular DNS spam blacklist'ing services (currently: Barracuda, Spamcop, and Spamhaus).
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.Blacklist.IP">
+            <summary>
+            A single version 4 IP address (dotted notation in string format)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.CallsignPropertiesSet">
+            <summary>
+            Sets multiple properties for this callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.CallsignPrefix">
+            <summary>
+            Callsign prefix (default: blank)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.CallsignSuffix">
+            <summary>
+            Callsign suffix (default: blank)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.MaxMessageSize">
+            <summary>
+            Maximum messages size (default: 120000)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.GatewayAccess">
+            <summary>
+            Controls who can act as a Winlink gateway (default: false)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CallsignPropertiesSet.NoPurge">
+            <summary>
+            No purge flag (default: false)
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.ChannelAdd">
@@ -759,7 +1399,7 @@
         </member>
         <member name="T:winlink.cms.webservices.ChannelAddMultiple">
             <summary>
-            Adds multiple channel records replacing any previously defined
+            Adds multiple channel records replacing any previously defined.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.ChannelAddMultiple.Callsign">
@@ -852,6 +1492,126 @@
             One or more service codes (default: PUBLIC)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.CmsApplicationStatusAdd">
+            <summary>
+            Adds an application status record to the cmsstatus table.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusAdd.Timestamp">
+            <summary>
+            The datetime value to be recorded with this application status
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusAdd.CmsName">
+            <summary>
+            The CMS name (e.g., 'Perth')
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusAdd.Application">
+            <summary>
+            The name of the applicaiton (e.g., 'CMS Telnet Server')
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusAdd.Property">
+            <summary>
+            The name of the property (e.g., 'Running')
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusAdd.Value">
+            <summary>
+            The value for this property (e.g., 'True')
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.CmsApplicationStatusDelete">
+            <summary>
+            Deletes an application status record from the cmsstatus table.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusDelete.CmsName">
+            <summary>
+            The CMS name (e.g., 'Perth')
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusDelete.Application">
+            <summary>
+            The name of the application (e.g., 'CMS Telnet Server')
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusDelete.Property">
+            <summary>
+            The name of the property (e.g., 'Running')
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.CmsApplicationStatusGet">
+            <summary>
+            Returns a list showing the status of all applications running on the specified server.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.CmsApplicationStatusGet.CmsName">
+            <summary>
+            The CMS name (e.g., 'Perth')
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.Echo">
+            <summary>
+            Echos the sent data back to the requestor.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.EmailAliasAdd">
+            <summary>
+            Adds an email alias record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasAdd.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasAdd.Alias">
+            <summary>
+            Alias name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasAdd.Address">
+            <summary>
+            Email address for alias
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.EmailAliasDelete">
+            <summary>
+            Deletes the specified email alias record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasDelete.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasDelete.Alias">
+            <summary>
+            Alias name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.EmailAliasGet">
+            <summary>
+            Returns the email address for the specified alias.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasGet.Callsign">
+            <summary>
+            Account callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.EmailAliasGet.Alias">
+            <summary>
+            Alias name
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.EmailAliasList">
+            <summary>
+            Returns a list of all email aliases.
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.GatewayChannelCount">
             <summary>
             Returns the number of active gateway channels for the specified period.
@@ -937,6 +1697,26 @@
             One of Packet, Pactor, Winmor, RobustPacket, or AnyAll (default: AnyAll)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.GatewayStats">
+            <summary>
+            Returns an array of data structures showing connection statistics of the gateway.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStats.Callsign">
+            <summary>
+            Gateway callsign (may include SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStats.ServiceCodes">
+            <summary>
+            One or more service codes (default: PUBLIC)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GatewayStats.Period">
+            <summary>
+            Year and month - YYYYMM (default: current year and month)
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.GatewayStatus">
             <summary>
             Returns an array of data structures showing the status of Winlink gateways.
@@ -955,6 +1735,36 @@
         <member name="P:winlink.cms.webservices.GatewayStatus.Mode">
             <summary>
             One of Packet, Pactor, Winmor, RobustPacket, ARDOP, VARA, VARAFM, AllHf, or AnyAll (default: AnyAll)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupAdd">
+            <summary>
+            Adds a new group. A group name is used to send mail to all members of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAdd.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAdd.Description">
+            <summary>
+            Description of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAdd.Query">
+            <summary>
+            SQL query or name and parameters for pre-defined query
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAdd.CcEmailAddress">
+            <summary>
+            True to send messages to the email address associated with each callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupAdd.InternetAddressesOnly">
+            <summary>
+            True to send messages to internet email address associated with each callsign ONLY
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.GroupAddressList">
@@ -977,9 +1787,374 @@
             Include members added because of a dynamic group query (default: false)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.GroupDelete">
+            <summary>
+            Deletes an existing group.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupDelete.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupExists">
+            <summary>
+            Returns true is the group already exists
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupExists.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupGet">
+            <summary>
+            Returns details of the specified group.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupGet.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupList">
+            <summary>
+            Returns a list of defined groups
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupList.Manager">
+            <summary>
+            Callsign of group manager or admin (omit for all)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupList.LockedOnly">
+            <summary>
+            If true return only names for groups that are locked
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupManagerAdd">
+            <summary>
+            Adds a manager to an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerAdd.Callsign">
+            <summary>
+            Callsign of the group manager
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerAdd.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupManagerAddressList">
+            <summary>
+            Returns a list of group address for which the user is a manager of
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerAddressList.Callsign">
+            <summary>
+            Callsign of the manager
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerAddressList.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupManagerAny">
+            <summary>
+            Returns true if callsign is a manager (or admin) of any group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerAny.Callsign">
+            <summary>
+            Callsign of the manager
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupManagerDelete">
+            <summary>
+            Removes a manager from an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerDelete.Callsign">
+            <summary>
+            Callsign of the group manager
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerDelete.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupManagerList">
+            <summary>
+            Returns a list of managers for the specified group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupManagerList.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMemberAdd">
+            <summary>
+            Adds a member address to an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberAdd.Address">
+            <summary>
+            Address (callsign or email)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberAdd.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMemberDelete">
+            <summary>
+            Removes a member address from an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberDelete.Address">
+            <summary>
+            Address (callsign or email)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberDelete.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMemberDeleteAll">
+            <summary>
+            Removes all member addresses from an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberDeleteAll.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMemberImport">
+            <summary>
+            Imports a list of member addresses into an existing group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberImport.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberImport.ImportList">
+            <summary>
+            List of callsigns and email addresses to import (txt or csv format, one item per line)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMemberList">
+            <summary>
+            Return a list of member addresses from the specified group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberList.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberList.IncludeDynamic">
+            <summary>
+            Include members added because of a dynamic group query (default: true)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberList.FlagDynamic">
+            <summary>
+            Flag dynamic members with asterisk (default: false)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMemberList.DynamicResultLimit">
+            <summary>
+            Limit the number of member addresses returned to this value (0 = no limit)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupMembership">
+            <summary>
+            Return a list of groups this addresses is a member of
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupMembership.Address">
+            <summary>
+            Address (callsign or email)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupRename">
+            <summary>
+            Changes the name of an existing group to a new unused name
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupRename.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupRename.NewGroupName">
+            <summary>
+            New name for the group
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.GroupUpdate">
+            <summary>
+            Updates an existing group record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupUpdate.GroupName">
+            <summary>
+            Name of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupUpdate.Description">
+            <summary>
+            Description of the group
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupUpdate.Query">
+            <summary>
+            SQL query or name and parameters for pre-defined query
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupUpdate.CcEmailAddress">
+            <summary>
+            True to send messages to the email address associated with each callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.GroupUpdate.InternetAddressesOnly">
+            <summary>
+            True to send messages to internet email address associated with each callsign ONLY
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.HybridStationList">
             <summary>
             Returns a list of radio network hybrid stations.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiriesCatalog">
+            <summary>
+            Returns a list of inquiry records for use in updating the Winlink catalog.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiriesList">
+            <summary>
+            Returns a list of inquiries
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiriesListDisabled">
+            <summary>
+            Returns a list of disabled inquiry records.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiryAddUpdate">
+            <summary>
+            Adds or updates an inquiry returns.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquiryAddUpdate.InquiryId">
+            <summary>
+            The ID of the inquiry record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiryDelete">
+            <summary>
+            Deletes the specified inquiry record
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquiryDelete.InquiryId">
+            <summary>
+            The ID of the inquiry record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiryGet">
+            <summary>
+            Returns the specified inquiry record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquiryGet.InquiryId">
+            <summary>
+            The ID of the inquiry record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquirySearch">
+            <summary>
+            Returns a list of inquiry records using the specified filter.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquirySearch.Filter">
+            <summary>
+            Filter text -- applied to multiple columns
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquirySubmit">
+            <summary>
+            Submits an inquiry request for processing
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquirySubmit.InquiryId">
+            <summary>
+            The ID of the inquiry record or a URL
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquirySubmit.Callsign">
+            <summary>
+            Callsign account
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InquiryTouch">
+            <summary>
+            Updates the record timestamp to the current date
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.InquiryTouch.InquiryId">
+            <summary>
+            The ID of the inquiry record
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InternalAdminAccountsGet">
+            <summary>
+            Returns a list of winlink admin accounts
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.InternalGroupAdminAccountsGet">
+            <summary>
+            Returns a list of group admin accounts
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.IPAddressUsers">
+            <summary>
+            Returns a list of callsigns know to have used the provided IP address to access Winlink systems
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.IPAddressUsers.IPAddress">
+            <summary>
+            IP address
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseDelete">
+            <summary>
+            Deletes a license record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.LicenseDelete.Callsign">
+            <summary>
+            Callsign
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseGet">
+            <summary>
+            Retrieves a specific license record from the database.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.LicenseGet.Callsign">
+            <summary>
+            Callsign
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.LicenseLookup">
@@ -992,9 +2167,64 @@
             Callsign to look up
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.LicensePut">
+            <summary>
+            Adds a license record to the database. If the record already exists, it is replaced
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseSearch">
+            <summary>
+            Returns list of license records where one or more of the callsign, name or comments fields contain the supplied search text.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.LicenseSearch.SearchText">
+            <summary>
+            Text to filter results by
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseUpdate">
+            <summary>
+            Adds or updates a license record. If the record already exists only the provided elements are replaced - others remain unaltered.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.LicenseValidate">
+            <summary>
+            Returns information regarding the validity of the amateur radio license.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.LicenseValidate.Callsign">
+            <summary>
+            Callsign to test
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageDelete">
+            <summary>
+            Deletes (marks as forwarded) a specific email message identified by MessageId.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageDelete.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageDelete.CompleteDeletion">
+            <summary>
+            Completely remove all traces of the message from the database (default: false)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageDeliveryList">
+            <summary>
+            Returns a list of addressees for this message and their delivery status
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageDeliveryList.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.MessageExists">
             <summary>
-            Returns a list of all messages pending for this account.
+            Returns if the message with MessageId exists.
             </summary>
         </member>
         <member name="P:winlink.cms.webservices.MessageExists.MessageId">
@@ -1027,6 +2257,16 @@
             Message is marked as forwarded (delivered)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.MessageGetById">
+            <summary>
+            Gets a specific email message identified by MessageId. Returns the mime encoded message.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetById.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.MessageGetDecoded">
             <summary>
             Gets a specific email message identified by MessageId. Returns the decoded message.
@@ -1052,6 +2292,16 @@
             Message is marked as forwarded (delivered)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.MessageGetDecodedInternal">
+            <summary>
+            Gets a specific email message identified by MessageId. Returns the decoded message.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageGetDecodedInternal.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.MessageList">
             <summary>
             Returns a list of all messages pending for this account.
@@ -1065,6 +2315,41 @@
         <member name="P:winlink.cms.webservices.MessageList.Password">
             <summary>
             Password for account (tactical address may not have a password)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageListQuery">
+            <summary>
+            Returns a list of messages and message details based on the query parameters (Default: Messages seen in the last 24 hours)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.QueryType">
+            <summary>
+            Type of query (one of: Action,Addressee,Cms,Gateway,MessageId,Sender,Source,Subject)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.QueryArgument">
+            <summary>
+            Parameter value for selected query type (required when query type specified)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 24)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.RecordLimit">
+            <summary>
+            Limit number of records returned (default: 1000)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.IncludeHidden">
+            <summary>
+            True to include messages that were hidden
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageListQuery.Status">
+            <summary>
+            Specify specific status (Accepted, Proposed, Rejected, Forwarded, etc.
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.MessagePickupStationAdd">
@@ -1135,6 +2420,16 @@
         <member name="P:winlink.cms.webservices.MessagePickupStationList.Requester">
             <summary>
             Callsign of requestor
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageReprocess">
+            <summary>
+            Reprocesses the specified message. This may cause duplicates.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageReprocess.MessageId">
+            <summary>
+            The ID of the message
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.MessageSend">
@@ -1247,6 +2542,76 @@
             True to hide message in traffic logs
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.MessageTrack">
+            <summary>
+            Returns a list of tracked actions for the specified message ID
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageTrack.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageViewDelete">
+            <summary>
+            Removes a record from the message view table
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewDelete.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.MessageViewQuery">
+            <summary>
+            Returns a list of messages and message details based on the query parameters
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewQuery.QueryType">
+            <summary>
+            Type of query (one of: MessageId,Gateway,Source,Sender,Subject,Addressee,FullText)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewQuery.QueryArgument">
+            <summary>
+            Parameter value for selected query type (required when query type specified)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewQuery.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 24)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewQuery.RecordLimit">
+            <summary>
+            Limit number of records returned (default: 1000)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.MessageViewQuery.MinimumScore">
+            <summary>
+            The minimum full text search match score (default: 5)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PasswordsList">
+            <summary>
+            Returns a list of password hashes for use in validating client passwords off-air. Maximum request frequency - 5 minutes.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PasswordsList.Challenge">
+            <summary>
+            Challenge phrase
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.Ping">
+            <summary>
+            Tests CMS web services connectivity. Request frequency: no more than once an hour.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PingHealth">
+            <summary>
+            Tests telnet, web services, and web application interfaces. Returns HTTP 200 if all pass, otherwise 4xx indicating an error.
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.PositionReportsAdd">
             <summary>
             Submit a new position report.
@@ -1260,6 +2625,21 @@
         <member name="P:winlink.cms.webservices.PositionReportsAdd.Callsign">
             <summary>
             Callsign of the person the report is for (no SSID)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.PositionReportsDelete">
+            <summary>
+            Delete an existing position report.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsDelete.Callsign">
+            <summary>
+            Callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.PositionReportsDelete.Timestamp">
+            <summary>
+            Date and time of the position report
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.PositionReportsGet">
@@ -1330,6 +2710,31 @@
         <member name="P:winlink.cms.webservices.PositionReportsUpdate.Callsign">
             <summary>
             Callsign of person submitting report
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ProgramVersions">
+            <summary>
+            Returns a data structure containing version information for all version reporting programs.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ProgramVersions.UserType">
+            <summary>
+            One of Client, Sysop, or AnyAll (default: AnyAll)
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ProgramVersionsCounts">
+            <summary>
+            Returns a data structure containing the name and counts of all programs reporting version within the past 30 days.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.ProgramVersionsLatest">
+            <summary>
+            Returns a data structure containing the most recent version for each program.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.ProgramVersionsLatest.UserType">
+            <summary>
+            One of Client, Sysop, or AnyAll (default: AnyAll)
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.PropagationList">
@@ -1420,6 +2825,36 @@
         <member name="P:winlink.cms.webservices.SessionAdd.ClientGrid">
             <summary>
             Client grid locator
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SessionList">
+            <summary>
+            Returns a list of session records matching the request parameters
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionList.HistoryHours">
+            <summary>
+            Number of hours of history to include (default: 24)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionList.Application">
+            <summary>
+            Name of application (gateway)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionList.Server">
+            <summary>
+            Specific server (gateway) callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionList.Mode">
+            <summary>
+            Connection mode (default: all modes)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SessionList.ServiceCodeFilter">
+            <summary>
+            Filter records based on the service code used by the gateway
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.Sysop2Get">
@@ -1537,6 +2972,21 @@
             Include information for unauthorized gateways
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.SysopDelete">
+            <summary>
+            Deletes an existing sysop record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopDelete.Callsign">
+            <summary>
+            Sysop callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopDelete.Password">
+            <summary>
+            Account password
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.SysopFilter">
             <summary>
             Returns zero or more records that partially match the specified filter.
@@ -1552,9 +3002,34 @@
             Limit number of returned records (default: 100)
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.SysopGet">
+            <summary>
+            Returns a sysop record.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.SysopGet.Callsign">
+            <summary>
+            Sysop callsign (no SSID)
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.SysopList">
             <summary>
             Returns a list of all sysop records.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SystemStats">
+            <summary>
+            Returns assorted system statistics.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.SystemStatus">
+            <summary>
+            Returns status of several CMS queues.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.TableStatsGet">
+            <summary>
+            Returns statistics about most CMSMaster tables.
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.TrafficAdd">
@@ -1602,6 +3077,51 @@
             Valid mime message
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.TrafficLogsCallsignGet">
+            <summary>
+            Returns a list of records showing details of traffic that passed through the specified gateway.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficLogsCallsignGet.Callsign">
+            <summary>
+            Gateway Callsign (no SSID) or other gateway identifier such as TELNET, WEBMAIL, SERVICE, etc.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.TrafficLogsHide">
+            <summary>
+            Hides a record in the traffic logs table
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficLogsHide.MessageId">
+            <summary>
+            The ID of the message
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficLogsHide.Hide">
+            <summary>
+            True to hide traffic log records for this message ID
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.TrafficLogsSenderGet">
+            <summary>
+            Returns a list of records showing details of traffic sent by the specified sender.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficLogsSenderGet.Sender">
+            <summary>
+            Callsign or SMTP email address.
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.TrafficLogsSourceGet">
+            <summary>
+            Returns a list of records showing details of traffic sent by the specified source.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.TrafficLogsSourceGet.Source">
+            <summary>
+            Callsign or other source identifier such as WEBMAIL, SMTP, SERVICE, etc.
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.VersionAdd">
             <summary>
             Add/update a program version record. Version records should be sent at application startup and then no more often than once every 24 hours. Only programs monitored by the CMS are accepted.
@@ -1625,6 +3145,21 @@
         <member name="P:winlink.cms.webservices.VersionAdd.Comments">
             <summary>
             
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.VersionDelete">
+            <summary>
+            Deletes an existing program version record for a specific callsign.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionDelete.Callsign">
+            <summary>
+            Station callsign
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.VersionDelete.Program">
+            <summary>
+            Name of program (e.g., Winlink Express)
             </summary>
         </member>
         <member name="T:winlink.cms.webservices.VersionList">
@@ -1697,6 +3232,16 @@
             Callsign account password
             </summary>
         </member>
+        <member name="T:winlink.cms.webservices.WatchNotices">
+            <summary>
+            Returns a list of watch notification records showing the number of notices sent for each watch (callsign+program) over the past 30 days
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WatchNotices.ServiceCode">
+            <summary>
+            A single service code, if applicable
+            </summary>
+        </member>
         <member name="T:winlink.cms.webservices.WatchPing">
             <summary>
             Updates status of the watched program. Ping frequency no more than once every hour. The watch will be disabled automatically for programs that ping too frequently.
@@ -1760,6 +3305,51 @@
         <member name="P:winlink.cms.webservices.WebServiceRequest.Key">
             <summary>
             Web service access key -- allows use of Winlink web services
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WhitelistAdd">
+            <summary>
+            Add or update a whitelist item.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistAdd.Callsign">
+            <summary>
+            Account callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistAdd.Address">
+            <summary>
+            Email address or domain to add
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistAdd.Allow">
+            <summary>
+            Allow or disallow an address or domain
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WhitelistDelete">
+            <summary>
+            Deletes a whitelist entry.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistDelete.Callsign">
+            <summary>
+            Account callsign (no SSID)
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistDelete.Address">
+            <summary>
+            Email address or domain to delete
+            </summary>
+        </member>
+        <member name="T:winlink.cms.webservices.WhitelistGet">
+            <summary>
+            Returns a list of allowed and disallowed addresses for the specified callsign. Maximum request frequency - 30 minutes.
+            </summary>
+        </member>
+        <member name="P:winlink.cms.webservices.WhitelistGet.Callsign">
+            <summary>
+            Account callsign (no SSID)
             </summary>
         </member>
     </members>
